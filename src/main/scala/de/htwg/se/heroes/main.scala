@@ -6,6 +6,7 @@ object entry{
     Worldbuilder.init(10, test)
     Worldbuilder.line(3,2,1,0,test)
 
+    
     print (test.printf)
   }
 }
