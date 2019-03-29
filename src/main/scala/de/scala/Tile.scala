@@ -1,5 +1,5 @@
 package de.scala
 
-class Tile(val status: Int) {
-   override def toString = status.toString
+case class Tile(status: Int) {
+   def isMoveable: Boolean = status != 0
 }
