@@ -19,5 +19,4 @@ object Worldbuilder {
     }
     world
   }
-
 }
