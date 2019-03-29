@@ -1,4 +1,4 @@
-package de.scala
+package de.htwg
 
 object Worldbuilder {
 

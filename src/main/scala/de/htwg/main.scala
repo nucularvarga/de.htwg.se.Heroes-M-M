@@ -1,4 +1,4 @@
-package de.scala
+package de.htwg
 
 object entry{
   def main(args: Array[String]): Unit = {
