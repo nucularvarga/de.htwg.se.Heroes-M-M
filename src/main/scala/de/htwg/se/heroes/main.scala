@@ -1,4 +1,4 @@
-package de.htwg
+package de.htwg.se.heroes
 
 object entry{
   def main(args: Array[String]): Unit = {

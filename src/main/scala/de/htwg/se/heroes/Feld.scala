@@ -1,4 +1,4 @@
-package de.htwg
+package de.htwg.se.heroes
 
 class Feld(val rows: Vector[Vector[Tile]]) {
   def this(size:Int) = this(Vector.tabulate(size, size){(row, col) => new Tile(0)})
