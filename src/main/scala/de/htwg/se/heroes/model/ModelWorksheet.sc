@@ -12,6 +12,7 @@ class Feld(val stats: Array[Array[Tile]]) {
 }
 
 
+
 def init(size: Int, world: Feld): Feld = {
   for (n <- 0.to(9)) {
     for (m <- 0.to(9)) world.stats(n)(m) = new Tile(0)
