@@ -8,5 +8,8 @@ object entry{
 
     
     print (test.printf)
+
+    /*neues p2w feature*/
+
   }
 }
