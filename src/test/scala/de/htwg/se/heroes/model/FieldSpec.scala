@@ -6,15 +6,16 @@ class FieldSpec extends WordSpec with Matchers {
 
   "A Field" when {
     "not set to any value " should {
-//      val emptyCell = Cell(0)
-      "have value 0" in {
- //       emptyCell.typ should be(0)
+      val emptyField = new Field(0)
+      "have size 0" in {
+        emptyField.field.size should be(0)
       }
     }
     "set to a specific value" should {
-//      val nonEmptyCell = Cell(0)
+      val nonEmptyField = new Field(5)
       "return that value" in {
- //       nonEmptyCell.typ should be(5)
+        nonEmptyField.field.size should be(5)
+        nonEmptyField.field(0).size should be(5)
       }
     }
   }
