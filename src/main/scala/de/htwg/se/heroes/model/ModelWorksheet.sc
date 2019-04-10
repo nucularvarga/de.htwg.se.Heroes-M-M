@@ -40,3 +40,15 @@ gamefield.printf
 println()
 gamefield1.printf
 
+
+class Playground {
+  //var field = new Field(5)
+  val spielerarray = List(0, 1 , 2, 3)
+
+  for (a <- spielerarray) {
+    println("Spieler  ist dran" + a)
+    val b = scala.io.StdIn.readLine()
+    println(b)
+    //gültiger spielzug
+  }
+}
