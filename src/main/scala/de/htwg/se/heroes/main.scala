@@ -1,14 +1,10 @@
-package de.htwg.se.heroes
+package de.htwg.se.heroes.model
 
 object entry{
   def main(args: Array[String]): Unit = {
-    val test = new Feld(20)
-    Worldbuilder.init(10, test)
-    Worldbuilder.line(3,2,1,0,test)
-
-    
-    print (test.printf)
-
+    val p = new Playground()
+    p.initplayground
+    p.gameStart
     /*neues p2w feature*/
 
   }
