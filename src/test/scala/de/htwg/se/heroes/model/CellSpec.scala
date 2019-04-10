@@ -6,15 +6,15 @@ class CellSpec extends WordSpec with Matchers {
 
   "A Cell" when {
     "not set to any value " should {
-      val emptyCell = Cell(0)
+      val emptyCell = new Cell()
       "have value 0" in {
-        emptyCell.typ should be(0)
+        emptyCell.typ should be(" ")
       }
     }
     "set to a specific value" should {
-      val nonEmptyCell = Cell(0)
+      val nonEmptyCell = new Cell()
       "return that value" in {
-        nonEmptyCell.typ should be(5)
+        nonEmptyCell.typ should be(" ")
       }
     }
   }

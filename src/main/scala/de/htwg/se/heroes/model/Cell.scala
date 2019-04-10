@@ -1,5 +1,6 @@
 package de.htwg.se.heroes.model
 
-class Cell(typ: Int) {
+class Cell() {
+  val typ: String = " "
 }
 
