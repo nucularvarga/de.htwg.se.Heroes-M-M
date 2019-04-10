@@ -1,5 +1,5 @@
 package de.htwg.se.heroes.model
 
 class Playground {
-  val field = FieldGenerator.genField();
+  //val field = FieldGenerator.genField();
 }
