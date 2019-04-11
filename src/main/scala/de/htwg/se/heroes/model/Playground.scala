@@ -1,11 +1,39 @@
 package de.htwg.se.heroes.model
 
-class Playground(playfield: Field) {
-  var playfield = this(new Field(5))
-  val playerbase: List[Player] = List(new Player("1", 0, 1, 1, 1), new Player("2", 0, 2, 2, 2))
+class Playground() {
+  var playfield = new Field(10)
+  val playerbase: List[Player] = List(new Player("1", 0, 1, 1, 1))
 
-  def initplayground: Field = {
-    playfield.init
+
+  def prin: Unit = {
+    playfield.fieldprint
+  }
+
+  def init: Unit = {
+
+    for(i <- 0 to playfield.size - 1){
+      for(k <- 0 to playfield.size -1) {
+        playfield = playfield.replaceCell(i, k, Leer())
+      }
+    }
+
+    for(i <- 0 to playfield.size - 1 ) {
+      playfield = playfield.replaceCell(0, i, Stop())
+    }
+
+    for(i <- 0 to playfield.size - 1 ) {
+      playfield = playfield.replaceCell(playfield.size - 1, i, Stop())
+    }
+
+    for(i <- 0 to playfield.size - 1 ) {
+      playfield = playfield.replaceCell(i, 0, Stop())
+    }
+
+    for(i <- 0 to playfield.size - 1 ) {
+      playfield = playfield.replaceCell(i, playfield.size - 1, Stop())
+    }
+
+    playfield = playfield.replaceCell(playerbase(0).x, playerbase(0).y, HeroCell())
   }
 
 
@@ -14,19 +42,22 @@ class Playground(playfield: Field) {
     var x = false
     while (true) {
       for (a <- playerbase) {
-        println("Spieler " + a.name + " ist dran")
+        println("Spieler " + a.name + " ist wieder dran")
         var input = scala.io.StdIn.readLine()
         while(!goodmove(input)) {
             println("Spieler " + a.name + " ist dran")
             input = scala.io.StdIn.readLine()
           }
+        prin
         }
       }
     }
 
-  def move(cell: Cell): Boolean = {
-    setCell(playerbase(1).getX, playerbase(1).getY, "Leer")
-    setCell(cell, "Player")
+  def move(row: Int, col: Int): Boolean = {
+    playfield = playfield.replaceCell(playerbase(0).x, playerbase(0).y, Leer())
+    playfield = playfield.replaceCell(row, col, HeroCell())
+    playerbase(0).x = row
+    playerbase(0).y = col
     true
   }
 
@@ -36,38 +67,28 @@ class Playground(playfield: Field) {
       case "a" => checkmove(1)
       case "s" => checkmove(2)
       case "d" => checkmove(3)
-      case _ => false
+      case _ => println("keine gültige eingabe. w = Oben, s = Unten, a = rechts, d = links"); false
     }
   }
 
   def checkmove(dir: Int): Boolean ={
     var cell = new Cell()
+    var x = 0
+    var y = 0
     dir match {
-      case 0 =>  cell = getCell(playerbase(1).getY + 1, playerbase(1).getX)
-      case 1 => cell = getCell(playerbase(1).getX - 1, playerbase(1).getY)
-      case 2 => cell = getCell(playerbase(1).getY - 1, playerbase(1).getX)
-      case 3 => cell = getCell(playerbase(1).getX + 1, playerbase(1).getY)
+      case 0 =>  x = - 1
+      case 1 => y = -1
+      case 2 => x = 1
+      case 3 => y = 1
       case _ => println("error")
     }
-
+    cell = playfield.cell(playerbase(0).x + x , playerbase(0).y + y)
     cell match {
-      case Stop() => false
-      case Leer()  => move(cell)
-      case _ => println("eerror");false
+      case Stop() => println("nicht begehbar"); false
+      case Leer()  => move(playerbase(0).x + x , playerbase(0).y + y)
+      case _ => println("Kein gültiger Zug");false
     }
   }
 
-  def getCell(x: Int, y: Int): Cell ={
-  //  playfield.field(x)(y)
-  }
-
-  def setCell(x: Int, y: Int, name: String): Unit ={
-   // playfield.field(x)(y)
-  }
-
-  def setCell(cell: Cell, name: String): Unit =
-  {
-
-  }
 
 }

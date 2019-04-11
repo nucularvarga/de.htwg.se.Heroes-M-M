@@ -2,5 +2,7 @@ package de.htwg.se.heroes.model
 
 class Cell() {
   val typ: String = " "
+
+  override def toString: String = typ
 }
 
