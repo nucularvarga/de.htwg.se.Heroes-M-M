@@ -3,6 +3,7 @@ package de.htwg.se.heroes.model
 class Playground() {
   var playfield = new Field(10)
   val playerbase: List[Player] = List(new Player("1", 0, 1, 1, 1))
+  var playerturn = playerbase(0)
 
 
   def prin: Unit = {
@@ -42,6 +43,7 @@ class Playground() {
     var x = false
     while (true) {
       for (a <- playerbase) {
+        playerturn = a
         println("Spieler " + a.name + " ist wieder dran")
         var input = scala.io.StdIn.readLine()
         while(!goodmove(input)) {

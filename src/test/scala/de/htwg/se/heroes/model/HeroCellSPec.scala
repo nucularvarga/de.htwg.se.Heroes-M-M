@@ -2,13 +2,13 @@ package de.htwg.se.heroes.model
 
 import org.scalatest.{Matchers, WordSpec}
 
-class LeerSpec extends WordSpec with Matchers {
+class HeroCellSpec extends WordSpec with Matchers {
 
   "A LeerCell" when {
     "not set to any value " should {
-      val emptyCell = Leer()
+      val emptyCell = HeroCell()
       "have value 0" in {
-        emptyCell.typ should be(" ")
+        emptyCell.typ should be("H")
       }
     }
   }

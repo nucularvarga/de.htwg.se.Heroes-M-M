@@ -9,12 +9,7 @@ class CellSpec extends WordSpec with Matchers {
       val emptyCell = new Cell()
       "have value 0" in {
         emptyCell.typ should be(" ")
-      }
-    }
-    "set to a specific value" should {
-      val nonEmptyCell = new Cell()
-      "return that value" in {
-        nonEmptyCell.typ should be(" ")
+        emptyCell.toString should be(" ")
       }
     }
   }
