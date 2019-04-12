@@ -15,7 +15,7 @@ class EnemyCellSpec extends WordSpec with Matchers {
     }
     "set to a specific value" should {
       val nonEmptyCell = EnemyCell(5)
-      "return that value" in {
+      "has strength = 5" in {
         nonEmptyCell.typ should be("F")
         nonEmptyCell.toString should be("F")
         nonEmptyCell.strength should be(5)

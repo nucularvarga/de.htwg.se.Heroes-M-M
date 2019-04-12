@@ -9,13 +9,13 @@ case class Field(rows: Vector[Vector[Cell]]) {
 
   def replaceCell(row: Int, col: Int, cell: Cell): Field = copy(rows.updated(row, rows(row).updated(col, cell)))
 
-  def fieldprint: Unit = {
-    for(i <- 0 to size - 1){
-      for(k <- 0 to size -1) {
-        print(rows(i)(k).toString)
-      }
-      println()
-    }
+  override def toString: String = {
+    var box = "GG\nGG"
+    for {
+      row <- 0 until size
+      col <- 0 until size
+    } box = box.replaceFirst("G", cell(row, col).toString)
+    box
   }
 
 }
