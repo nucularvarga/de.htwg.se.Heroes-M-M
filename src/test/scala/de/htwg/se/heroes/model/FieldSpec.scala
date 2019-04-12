@@ -15,7 +15,7 @@ class FieldSpec extends WordSpec with Matchers {
         EmptyField.rows.size should be(5)
         EmptyField.rows(0).size should be(5)
         EmptyField.cell(1,1).typ should be(cell.typ)
-        newField.replaceCell(1, 1, hero).cell(1,1).typ should be(hero.typ)
+        newField.replaceCell(1, 1, hero).cell(1,1) should be(hero)
       }
       "print field" in {
         printField.toString should be("  \n  ")

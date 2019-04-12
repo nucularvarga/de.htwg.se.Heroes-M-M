@@ -1,4 +1,8 @@
 package de.htwg.se.heroes.model
 
-class Player(val name: String, val gold: Int, val strength: Int, var x: Int, var y: Int) {
+case class Player(name: String, gold: Int, strength: Int, x: Int, y: Int) {
+
+  def walk(x: Int, y: Int): Player = copy(this.name, this.gold, this.strength, x, y)
+
+  def powerUp(str: Int): Player = copy(this.name, this.gold, str, this.x, this.y)
 }
