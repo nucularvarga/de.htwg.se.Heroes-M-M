@@ -10,7 +10,7 @@ case class Field(rows: Vector[Vector[Cell]]) {
   def replaceCell(row: Int, col: Int, cell: Cell): Field = copy(rows.updated(row, rows(row).updated(col, cell)))
 
   override def toString: String = {
-    var box = "GG\nGG"
+    var box = (("G" * size) + "\n") * size
     for {
       row <- 0 until size
       col <- 0 until size
