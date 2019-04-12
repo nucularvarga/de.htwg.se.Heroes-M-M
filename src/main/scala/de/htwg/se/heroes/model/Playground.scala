@@ -51,6 +51,11 @@ class Playground(var playfield: Field) {
     playfield.replaceCell(row, col, HeroCell())
   }
 
+  def showstats(i: Int): Boolean = {
+      println(playerbase(i).toString)
+      false
+  }
+
   def goodmove(dir: String, player: Int): Boolean ={
     var cell = new Cell()
     var x = 0
@@ -60,6 +65,7 @@ class Playground(var playfield: Field) {
       case "a" => y = -1
       case "s" => x = 1
       case "d" => y = 1
+      case "t" => showstats(player)
       case _ => println("error")
     }
     cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
@@ -73,7 +79,7 @@ class Playground(var playfield: Field) {
 
   def attack(row: Int, col: Int, str: Int, player: Int): Field = {
       if(playerbase(player).strength >= str) {
-        playerbase(player).powerUp(playerbase(player).strength + 10)
+        playerbase(player) = playerbase(player).powerUp(10)
         move(row, col, player)
       } else {
         playfield
