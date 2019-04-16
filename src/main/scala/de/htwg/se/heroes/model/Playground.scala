@@ -9,7 +9,6 @@ class Playground(var playfield: Field) {
   def replaceField(row: Int, col: Int, cell: Cell): Field = playfield.replaceCell(row, col, cell)
 
   def init: Field = {
-
     for{
       row <- 0 until playfield.size
       col <- 0 until playfield.size
@@ -23,8 +22,8 @@ class Playground(var playfield: Field) {
     }
 
     playfield = replaceField(2, 3, EnemyCell(50))
-    playfield = playfield.replaceCell(playerbase(0).x, playerbase(0).y, HeroCell())
-    playfield.replaceCell(playerbase(1).x, playerbase(1).y, HeroCell())
+    playfield = playfield.replaceCell(playerbase(0).x, playerbase(0).y, HeroCell("1"))
+    playfield.replaceCell(playerbase(1).x, playerbase(1).y, HeroCell("2"))
   }
 
 
@@ -48,7 +47,7 @@ class Playground(var playfield: Field) {
   def move(row: Int, col: Int, player: Int): Field = {
     playfield = playfield.replaceCell(playerbase(player).x, playerbase(player).y, Leer())
     playerbase = playerbase.updated(player, playerbase(player).walk(row, col))
-    playfield.replaceCell(row, col, HeroCell())
+    playfield.replaceCell(row, col, HeroCell((player + 1).toString))
   }
 
   def showstats(i: Int): Boolean = {
@@ -65,8 +64,8 @@ class Playground(var playfield: Field) {
       case "a" => y = -1
       case "s" => x = 1
       case "d" => y = 1
-      case "t" => showstats(player)
-      case _ => println("error")
+      case "t" => showstats(player); false;  //OHJEHJE
+      case _ => println("error"); false;
     }
     cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
     cell match {
@@ -79,7 +78,7 @@ class Playground(var playfield: Field) {
 
   def attack(row: Int, col: Int, str: Int, player: Int): Field = {
       if(playerbase(player).strength >= str) {
-        playerbase(player) = playerbase(player).powerUp(10)
+        playerbase = playerbase.updated(player, playerbase(player).powerUp(10))
         move(row, col, player)
       } else {
         playfield

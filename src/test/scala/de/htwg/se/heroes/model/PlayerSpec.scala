@@ -26,7 +26,7 @@ class PlayerSpec extends WordSpec with Matchers {
         nonEmptyPlayer.walk(2, 1) should be(Player("test", 100, 10, 2, 1))
       }
       "player grows stronger" in {
-        nonEmptyPlayer.powerUp(200) should be(Player("test", 100, 200, 1, 1))
+        nonEmptyPlayer.powerUp(200) should be(Player("test", 100, 210, 1, 1))
       }
     }
   }
