@@ -27,10 +27,7 @@ class Playground(var playfield: Field) {
 
 
   def gameStart: Unit = {
-    //var field = new Field(5)
-    var x = false
     println(playfield.toString)
-    while (true) {
       for (playerturn <- playerbase.indices) {
         println("Spieler " + playerbase(playerturn).name + " ist wieder dran")
         var input = scala.io.StdIn.readLine()
@@ -40,7 +37,7 @@ class Playground(var playfield: Field) {
           }
         println(playfield.toString)
         }
-      }
+      gameStart
     }
 
   def move(row: Int, col: Int, player: Int): Field = {
