@@ -3,8 +3,10 @@ package de.htwg.se.heroes.model
 class Playground(var playfield: Field) {
 
   def this(size: Int) = this(new Field(size))
-  var playerbase = Vector(Player("1", 0, 100, 1, 1), Player("2", 0, 1, 5, 5))
+  var playerbase = Vector.empty[Player]
 
+
+  def setPlayer(name: String, gold: Int, str: Int, row: Int, col: Int): Vector[Player] = playerbase :+ Player(name, gold, str, row, col)
 
   def replaceField(row: Int, col: Int, cell: Cell): Field = playfield.replaceCell(row, col, cell)
 
@@ -20,10 +22,7 @@ class Playground(var playfield: Field) {
       playfield = replaceField(i, 0, Stop())
       playfield = replaceField(i, playfield.size - 1, Stop())
     }
-
-    playfield = replaceField(2, 3, EnemyCell(50))
-    playfield = playfield.replaceCell(playerbase(0).x, playerbase(0).y, HeroCell("1"))
-    playfield.replaceCell(playerbase(1).x, playerbase(1).y, HeroCell("2"))
+    playfield
   }
 
 
