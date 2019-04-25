@@ -38,8 +38,8 @@ class PlaygroundSpec extends WordSpec with Matchers {
       evalground.playfield = evalground.replaceField(2,2, HeroCell("1"))
 
       "after battle player move" in {
-        emptyground.attack(2, 2, 5, 0) should be(evalground.playfield)
-        emptyloseground.attack(2, 2, 115, 0) should be(evalloseground.playfield)
+        emptyground.attack(2, 2, 5) should be(evalground.playfield)
+        emptyloseground.attack(2, 2, 115) should be(evalloseground.playfield)
       }
     }
 
@@ -48,13 +48,13 @@ class PlaygroundSpec extends WordSpec with Matchers {
       emptyground.playfield = emptyground.init
       emptyground.playerbase = emptyground.setPlayer("Ich", 0, 100, 2, 2)
       "after player pressed direction " in {
-        emptyground.goodmove("w", 0) should be(true)
-        emptyground.goodmove("a", 0) should be(true)
-        emptyground.goodmove("s", 0) should be(true)
-        emptyground.goodmove("d", 0) should be(true)
+        emptyground.goodmove("w") should be(true)
+        emptyground.goodmove("a") should be(true)
+        emptyground.goodmove("s") should be(true)
+        emptyground.goodmove("d") should be(true)
 
-        emptyground.goodmove("t", 0) should be(false)
-        emptyground.goodmove("h", 0) should be(false)
+        emptyground.goodmove("t") should be(false)
+        emptyground.goodmove("h") should be(false)
       }
     }
   }
