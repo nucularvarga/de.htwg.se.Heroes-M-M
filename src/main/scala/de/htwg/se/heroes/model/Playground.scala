@@ -40,6 +40,20 @@ class Playground(var playfield: Field) {
       gameStart
     }
 
+  def registerPlayers: Vector[Player] = {
+    var i = 1
+    println("Geben Sie den Namen von Spieler 1 ein")
+    var input = scala.io.StdIn.readLine()
+    while(input != "start"){
+      playerbase = setPlayer(input, 0, 0, 1, 1)
+      i += 1
+      println("Geben Sie den Namen von Spieler " + i + " oder start ein")
+      input = scala.io.StdIn.readLine()
+    }
+
+    playerbase
+  }
+  
   def move(row: Int, col: Int, player: Int): Field = {
     playfield = playfield.replaceCell(playerbase(player).x, playerbase(player).y, Leer())
     playerbase = playerbase.updated(player, playerbase(player).walk(row, col))
