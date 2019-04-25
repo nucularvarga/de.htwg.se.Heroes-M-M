@@ -4,7 +4,7 @@ class Playground(var playfield: Field) {
 
   def this(size: Int) = this(new Field(size))
   var playerbase = Vector.empty[Player]
-
+  var player = 0
 
   def setPlayer(name: String, gold: Int, str: Int, row: Int, col: Int): Vector[Player] = playerbase :+ Player(name, gold, str, row, col)
 
@@ -22,25 +22,12 @@ class Playground(var playfield: Field) {
       playfield = replaceField(i, 0, Stop())
       playfield = replaceField(i, playfield.size - 1, Stop())
     }
+
     playfield
   }
 
 
-  def gameStart: Unit = {
-    println(playfield.toString)
-      for (playerturn <- playerbase.indices) {
-        println("Spieler " + playerbase(playerturn).name + " ist wieder dran")
-        var input = scala.io.StdIn.readLine()
-        while(!goodmove(input, playerturn)) {
-            println("Spieler " + playerbase(playerturn).name + " ist dran")
-            input = scala.io.StdIn.readLine()
-          }
-        println(playfield.toString)
-        }
-      gameStart
-    }
-
-  def move(row: Int, col: Int, player: Int): Field = {
+  def move(row: Int, col: Int): Field = {
     playfield = playfield.replaceCell(playerbase(player).x, playerbase(player).y, Leer())
     playerbase = playerbase.updated(player, playerbase(player).walk(row, col))
     playfield.replaceCell(row, col, HeroCell((player + 1).toString))
@@ -51,7 +38,19 @@ class Playground(var playfield: Field) {
       false
   }
 
-  def goodmove(dir: String, player: Int): Boolean ={
+
+  def evalInput(input: String): Playground = {
+    if(goodmove(input)) {
+      player = (player + 1) % playerbase.length
+      println("Spieler " + playerbase(player).name + " ist dran")
+    } else {
+      println("Spieler " + playerbase(player).name + " ist wieder dran")
+    }
+      this
+  }
+
+
+  def goodmove(dir: String): Boolean ={
     var cell = new Cell()
     var x = 0
     var y = 0
@@ -66,19 +65,24 @@ class Playground(var playfield: Field) {
     cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
     cell match {
       case Stop() => println("nicht begehbar"); false
-      case l:Leer  => playfield = move(playerbase(player).x + x , playerbase(player).y + y, player); true
-      case e:EnemyCell => playfield = attack(playerbase(player).x + x , playerbase(player).y + y, e.strength, player); true
+      case l:Leer  => playfield = move(playerbase(player).x + x , playerbase(player).y + y); true
+      case e:EnemyCell => playfield = attack(playerbase(player).x + x , playerbase(player).y + y, e.strength); true
       case _ => println("Kein gültiger Zug");false
     }
   }
 
-  def attack(row: Int, col: Int, str: Int, player: Int): Field = {
+  def attack(row: Int, col: Int, str: Int): Field = {
       if(playerbase(player).strength >= str) {
         playerbase = playerbase.updated(player, playerbase(player).powerUp(10))
-        move(row, col, player)
+        move(row, col)
       } else {
         playfield
       }
+  }
+
+
+  override def toString: String = {
+    playfield.toString
   }
 
 }
