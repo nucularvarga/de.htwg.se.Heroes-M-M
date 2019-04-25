@@ -14,7 +14,11 @@ object entry{
 
     p.playfield = p.init
     p.playerbase = p.setPlayer("Kevin", 50, 100, 1, 1)
+    p.playfield = p.replaceField(1, 1, HeroCell("1"))
     p.playerbase = p.setPlayer("Janko", 50, 100, 3, 3)
+    p.playfield = p.replaceField(3, 3, HeroCell("2"))
+
+    println("Spieler " + p.playerbase(0).name + " ist dran")
 
     do {
       println(p.toString)
