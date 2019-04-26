@@ -1,11 +1,15 @@
 package de.htwg.se.heroes.model
 
+
+import de.htwg.se.heroes.controller.Direction
+import de.htwg.se.heroes.controller.Direction._
+
 class Playground(var playfield: Field) {
 
   def this(size: Int) = this(new Field(size))
 
   var errorString = ""
-
+  var msgContainer = Vector.empty[String]
   var playerbase = Vector.empty[Player]
   var player = 0
 
@@ -25,15 +29,16 @@ class Playground(var playfield: Field) {
       playfield = replaceField(i, 0, Stop())
       playfield = replaceField(i, playfield.size - 1, Stop())
     }
-      playfield = playfield.replaceCell(4, 4, EnemyCell(1))
-    playfield
+     playfield.replaceCell(4, 4, EnemyCell(1))
   }
 
 
-  def move(row: Int, col: Int): Field = {
+  def move(d: Direction): Field = {
+    val (row, col) = calcDirection(d)
     playfield = playfield.replaceCell(playerbase(player).x, playerbase(player).y, Leer())
     playerbase = playerbase.updated(player, playerbase(player).walk(row, col))
-    playfield.replaceCell(row, col, HeroCell((player + 1).toString))
+    println()
+    playfield.replaceCell(playerbase(player).x, playerbase(player).y, HeroCell((player + 1).toString))
   }
 
   def showstats: String = {
@@ -44,15 +49,9 @@ class Playground(var playfield: Field) {
     playerbase(0)
   }
 
-  def evalInput(input: String): Playground = {
-    if(goodmove(input)) {
-      player = (player + 1) % playerbase.length
-    }
-      this
-  }
-
-  def msgturn: String = {
-    "Spieler " + playerbase(player).name + " ist dran"
+  def addmsg(msg: String): Vector[String] = {
+    //"Spieler " + playerbase(player).name + " ist dran"
+    msgContainer :+ msg
   }
 
   def msgstatus(input: String): String = {
@@ -62,40 +61,42 @@ class Playground(var playfield: Field) {
     }
   }
 
-  def calcDirection(dir: String): (Int, Int) = {
-    dir match {
-      case "w" => (-1, 0)
-      case "a" => (0, -1)
-      case "s" => (1, 0)
-      case "d" => (0, 1)
-      case _   => (0 ,0)
+  def calcDirection(d: Direction): (Int, Int) = {
+    d match {
+      case Direction.Up => (-1, 0)
+      case Direction.Left => (0, -1)
+      case Direction.Down => (1, 0)
+      case Direction.Right => (0, 1)
     }
   }
 
 
-  def goodmove(dir: String): Boolean ={
+  def goodmove(dir: Direction): Boolean ={
 
     val (x,y) = calcDirection(dir)
     val cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
 
     cell match {
-      case Leer()  => playfield = move(playerbase(player).x + x , playerbase(player).y + y); true
-      case e:EnemyCell => playfield = attack(playerbase(player).x + x , playerbase(player).y + y, e.strength); true
-      case _ => false
+      case Stop()  => false
+      case _ => true
     }
   }
 
   def attack(row: Int, col: Int, str: Int): Field = {
       if(playerbase(player).strength >= str) {
         playerbase = playerbase.updated(player, playerbase(player).powerUp(10))
-        move(row, col)
+        move(Direction.Up)
       } else {
         playfield
       }
   }
 
+  def makeString(): String = {
+      msgContainer.mkString("\n")
+  }
+
   override def toString: String = {
-    playfield.toString + errorString + msgturn
+    playfield.toString
   }
 
 }

@@ -1,4 +1,4 @@
-package de.htwg.se.heroes.model
+/*package de.htwg.se.heroes.model
 
 import org.scalatest.{Matchers, WordSpec}
 
@@ -67,3 +67,4 @@ class PlaygroundSpec extends WordSpec with Matchers {
     }
   }
 }
+*/
