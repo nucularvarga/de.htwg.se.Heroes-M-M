@@ -7,9 +7,8 @@ class Tui {
   def processInputLine(input: String, p:Playground):Playground = {
     input match {
       case "q" => p
-      case "n"=> new Playground(10)
+      //case "n"=> new Playground(5)
       case _ => p.evalInput(input)
-
     }
   }
 }

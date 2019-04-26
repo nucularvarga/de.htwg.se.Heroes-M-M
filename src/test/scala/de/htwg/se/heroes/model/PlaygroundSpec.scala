@@ -14,10 +14,10 @@ class PlaygroundSpec extends WordSpec with Matchers {
     }
 
     "5x5 Field with basic tokens" should {
-      var emptyground = new Playground(5)
-      var emptyloseground = new Playground(5)
-      var evalground = new Playground(5)
-      var evalloseground = new Playground(5)
+      val emptyground = new Playground(5)
+      val emptyloseground = new Playground(5)
+      val evalground = new Playground(5)
+      val evalloseground = new Playground(5)
 
       emptyground.playfield = emptyground.init
       emptyground.playfield = evalground.init
@@ -44,7 +44,7 @@ class PlaygroundSpec extends WordSpec with Matchers {
     }
 
     "5x5 field with one player movement" should {
-      var emptyground = new Playground(5)
+      val emptyground = new Playground(5)
       emptyground.playfield = emptyground.init
       emptyground.playerbase = emptyground.setPlayer("Ich", 0, 100, 2, 2)
       "after player pressed direction " in {
@@ -55,6 +55,14 @@ class PlaygroundSpec extends WordSpec with Matchers {
 
         emptyground.goodmove("t") should be(false)
         emptyground.goodmove("h") should be(false)
+      }
+    }
+
+    "wrong input, same board" should {
+      var emptyground = new Playground(5)
+      emptyground.playerbase = emptyground.setPlayer("1", 0, 50, 1, 1)
+      "after wrong input" in {
+        emptyground.evalInput("h") should be (emptyground)
       }
     }
   }

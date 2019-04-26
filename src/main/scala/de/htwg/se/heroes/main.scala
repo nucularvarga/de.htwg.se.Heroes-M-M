@@ -6,9 +6,10 @@ import de.htwg.se.heroes.model._
 
 import scala.io.StdIn.readLine
 
-object entry{
+object main{
   var p = new Playground(10)
   val tui = new Tui
+
   def main(args: Array[String]): Unit = {
     var input: String = ""
 
@@ -17,8 +18,6 @@ object entry{
     p.playfield = p.replaceField(1, 1, HeroCell("1"))
     p.playerbase = p.setPlayer("Janko", 50, 100, 3, 3)
     p.playfield = p.replaceField(3, 3, HeroCell("2"))
-
-    println("Spieler " + p.playerbase(0).name + " ist dran")
 
     do {
       println(p.toString)

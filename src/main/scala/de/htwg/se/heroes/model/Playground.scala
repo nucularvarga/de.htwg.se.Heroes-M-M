@@ -3,6 +3,9 @@ package de.htwg.se.heroes.model
 class Playground(var playfield: Field) {
 
   def this(size: Int) = this(new Field(size))
+
+  var errorString = ""
+
   var playerbase = Vector.empty[Player]
   var player = 0
 
@@ -22,7 +25,7 @@ class Playground(var playfield: Field) {
       playfield = replaceField(i, 0, Stop())
       playfield = replaceField(i, playfield.size - 1, Stop())
     }
-
+      playfield = playfield.replaceCell(4, 4, EnemyCell(1))
     playfield
   }
 
@@ -33,41 +36,52 @@ class Playground(var playfield: Field) {
     playfield.replaceCell(row, col, HeroCell((player + 1).toString))
   }
 
-  def showstats(i: Int): Boolean = {
-      println(playerbase(i).toString)
-      false
+  def showstats: String = {
+      playerbase(player).toString
   }
 
+  def nextplayerturn: Player = {
+    playerbase(0)
+  }
 
   def evalInput(input: String): Playground = {
     if(goodmove(input)) {
       player = (player + 1) % playerbase.length
-      println("Spieler " + playerbase(player).name + " ist dran")
-    } else {
-      println("Spieler " + playerbase(player).name + " ist wieder dran")
     }
       this
   }
 
+  def msgturn: String = {
+    "Spieler " + playerbase(player).name + " ist dran"
+  }
+
+  def msgstatus(input: String): String = {
+    input match {
+      case "t" => showstats
+      case _ => ""
+    }
+  }
+
+  def calcDirection(dir: String): (Int, Int) = {
+    dir match {
+      case "w" => (-1, 0)
+      case "a" => (0, -1)
+      case "s" => (1, 0)
+      case "d" => (0, 1)
+      case _   => (0 ,0)
+    }
+  }
+
 
   def goodmove(dir: String): Boolean ={
-    var cell = new Cell()
-    var x = 0
-    var y = 0
-    dir match {
-      case "w" =>  x = - 1
-      case "a" => y = -1
-      case "s" => x = 1
-      case "d" => y = 1
-      case "t" => showstats(player); false;  //OHJEHJE
-      case _ => println("error"); false;
-    }
-    cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
+
+    val (x,y) = calcDirection(dir)
+    val cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
+
     cell match {
-      case Stop() => println("nicht begehbar"); false
-      case l:Leer  => playfield = move(playerbase(player).x + x , playerbase(player).y + y); true
+      case Leer()  => playfield = move(playerbase(player).x + x , playerbase(player).y + y); true
       case e:EnemyCell => playfield = attack(playerbase(player).x + x , playerbase(player).y + y, e.strength); true
-      case _ => println("Kein gültiger Zug");false
+      case _ => false
     }
   }
 
@@ -80,9 +94,8 @@ class Playground(var playfield: Field) {
       }
   }
 
-
   override def toString: String = {
-    playfield.toString
+    playfield.toString + errorString + msgturn
   }
 
 }
