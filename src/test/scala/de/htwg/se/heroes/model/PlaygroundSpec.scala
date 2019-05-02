@@ -1,70 +1,21 @@
-/*package de.htwg.se.heroes.model
+package de.htwg.se.heroes.model
 
 import org.scalatest.{Matchers, WordSpec}
+import de.htwg.se.heroes.controller.Direction
+import de.htwg.se.heroes.controller.Direction._
 
 class PlaygroundSpec extends WordSpec with Matchers {
 
   "A Playground" when {
-    "set emptyfield with one player" should {
-      var emptyground = new Playground(5)
-      emptyground.playerbase =  emptyground.setPlayer("Ich", 0, 100, 2,1)
-      "when " in {
-        emptyground.playerbase(0) should be(Player("Ich", 0, 100, 2,1))
-      }
-    }
-
     "5x5 Field with basic tokens" should {
       val emptyground = new Playground(5)
-      val emptyloseground = new Playground(5)
-      val evalground = new Playground(5)
-      val evalloseground = new Playground(5)
-
-      emptyground.playfield = emptyground.init
-      emptyground.playfield = evalground.init
-      evalloseground.playfield = evalloseground.init
-      emptyloseground.playfield = emptyloseground.init
-
-      emptyground.playfield = emptyground.replaceField(2, 1, HeroCell("1"))
-      emptyground.playfield = emptyground.replaceField(2,2, EnemyCell(5))
-      emptyground.playerbase = emptyground.setPlayer("Du", 0, 100, 2, 1)
-
-      emptyloseground.playfield = emptyground.replaceField(2, 1, HeroCell("1"))
-      emptyloseground.playfield = emptyground.replaceField(2,2, EnemyCell(5))
-      emptyloseground.playerbase = emptyground.setPlayer("Du", 0, 100, 2, 1)
-
-      evalloseground.playfield = emptyground.replaceField(2, 1, HeroCell("1"))
-      evalloseground.playfield = emptyground.replaceField(2,2, EnemyCell(5))
-
-      evalground.playfield = evalground.replaceField(2,2, HeroCell("1"))
-
       "after battle player move" in {
-        emptyground.attack(2, 2, 5) should be(evalground.playfield)
-        emptyloseground.attack(2, 2, 115) should be(evalloseground.playfield)
+        emptyground.calcDirection(Direction.Up) should be((-1,0))
+        emptyground.calcDirection(Direction.Down) should be((1,0))
+        emptyground.calcDirection(Direction.Left) should be((0,-1))
+        emptyground.calcDirection(Direction.Right) should be((0,1))
       }
     }
 
-    "5x5 field with one player movement" should {
-      val emptyground = new Playground(5)
-      emptyground.playfield = emptyground.init
-      emptyground.playerbase = emptyground.setPlayer("Ich", 0, 100, 2, 2)
-      "after player pressed direction " in {
-        emptyground.goodmove("w") should be(true)
-        emptyground.goodmove("a") should be(true)
-        emptyground.goodmove("s") should be(true)
-        emptyground.goodmove("d") should be(true)
-
-        emptyground.goodmove("t") should be(false)
-        emptyground.goodmove("h") should be(false)
-      }
-    }
-
-    "wrong input, same board" should {
-      var emptyground = new Playground(5)
-      emptyground.playerbase = emptyground.setPlayer("1", 0, 50, 1, 1)
-      "after wrong input" in {
-        emptyground.evalInput("h") should be (emptyground)
-      }
-    }
   }
 }
-*/

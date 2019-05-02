@@ -8,14 +8,14 @@ class Playground(var playfield: Field) {
 
   def this(size: Int) = this(new Field(size))
 
+  var msg = ""
   var errorString = ""
   var msgContainer = Vector.empty[String]
-  var playerbase = Vector.empty[Player]
-  var player = 0
 
-  def setPlayer(name: String, gold: Int, str: Int, row: Int, col: Int): Vector[Player] = playerbase :+ Player(name, gold, str, row, col)
 
   def replaceField(row: Int, col: Int, cell: Cell): Field = playfield.replaceCell(row, col, cell)
+
+  def getCell(row: Int, col: Int) : Cell = playfield.cell(row, col)
 
   def init: Field = {
     for{
@@ -33,20 +33,15 @@ class Playground(var playfield: Field) {
   }
 
 
-  def move(d: Direction): Field = {
+  def move(d: Direction, player:Player): Playground = {
     val (row, col) = calcDirection(d)
-    playfield = playfield.replaceCell(playerbase(player).x, playerbase(player).y, Leer())
-    playerbase = playerbase.updated(player, playerbase(player).walk(row, col))
-    println()
-    playfield.replaceCell(playerbase(player).x, playerbase(player).y, HeroCell((player + 1).toString))
+    playfield = playfield.replaceCell(player.x, player.y, Leer())
+    playfield = playfield.replaceCell(player.x + row, player.y + col, HeroCell(player.name))
+    this
   }
 
-  def showstats: String = {
-      playerbase(player).toString
-  }
-
-  def nextplayerturn: Player = {
-    playerbase(0)
+  def showstats(player:Player): String = {
+    player.toString
   }
 
   def addmsg(msg: String): Vector[String] = {
@@ -54,12 +49,7 @@ class Playground(var playfield: Field) {
     msgContainer :+ msg
   }
 
-  def msgstatus(input: String): String = {
-    input match {
-      case "t" => showstats
-      case _ => ""
-    }
-  }
+
 
   def calcDirection(d: Direction): (Int, Int) = {
     d match {
@@ -71,10 +61,10 @@ class Playground(var playfield: Field) {
   }
 
 
-  def goodmove(dir: Direction): Boolean ={
+  def goodmove(dir: Direction, player:Player): Boolean ={
 
     val (x,y) = calcDirection(dir)
-    val cell = playfield.cell(playerbase(player).x + x , playerbase(player).y + y)
+    val cell = playfield.cell(player.x + x , player.y + y)
 
     cell match {
       case Stop()  => false
@@ -82,10 +72,11 @@ class Playground(var playfield: Field) {
     }
   }
 
-  def attack(row: Int, col: Int, str: Int): Field = {
-      if(playerbase(player).strength >= str) {
-        playerbase = playerbase.updated(player, playerbase(player).powerUp(10))
-        move(Direction.Up)
+  def attack(row: Int, col: Int, str: Int, player:Player): Field = {
+      if(player.strength >= str) {
+        //playerbase = playerbase.updated(player, playerbase(player).powerUp(10)) TODO
+      //  move(Direction.Up)
+        playfield
       } else {
         playfield
       }
@@ -95,8 +86,6 @@ class Playground(var playfield: Field) {
       msgContainer.mkString("\n")
   }
 
-  override def toString: String = {
-    playfield.toString
-  }
+  override def toString: String = playfield.toString
 
 }

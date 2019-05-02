@@ -10,11 +10,12 @@ class Tui(controller: Controller) extends Observer {
   def processInputLine(input: String):Unit = {
     input match {
       case "q" =>
+      // TODO case "add" => addspieler(name)
       case "n"=> controller.createNewPlayground(10)
-      case "w" => controller.move(Direction.Up)
-      case "a" => controller.move(Direction.Left)
-      case "s" => controller.move(Direction.Down)
-      case "d" => controller.move(Direction.Right)
+      case "w" => controller.action(Direction.Up)
+      case "a" => controller.action(Direction.Left)
+      case "s" => controller.action(Direction.Down)
+      case "d" => controller.action(Direction.Right)
       case "t" => controller.showStats()
       case _   =>
     }
