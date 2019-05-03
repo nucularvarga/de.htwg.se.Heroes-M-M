@@ -1,14 +1,14 @@
 package de.htwg.se.heroes.model
 
- case class Field(rows: Vector[Vector[Cell]]) {
-  def this(size: Int) = this(Vector.tabulate(size, size){(col, row) => Leer()})
+ case class Field(cells: Matrix) {
+  def this(size: Int) = this(new Matrix(size))
 
 
-  val size: Int = rows.size
+  val size: Int = cells.length
 
-  def cell(row: Int, col: Int): Cell = rows(row)(col)
+  def cell(row: Int, col: Int): Cell = cells.cell(row, col)
 
-  def replaceCell(row: Int, col: Int, cell: Cell): Field = copy(rows.updated(row, rows(row).updated(col, cell)))
+  def set(row: Int, col: Int, cell: Cell): Field = copy(cells.replaceCell(row, col, cell))
 
   override def toString: String = {
     var box = (("G" * size) + "\n") * size
@@ -25,16 +25,15 @@ package de.htwg.se.heroes.model
        col <- 0 until size
      } this = replaceCell(row, col, Leer())
      */
-    var f = this
     //map(i=>map(k=>(replaceCell(i,k,Leer()))))
-
+    var f = this
     for(i <- 0 until size) {
-      f = f.replaceCell(0, i, Stop())
-      f = f.replaceCell(size - 1, i, Stop())
-      f = f.replaceCell(i, 0, Stop())
-      f = f.replaceCell(i, size - 1, Stop())
+      f = f.set(0, i, Stop())
+      f = f.set(size - 1, i, Stop())
+      f = f.set(i, 0, Stop())
+      f = f.set(i, size - 1, Stop())
     }
-    f.replaceCell(4, 4, EnemyCell(1))
+    f.set(4, 4, EnemyCell(1))
   }
 
 }

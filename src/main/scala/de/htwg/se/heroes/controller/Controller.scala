@@ -9,74 +9,101 @@ object Direction extends Enumeration {
   val Up, Left, Down, Right = Value
 }
 
-import Direction._
+object GameMode extends Enumeration {
+  type GameMode = Value
+  val Map, Combat = Value
+}
 
-class Controller(var playground:Field) extends Observable {
+import Direction._
+import GameMode._
+
+class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   var playerBase = new PlayerList
+  val messanger = new Messanger
+  var mode: GameMode = GameMode.Map
 
   def createNewField(size: Int): Unit = {
-    playground = new Field(size)
+    playField = new Field(size)
+    mode = GameMode.Map
     notifyObservers
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, 6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100, 3, 3)
+    playerBase = playerBase.addPlayer("1", 100, 100, 0,  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100, 0, 3, 3)
 
-
-    playground = playground.initField
-    playground = playground.replaceCell(6, 6, HeroCell("1"))
-    playground = playground.replaceCell(3, 3, HeroCell("2"))
+    playField = playField.initField
+    playField = playField.set(6, 6, HeroCell("1"))
+    playField = playField.set(3, 3, HeroCell("2"))
     notifyObservers
   }
 
-
   def action(d : Direction): Unit = {
-    val cell = playground.cell(playerBase.getPlayer.x + calcDirection(d)._1, playerBase.getPlayer.y + calcDirection(d)._2)
-    val good = cell match {
-      case Leer() => move(d)
-      case Stop() => false
-      case p:HeroCell => false
-      case f:EnemyCell => attack(d, f)
-      case _ => false
-    }
+    if(mode == GameMode.Map) {
+      val cell = playField.cell(playerBase.getPlayer.x + calcDirection(d)._1, playerBase.getPlayer.y + calcDirection(d)._2)
+      cell match {
+        case Leer() => move(d)
+        case Stop() =>
+        case f: EnemyCell => startbattle()
+        case _ =>
+      }
+    } else {
+      val cell = playArena.cell(playerBase.getPlayer.x + calcDirection(d)._1, playerBase.getPlayer.y + calcDirection(d)._2)
+      cell match {
+        case Leer() => move(d)
+        case Stop() =>
+        case p: HeroCell =>
+        case f: Soldier => attack(d, f)
+        case _ =>
+      }
 
-    if(!good) {
-      //playground.msg = "Error" TODO msg
     }
 
       notifyObservers
   }
 
-  def attack(d: Direction, enemy: EnemyCell): Boolean = {
-    //val boool = startbattle() TODO battle
-    if(playerBase.getPlayer.strength >= enemy.strength) {
+
+  def startbattle(): Boolean = {
+    mode = GameMode.Combat
+    true
+  }
+
+  def attack(d: Direction, enemy: Soldier): Boolean = {
+    val bool = startbattle()
+    if(bool) {
       move(d)
       //playerBase = playerBase.updatePlayer(playerBase.getPlayer, 10, calcDirection(d)._1, calcDirection(d)._2)
       //playerBase.nextPlayer // TODO next? iterator?
-      //playground.msg = "Gewonnen"
+      messanger.setMsg("Gewonnen")
       true
     } else {
-      //playground.msg = "Verloren"
+      messanger.setMsg("Verloren")
       false
     }
   }
 
   def move(d: Direction): Boolean = {
     val (row, col) = calcDirection(d)
-    playground = playground.replaceCell(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
-    playground = playground.replaceCell(playerBase.getPlayer.x + row, playerBase.getPlayer.y + col, HeroCell(playerBase.getPlayer.name))
+    playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
+    playField = playField.set(playerBase.getPlayer.x + row, playerBase.getPlayer.y + col, HeroCell(playerBase.getPlayer.name))
     playerBase = playerBase.updatePlayer(playerBase.getPlayer, 0, calcDirection(d)._1, calcDirection(d)._2)
     playerBase.nextPlayer // TODO next? iterator?
     true
   }
-/*
+
   def showStats(): Unit = {
-    playground.msg = playground.showstats(playerBase.getPlayer)
+    messanger.setMsg(playerBase.getPlayer.toString)
     notifyObservers
   }
-*/
+
+  def openShop(number: Int): Unit = {
+    if(playerBase.getPlayer.gold > number * Soldier().cost) {
+      playerBase = playerBase.setUnits(number, number * Soldier().cost)
+      messanger.setMsg("Erfolgreich gekauft")
+    } else messanger.setMsg("Nicht genug gold")
+    notifyObservers
+  }
 
   def calcDirection(d: Direction): (Int, Int) = {
     d match {
@@ -88,5 +115,10 @@ class Controller(var playground:Field) extends Observable {
   }
 
 
-  def playgroundToString: String = playground.toString //+ playground.msg
+  def playgroundToString: String = {
+    if(mode == GameMode.Map)
+      playField.toString + messanger.getMsg
+    else
+      playArena.toString
+  }
 }

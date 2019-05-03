@@ -6,7 +6,7 @@ import de.htwg.se.heroes.controller.Controller
 import scala.io.StdIn.readLine
 
 object main{
-  val controller = new Controller(new Field(9))
+  val controller = new Controller(new Field(9), new Arena(8, 20))
   val tui = new Tui(controller)
   //controller.notifyObservers
 

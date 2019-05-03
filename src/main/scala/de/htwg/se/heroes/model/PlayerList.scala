@@ -7,8 +7,8 @@ class PlayerList {
   var playerBase = Vector.empty[Player]
   var PlayerTurn = 0
 
-  def addPlayer(n: String, gold: Int, str: Int, row: Int, col: Int): PlayerList = {
-    playerBase = playerBase :+ Player(n, gold, str, row, col)
+  def addPlayer(n: String, gold: Int, str: Int, unit: Int, row: Int, col: Int): PlayerList = {
+    playerBase = playerBase :+ Player(n, gold, str, unit, row, col)
     this
   }
 
@@ -38,6 +38,11 @@ class PlayerList {
     }
     playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(row, col))
     playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).powerUp(str))
+    this
+  }
+
+  def setUnits(number: Int, cost: Int): PlayerList = {
+    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(number, cost))
     this
   }
 
