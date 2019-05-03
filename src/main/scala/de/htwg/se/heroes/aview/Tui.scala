@@ -11,12 +11,13 @@ class Tui(controller: Controller) extends Observer {
     input match {
       case "q" =>
       // TODO case "add" => addspieler(name)
-      case "n"=> controller.createNewPlayground(10)
+      case "n"=> controller.createNewField(9)
+      case "i" => controller.init()
       case "w" => controller.action(Direction.Up)
       case "a" => controller.action(Direction.Left)
       case "s" => controller.action(Direction.Down)
       case "d" => controller.action(Direction.Right)
-      case "t" => controller.showStats()
+  //    case "t" => controller.showStats()
       case _   =>
     }
   }

@@ -23,7 +23,7 @@ class PlayerList {
     playerBase(PlayerTurn)
   }
 
-
+/*
   def updatePlayer(player: Player, row: Int, col: Int): PlayerList = {
     if(PlayerTurn >= playerBase.length) {
       PlayerTurn = 0
@@ -31,7 +31,7 @@ class PlayerList {
     playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(row, col))
     this
   }
-
+*/
   def updatePlayer(player: Player, str: Int, row: Int, col: Int): PlayerList = {
     if(PlayerTurn >= playerBase.length) {
       PlayerTurn = 0

@@ -10,7 +10,7 @@ class FieldSpec extends WordSpec with Matchers {
       val size = 2
       val printField = new Field(size)
       val cell = new Cell
-      val hero = new HeroCell("1")
+      val hero = HeroCell("1")
       val newField = new Field(5)
       "return that value" in {
         EmptyField.rows.size should be(5)

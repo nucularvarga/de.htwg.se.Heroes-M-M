@@ -1,7 +1,8 @@
 package de.htwg.se.heroes.model
 
-case class Field(rows: Vector[Vector[Cell]]) {
-  def this(size: Int) = this(Vector.tabulate(size, size){(col, row) => new Cell()})
+ case class Field(rows: Vector[Vector[Cell]]) {
+  def this(size: Int) = this(Vector.tabulate(size, size){(col, row) => Leer()})
+
 
   val size: Int = rows.size
 
@@ -16,6 +17,24 @@ case class Field(rows: Vector[Vector[Cell]]) {
       col <- 0 until size
     } box = box.replaceFirst("G", cell(row, col).toString)
     box
+  }
+
+  def initField: Field = {
+    /* for{
+       row <- 0 until size
+       col <- 0 until size
+     } this = replaceCell(row, col, Leer())
+     */
+    var f = this
+    //map(i=>map(k=>(replaceCell(i,k,Leer()))))
+
+    for(i <- 0 until size) {
+      f = f.replaceCell(0, i, Stop())
+      f = f.replaceCell(size - 1, i, Stop())
+      f = f.replaceCell(i, 0, Stop())
+      f = f.replaceCell(i, size - 1, Stop())
+    }
+    f.replaceCell(4, 4, EnemyCell(1))
   }
 
 }
