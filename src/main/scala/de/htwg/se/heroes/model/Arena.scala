@@ -36,8 +36,7 @@ case class Arena(cells: Matrix) {
       f = f.set(0, i, Stop())
       f = f.set(height - 1, i, Stop())
     }
-
-    f.set(4, 4, EnemyCell(1))
+    f
   }
 
 }

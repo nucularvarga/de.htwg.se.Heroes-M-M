@@ -34,6 +34,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     playerBase = playerBase.addPlayer("2", 100, 100, 0, 3, 3)
 
     playField = playField.initField
+    playArena = playArena.initArena
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))
     notifyObservers
@@ -45,7 +46,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
       cell match {
         case Leer() => move(d)
         case Stop() =>
-        case f: EnemyCell => startbattle()
+        case f: EnemyCell => startBattle(f)
         case _ =>
       }
     } else {
@@ -57,30 +58,23 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
         case f: Soldier => attack(d, f)
         case _ =>
       }
-
     }
-
       notifyObservers
   }
 
 
-  def startbattle(): Boolean = {
+  def startBattle(enemy: EnemyCell): Boolean = {
+    playArena = new Arena(10,30)
     mode = GameMode.Combat
     true
   }
 
   def attack(d: Direction, enemy: Soldier): Boolean = {
-    val bool = startbattle()
-    if(bool) {
       move(d)
       //playerBase = playerBase.updatePlayer(playerBase.getPlayer, 10, calcDirection(d)._1, calcDirection(d)._2)
       //playerBase.nextPlayer // TODO next? iterator?
       messanger.setMsg("Gewonnen")
       true
-    } else {
-      messanger.setMsg("Verloren")
-      false
-    }
   }
 
   def move(d: Direction): Boolean = {
@@ -119,6 +113,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     if(mode == GameMode.Map)
       playField.toString + messanger.getMsg
     else
-      playArena.toString
+      playArena.toString + "test arnea"
   }
 }
