@@ -33,7 +33,7 @@ package de.htwg.se.heroes.model
       f = f.set(i, 0, Stop())
       f = f.set(i, size - 1, Stop())
     }
-    f.set(4, 4, EnemyCell(1))
+    f.set(3, 3, EnemyCell(1))
   }
 
 }

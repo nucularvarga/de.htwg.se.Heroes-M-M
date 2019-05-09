@@ -5,4 +5,3 @@ class Cell() {
 
   override def toString: String = typ
 }
-

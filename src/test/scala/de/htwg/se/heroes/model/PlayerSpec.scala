@@ -18,7 +18,7 @@ class PlayerSpec extends WordSpec with Matchers {
       }
     }
     "set to a specific values" should {
-      val nonEmptyPlayer = Player("test", 100, 10, new ListMap[Cell, Int], 1, 1)
+      var nonEmptyPlayer = Player("test", 100, 10, new ListMap[Cell, Int], 1, 1)
       "return the values" in {
         nonEmptyPlayer.name should be("test")
         nonEmptyPlayer.gold should be(100)
@@ -29,6 +29,17 @@ class PlayerSpec extends WordSpec with Matchers {
       }
       "player grows stronger" in {
         nonEmptyPlayer.powerUp(200) should be(Player("test", 100, 210, new ListMap[Cell, Int], 1, 1))
+      }
+      "player adds units" in {
+        val list = new ListMap[Cell, Int]()
+        nonEmptyPlayer = nonEmptyPlayer.addUnit(Soldier(1,1), 1, 5)
+        nonEmptyPlayer.units should be(list.updated(Soldier(1,1), 1))
+      }
+      "player adds again units" in {
+        val list = new ListMap[Cell, Int]()
+        nonEmptyPlayer = nonEmptyPlayer.addUnit(Soldier(1,1), 1, 5)
+        nonEmptyPlayer.units should be(list.updated(Soldier(1,1), 2))
+        nonEmptyPlayer.toString should be("test: Gold: 90 Strength: 10 Units: ListMap(S -> 2)")
       }
     }
   }

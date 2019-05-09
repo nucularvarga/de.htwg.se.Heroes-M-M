@@ -5,7 +5,6 @@ import de.htwg.se.heroes.util.Observable
 
 import scala.collection.immutable.ListMap
 
-
 object Direction extends Enumeration {
   type Direction = Value
   val Up, Left, Down, Right = Value

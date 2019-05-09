@@ -1,6 +1,7 @@
 package de.htwg.se.heroes.aview
 
 import de.htwg.se.heroes.controller._
+import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.util.Observer
 
 class Tui(controller: Controller) extends Observer {
