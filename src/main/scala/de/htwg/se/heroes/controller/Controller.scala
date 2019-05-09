@@ -49,7 +49,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
         case f: EnemyCell => startBattle(f)
         case _ =>
       }
-    } else {
+    }/* else {
       val cell = playArena.cell(playerBase.getPlayer.x + calcDirection(d)._1, playerBase.getPlayer.y + calcDirection(d)._2)
       cell match {
         case Leer() => move(d)
@@ -58,7 +58,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
         case f: Soldier => attack(d, f)
         case _ =>
       }
-    }
+    }*/
       notifyObservers
   }
 
