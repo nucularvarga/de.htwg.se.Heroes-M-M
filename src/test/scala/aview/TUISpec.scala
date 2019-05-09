@@ -45,6 +45,12 @@ class TUISpec  extends WordSpec with Matchers{
       tui.processInputLine("x")
       controller.playField.cell(4, 4) should be(HeroCell("2"))
     }
+    "quit" in {
+      tui.processInputLine("q")
+    }
+    "irgendwie t" in {
+      tui.processInputLine("t")
+    }
 
   }
 }
