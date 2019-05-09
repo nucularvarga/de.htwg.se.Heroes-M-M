@@ -22,6 +22,11 @@ class ArenaSpec extends WordSpec with Matchers {
       "print field" in {
         printField.toString should be(((" " * length) + "\n") * height)
       }
+      "init arena" in {
+        var arena = new Arena(2, 2)
+        arena = arena.initArena
+        arena.toString should be("XX\nXX\n")
+      }
     }
   }
 
