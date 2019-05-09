@@ -3,6 +3,8 @@ package de.htwg.se.heroes.controller
 import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.util.Observable
 
+import scala.collection.immutable.ListMap
+
 
 object Direction extends Enumeration {
   type Direction = Value
@@ -30,11 +32,10 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, 0,  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100, 0, 3, 3)
+    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Cell, Int],  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Cell, Int], 3, 3)
 
     playField = playField.initField
-    playArena = playArena.initArena
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))
     notifyObservers
@@ -65,8 +66,18 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   def startBattle(enemy: EnemyCell): Boolean = {
     playArena = new Arena(10,30)
+    playArena = playArena.initArena
+    playArena = setSoldier(enemy)
     mode = GameMode.Combat
     true
+  }
+
+  def setSoldier(enemy: EnemyCell): Arena = {
+    for {row <- 0 until playerBase.getPlayer.units.size} {
+      playArena = playArena.set(row + 1, 2, playerBase.getPlayer.units.head._1)
+      playArena = playArena.set(row + 1, 27, enemy)
+    }
+    playArena
   }
 
   def attack(d: Direction, enemy: Soldier): Boolean = {
@@ -92,8 +103,8 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def openShop(number: Int): Unit = {
-    if(playerBase.getPlayer.gold > number * Soldier().cost) {
-      playerBase = playerBase.setUnits(number, number * Soldier().cost)
+    if(playerBase.getPlayer.gold > number * Soldier(0,0).cost) {
+      playerBase = playerBase.setUnits(number, number * Soldier(0,0).cost)
       messanger.setMsg("Erfolgreich gekauft")
     } else messanger.setMsg("Nicht genug gold")
     notifyObservers
@@ -113,6 +124,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     if(mode == GameMode.Map)
       playField.toString + messanger.getMsg
     else
-      playArena.toString + "test arnea"
+      playArena.toString + "Kampf beginnt"
   }
 }

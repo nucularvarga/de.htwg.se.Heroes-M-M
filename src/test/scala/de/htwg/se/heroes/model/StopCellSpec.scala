@@ -12,5 +12,4 @@ class StopCellSpec extends WordSpec with Matchers {
       }
     }
   }
-
 }
