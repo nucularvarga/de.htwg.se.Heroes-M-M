@@ -16,17 +16,17 @@ object GameMode extends Enumeration {
 }
 
 import Direction._
-import GameMode._
+import Event._
 
 class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   var playerBase = new PlayerList
   val messanger = new Messanger
-  var mode: GameMode = GameMode.Map
+  var mode: GameMode = MapMode()
 
   def createNewField(size: Int): Unit = {
     playField = new Field(size)
-    mode = GameMode.Map
+    mode = MapMode()
     notifyObservers
   }
 
@@ -67,7 +67,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     playArena = new Arena(10,30)
     playArena = playArena.initArena
     playArena = setSoldier(enemy)
-    mode = GameMode.Combat
+    mode = CombatMode()
     true
   }
 
