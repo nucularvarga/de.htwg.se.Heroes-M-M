@@ -2,8 +2,9 @@ package aview
 import de.htwg.se.heroes.controller.Controller
 import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.aview._
-
 import org.scalatest.{Matchers, WordSpec}
+
+import scala.collection.immutable.ListMap
 
 class TUISpec  extends WordSpec with Matchers{
 
@@ -50,6 +51,12 @@ class TUISpec  extends WordSpec with Matchers{
     }
     "irgendwie t" in {
       tui.processInputLine("t")
+    }
+    "player buys units" in {
+      controller.playerBase.addPlayer("2", 100, 100, new ListMap[Cell, Int], 0, 0)
+      tui.processInputLine("b,1")
+      controller.playerBase.getPlayer.gold should be(90)
+      controller.playerBase.getPlayer.units.toString should be("ListMap(S -> 1)")
     }
 
   }

@@ -32,7 +32,7 @@ class PlayerList {
     this
   }
 */
-  def updatePlayer(player: Player, str: Int, row: Int, col: Int): PlayerList = {
+  def updatePlayer(str: Int, row: Int, col: Int): PlayerList = {
     if(PlayerTurn >= playerBase.length) {
       PlayerTurn = 0
     }

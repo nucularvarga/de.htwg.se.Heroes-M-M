@@ -42,7 +42,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   def action(d : Direction): Unit = {
     if(mode == GameMode.Map) {
-      val cell = playField.cell(playerBase.getPlayer.x + calcDirection(d)._1, playerBase.getPlayer.y + calcDirection(d)._2)
+      val cell = playField.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
       cell match {
         case Leer() => move(d)
         case Stop() =>
@@ -72,10 +72,14 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def setSoldier(enemy: EnemyCell): Arena = {
+    var unitVector: Vector[Cell] = Vector.empty
+    for(e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {row <- 0 until playerBase.getPlayer.units.size} {
-      playArena = playArena.set(row + 1, 2, playerBase.getPlayer.units.head._1)
+      playArena = playArena.set(row + 1, 2, unitVector(row))
       playArena = playArena.set(row + 1, 27, enemy)
     }
+
+
     playArena
   }
 
@@ -88,10 +92,10 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def move(d: Direction): Boolean = {
-    val (row, col) = calcDirection(d)
+    val (row, col) = calcDir(d)
     playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
     playField = playField.set(playerBase.getPlayer.x + row, playerBase.getPlayer.y + col, HeroCell(playerBase.getPlayer.name))
-    playerBase = playerBase.updatePlayer(playerBase.getPlayer, 0, calcDirection(d)._1, calcDirection(d)._2)
+    playerBase = playerBase.updatePlayer(0, calcDir(d)._1, calcDir(d)._2)
     playerBase.nextPlayer // TODO next? iterator?
     true
   }
@@ -109,7 +113,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     notifyObservers
   }
 
-  def calcDirection(d: Direction): (Int, Int) = {
+  def calcDir(d: Direction): (Int, Int) = {
     d match {
       case Direction.Up => (-1, 0)
       case Direction.Left => (0, -1)

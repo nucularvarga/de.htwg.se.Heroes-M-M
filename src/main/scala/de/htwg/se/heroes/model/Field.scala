@@ -20,12 +20,6 @@ package de.htwg.se.heroes.model
   }
 
   def initField: Field = {
-    /* for{
-       row <- 0 until size
-       col <- 0 until size
-     } this = replaceCell(row, col, Leer())
-     */
-    //map(i=>map(k=>(replaceCell(i,k,Leer()))))
     var f = this
     for(i <- 0 until size) {
       f = f.set(0, i, Stop())
