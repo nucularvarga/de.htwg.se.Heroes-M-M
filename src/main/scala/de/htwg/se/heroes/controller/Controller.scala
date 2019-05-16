@@ -27,14 +27,14 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Cell, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Cell, Int], 3, 3)
+    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 3, 3)
 
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))
 
-    playField = playField.set(5, 5, EnemyCell(2))
+    //playField = playField.set(5, 5, EnemyCell(2))
     mode = MapMode(playField, playerBase)
     notifyObservers
   }
