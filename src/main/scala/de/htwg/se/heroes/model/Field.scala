@@ -6,16 +6,16 @@ package de.htwg.se.heroes.model
 
   val size: Int = cells.length
 
-  def cell(row: Int, col: Int): Cell = cells.cell(row, col)
+  def cell(x: Int, y: Int): Cell = cells.cell(x, y)
 
-  def set(row: Int, col: Int, cell: Cell): Field = copy(cells.replaceCell(row, col, cell))
+  def set(x: Int, y: Int, cell: Cell): Field = copy(cells.replaceCell(x, y, cell))
 
   override def toString: String = {
     var box = (("G" * size) + "\n") * size
     for {
-      row <- 0 until size
-      col <- 0 until size
-    } box = box.replaceFirst("G", cell(row, col).toString)
+      y <- 0 until size
+      x <- 0 until size
+    } box = box.replaceFirst("G", cell(x, y).toString)
     box
   }
 
@@ -27,7 +27,7 @@ package de.htwg.se.heroes.model
       f = f.set(i, 0, Stop())
       f = f.set(i, size - 1, Stop())
     }
-    f.set(3, 3, EnemyCell(1))
+    f
   }
 
 }

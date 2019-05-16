@@ -1,9 +1,6 @@
 package de.htwg.se.heroes.model
 
 
-import de.htwg.se.heroes.controller.Direction
-import de.htwg.se.heroes.controller.Direction._
-
 class Messanger() {
 
   var msg = ""

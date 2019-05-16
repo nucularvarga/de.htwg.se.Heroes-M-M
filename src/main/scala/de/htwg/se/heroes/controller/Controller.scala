@@ -4,15 +4,6 @@ import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.util.Observable
 
 import scala.collection.immutable.ListMap
-
-object Direction extends Enumeration {
-  type Direction = Value
-  val Up, Left, Down, Right = Value
-}
-
-
-
-import Direction._
 import Event._
 
 class Controller(var playField:Field, var playArena:Arena) extends Observable {
@@ -34,7 +25,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))
 
-    //playField = playField.set(5, 5, EnemyCell(2))
+    playField = playField.set(3, 7, EnemyCell(2))
     mode = MapMode(playField, playerBase)
     notifyObservers
   }
@@ -115,14 +106,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     notifyObservers
   }
 
-  def calcDir(d: Direction): (Int, Int) = {
-    d match {
-      case Direction.Up => (-1, 0)
-      case Direction.Left => (0, -1)
-      case Direction.Down => (1, 0)
-      case Direction.Right => (0, 1)
-    }
-  }
 
 
   def playgroundToString: String = {

@@ -7,13 +7,13 @@ class ArenaSpec extends WordSpec with Matchers {
 
   "A Arena" when {
     "set to a specific value" should {
-      val EmptyArena = new Arena(5, 10)
+      val EmptyArena = new Arena(10, 5)
       val height = 5
       val length = 10
-      val printField = new Arena(height, length)
+      val printField = new Arena(length, height)
       val cell = new Cell
       val hero = HeroCell("1")
-      val newArena = new Arena(5, 10)
+      val newArena = new Arena(10, 5)
       "return that value" in {
         EmptyArena.cells.length should be(10)
         EmptyArena.cell(1,1).typ should be(cell.typ)

@@ -8,7 +8,7 @@ case class MapMode(var playField: Field, var playerBase: PlayerList) extends Gam
   var enemy: EnemyCell = EnemyCell(0)
   override def handle(e: Event):GameMode = {
     e match {
-      case Event.StartCombat => CombatMode(  new Arena(10,30), playerBase, enemy).handle(StartCombat)
+      case Event.StartCombat => CombatMode(  new Arena(30,10), playerBase, enemy).handle(StartCombat)
       case Event.EndCombat => MapMode(playField, playerBase)
       case Event.MoveUp => action(Event.MoveUp)
       case Event.MoveLeft => action(Event.MoveLeft)
@@ -18,16 +18,19 @@ case class MapMode(var playField: Field, var playerBase: PlayerList) extends Gam
   }
 
   def move(e: Event): GameMode = {
-    val (row, col) = calcDir(e)
+    val (x, y) = calcDir(e)
     playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
-    playField = playField.set(playerBase.getPlayer.x + row, playerBase.getPlayer.y + col, HeroCell(playerBase.getPlayer.name))
-    playerBase = playerBase.updatePlayer(0, calcDir(e)._1, calcDir(e)._2)
+    playField = playField.set(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y, HeroCell(playerBase.getPlayer.name))
+    playerBase = playerBase.updatePlayer(0, x, y)
+    println(playerBase.getPlayer.x + " " + playerBase.getPlayer.y)
     playerBase.nextPlayer // TODO next? iterator?
     MapMode(playField, playerBase)
   }
 
   def action(d : Event): GameMode = {
-    val cell = playField.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
+    val (x, y) = calcDir(d)
+    val cell = playField.cell(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y)
+    println(cell)
     cell match {
       case Leer() => move(d)
       case Stop() => MapMode(playField, playerBase)

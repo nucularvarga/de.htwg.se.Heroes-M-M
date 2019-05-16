@@ -10,8 +10,8 @@ class PlayerList {
   var attackUnit = 0
   var defendUnit = 0
 
-  def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], row: Int, col: Int): PlayerList = {
-    playerBase = playerBase :+ Player(n, gold, str, units, row, col)
+  def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList = {
+    playerBase = playerBase :+ Player(n, gold, str, units, x, y)
     this
   }
 
@@ -61,11 +61,11 @@ class PlayerList {
     this
   }
 */
-  def updatePlayer(str: Int, row: Int, col: Int): PlayerList = {
+  def updatePlayer(str: Int, x: Int, y: Int): PlayerList = {
     if(PlayerTurn >= playerBase.length) {
       PlayerTurn = 0
     }
-    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(row, col))
+    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(x, y))
     playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).powerUp(str))
     this
   }

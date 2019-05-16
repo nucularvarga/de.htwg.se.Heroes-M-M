@@ -1,22 +1,22 @@
 package de.htwg.se.heroes.model
 
 case class Arena(cells: Matrix) {
-  def this(row: Int, col: Int) = this(new Matrix(row, col))
+  def this(x: Int, y: Int) = this(new Matrix(x, y))
 
 
   val length: Int = cells.length
   val height: Int = cells.height
 
-  def cell(row: Int, col: Int): Cell = cells.cell(row, col)
+  def cell(x: Int, y: Int): Cell = cells.cell(x, y)
 
-  def set(row: Int, col: Int, cell: Cell): Arena = copy(cells.replaceCell(row, col, cell))
+  def set(x: Int, y: Int, cell: Cell): Arena = copy(cells.replaceCell(x, y, cell))
 
   override def toString: String = {
     var box = (("G" * length) + "\n") * height
     for {
-      row <- 0 until height
-      col <- 0 until length
-    } box = box.replaceFirst("G", cell(row, col).toString)
+      y <- 0 until height
+      x <- 0 until length
+    } box = box.replaceFirst("G", cell(x, y).toString)
     box
   }
 
@@ -27,14 +27,16 @@ case class Arena(cells: Matrix) {
      } this = replaceCell(row, col, Leer())
      */
     //map(i=>map(k=>(replaceCell(i,k,Leer()))))
+
+    println(length + " " + height)
     var f = this
     for(i <- 0 until height) {
-      f = f.set(i, 0, Stop())
-      f = f.set(i, length - 1, Stop())
+      f = f.set(0, i, Stop())
+      f = f.set(length -1 , i, Stop())
     }
     for(i <- 0 until length) {
-      f = f.set(0, i, Stop())
-      f = f.set(height - 1, i, Stop())
+      f = f.set(i, 0, Stop())
+      f = f.set(i, height - 1, Stop())
     }
     f
   }

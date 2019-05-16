@@ -15,9 +15,9 @@ case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, In
     }
   }
 
-  def moveUnit(row: Int, col: Int, remove: Soldier): Player = {
+  def moveUnit(x: Int, y: Int, remove: Soldier): Player = {
     val f =  removeUnit(remove)
-    f.copy(name, gold, strength, units + (Soldier(row, col) -> 5), x, y)
+    f.copy(name, gold, strength, units + (Soldier(x, y) -> 5), x, y)
   }
 
   def removeUnit(remove: Soldier): Player = {

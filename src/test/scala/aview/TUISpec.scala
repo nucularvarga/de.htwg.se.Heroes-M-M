@@ -22,18 +22,19 @@ class TUISpec  extends WordSpec with Matchers{
       filed = filed.initField
       filed = filed.set(6, 6, HeroCell("1"))
       filed = filed.set(3, 3, HeroCell("2"))
+      filed = filed.set(3, 7, EnemyCell(2))
       controller.playField.toString should be(filed.toString)
     }
 
     "move 1 on input 'w'" in {
       tui.processInputLine("w")
       //controller.playField.cell(5,6) should be(HeroCell("1"))
-      controller.mode.asInstanceOf[MapMode].playField.cell(5,6) should be(HeroCell("1"))
+      controller.mode.asInstanceOf[MapMode].playField.cell(6,5) should be(HeroCell("1"))
     }
 
     "create a random heroes on input 's'" in {
       tui.processInputLine("s")
-      controller.mode.asInstanceOf[MapMode].playField.cell(4,3) should be(HeroCell("2"))
+      controller.mode.asInstanceOf[MapMode].playField.cell(3,4) should be(HeroCell("2"))
     }
     "create a random heroes on input 'a'" in {
       tui.processInputLine("a")

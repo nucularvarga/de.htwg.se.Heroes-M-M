@@ -17,10 +17,10 @@ trait GameMode {
 
   def calcDir(d: Event): (Int, Int) = {
     d match {
-      case Event.MoveUp => (-1, 0)
-      case Event.MoveLeft => (0, -1)
-      case Event.MoveDown => (1, 0)
-      case Event.MoveRight => (0, 1)
+      case Event.MoveUp => (0, -1)
+      case Event.MoveLeft => (-1, 0)
+      case Event.MoveDown => (0, 1)
+      case Event.MoveRight => (1, 0)
     }
   }
 }
