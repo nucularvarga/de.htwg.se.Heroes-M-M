@@ -18,8 +18,8 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 3, 3)
+    playerBase = playerBase.addPlayer("1", 100, 100, UnitOrder(new ListMap[Soldier, Int]),  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100, UnitOrder(new ListMap[Soldier, Int]), 3, 3)
 
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
@@ -43,7 +43,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   def handle(e: Event) = mode = mode.handle(e)
 
-
+/*
   def setSoldier(enemy: EnemyCell): Arena = {
     var unitVector: Vector[Cell] = Vector.empty
     for(e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
@@ -55,7 +55,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
     playArena
   }
-
+*/
   def showStats(): Unit = {
     messanger.setMsg(playerBase.getPlayer.toString)
     notifyObservers

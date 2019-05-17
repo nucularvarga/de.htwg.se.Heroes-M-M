@@ -5,8 +5,8 @@ case class Soldier(x: Int, y: Int) extends Cell() {
   val cost = 10
   val str = 5
 
-  def moveUnit(x: Int, y: Int): Soldier = {
-    copy(x, y)
+  def moveUnit(xn: Int, yn: Int): Soldier = {
+    copy(x + xn, y + yn)
   }
 
   override val typ  = "S"

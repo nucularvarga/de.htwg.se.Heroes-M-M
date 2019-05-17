@@ -29,27 +29,20 @@ class PlayerList {
   def nextAttackUnit: Unit = {
     attackUnit += 1
   }
-
+/*
   def getAttackUnit: Soldier = {
     if(attackUnit >= playerBase(PlayerTurn).units.size) {
       attackUnit = 0
     }
     playerBase(PlayerTurn).units.toList(attackUnit)._1
   }
-
+*/
   def nextDefendUnit: Unit = {
     defendUnit += 1
   }
 
   def updateAttackUnit: PlayerList = {
     this
-  }
-
-  def getDefendUnit: Soldier = {
-    if(defendUnit >= playerBase(PlayerTurn).units.size) {
-      defendUnit = 0
-    }
-    playerBase(PlayerTurn).units.toList(defendUnit)._1
   }
 
 /*
@@ -71,7 +64,9 @@ class PlayerList {
   }
 
   def setUnits(number: Int, cost: Int): PlayerList = {
-    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(Soldier(1,1), number, cost))
+    val list = getPlayer.units.addUnit(Soldier(1,1), number)
+    playerBase = playerBase.updated(PlayerTurn, getPlayer.buy(cost))
+    playerBase = playerBase.updated(PlayerTurn,  playerBase(PlayerTurn).unit(list))
     this
   }
 

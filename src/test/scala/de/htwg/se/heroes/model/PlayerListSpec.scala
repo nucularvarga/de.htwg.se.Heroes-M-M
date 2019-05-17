@@ -10,8 +10,8 @@ class PlayerListSpec extends WordSpec with Matchers {
     "add player " should {
       var emptyPlayerList = new PlayerList
       "have value '' and 0" in {
-        emptyPlayerList.addPlayer("janko", 0, 0, new ListMap[Soldier, Int], 1, 1)
-        emptyPlayerList.getPlayer should be(Player("janko", 0, 0, new ListMap[Soldier, Int], 1, 1))
+        emptyPlayerList.addPlayer("janko", 0, 0, UnitOrder(new ListMap[Soldier, Int]), 1, 1)
+        emptyPlayerList.getPlayer should be(Player("janko", 0, 0, UnitOrder(new ListMap[Soldier, Int]), 1, 1))
       }
       "next player" in {
         emptyPlayerList.nextPlayer

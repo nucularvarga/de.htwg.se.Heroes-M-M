@@ -5,6 +5,7 @@ import de.htwg.se.heroes.model._
 
 case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
   println("Spieler: " + playerBase.getPlayer)
+  val itOrder = playerBase.getPlayer.units.createIterator
   override def handle(e: Event):GameMode = {
     e match {
       //case Event.StartCombat => CombatMode()
@@ -23,7 +24,8 @@ case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: Enemy
 
   def action(d: Event) : GameMode = {
     val (x, y) = calcDir(d)
-    val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)
+    itOrder.hasNext
+    val cell = playArena.cell(itOrder.ptr.x + x, itOrder.ptr.y + y)
     cell match {
       case Leer() => move(d)
       case Stop() => CombatMode(playArena, playerBase, enemy)
@@ -38,20 +40,24 @@ case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: Enemy
   def move(e: Event): GameMode = {
     val (x, y) = calcDir(e)
     //ITERATOR WICHTIG SUPER WICHTIG
-    val itOrder = playerBase.getPlayer.units.createIterator
-    playArena = playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer())
-    playArena = playArena.set(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)
-    playerBase.playerBase = playerBase.playerBase.updated(playerBase.PlayerTurn, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit))
-    playerBase.nextAttackUnit
-    playerBase.nextPlayer
+    val soldier = itOrder.ptr
+    playArena = playArena.set(itOrder.ptr.x,  itOrder.ptr.y, Leer())
+    playArena = playArena.set(soldier.x + x, soldier.y + y, soldier)
+    val units = playerBase.getPlayer.units.move(Soldier(soldier.x, soldier.y), 5, x, y)
+    println(units.units.head._1.x + "|" + units.units.head._1.y)
+    playerBase.playerBase = playerBase.playerBase.updated(playerBase.PlayerTurn, playerBase.getPlayer.unit(units))
+    //playerBase.nextPlayer
     CombatMode(playArena, playerBase, enemy)
   }
 
 
   def setSoldier(enemy: EnemyCell): GameMode = {
     var unitVector: Vector[Soldier] = Vector.empty
-    for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
-    for {list <- 0 until playerBase.getPlayer.units.size} {
+    val itOrder = playerBase.getPlayer.units.createIterator
+    while(itOrder.hasNext) {
+      unitVector = unitVector :+ itOrder.next
+    }
+    for {list <- unitVector.indices} {
       playArena = playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list))
       playArena = playArena.set(27, 1 + list, enemy)
     }
