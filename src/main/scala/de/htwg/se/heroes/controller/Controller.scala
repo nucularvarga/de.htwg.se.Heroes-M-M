@@ -31,19 +31,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def action(d : Event): Unit = {
-
-
-    //if (mode == GameMode.Map()) {
-      /*
-      val cell = playField.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
-      cell match {
-        case Leer() => move(d)
-        case Stop() =>
-        case f: EnemyCell => startBattle(f)
-        case _ =>
-      }
-    }
-    */
     d match {
       case MoveUp => handle(Event.MoveUp)
       case MoveDown => handle(Event.MoveDown)
@@ -53,16 +40,9 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     notifyObservers
   //  }
   }
+
   def handle(e: Event) = mode = mode.handle(e)
 
-/*
-  def startBattle(enemy: EnemyCell): Boolean = {
-    playArena = new Arena(10,30)
-    playArena = playArena.initArena
-    playArena = setSoldier(enemy)
-    //mode = CombatMode()
-    true
-  }
 
   def setSoldier(enemy: EnemyCell): Arena = {
     var unitVector: Vector[Cell] = Vector.empty
@@ -76,23 +56,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     playArena
   }
 
-  def attack(d: Direction, enemy: Soldier): Boolean = {
-      move(d)
-      //playerBase = playerBase.updatePlayer(playerBase.getPlayer, 10, calcDirection(d)._1, calcDirection(d)._2)
-      //playerBase.nextPlayer // TODO next? iterator?
-      messanger.setMsg("Gewonnen")
-      true
-  }
-
-  def move(d: Direction): Boolean = {
-    val (row, col) = calcDir(d)
-    playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
-    playField = playField.set(playerBase.getPlayer.x + row, playerBase.getPlayer.y + col, HeroCell(playerBase.getPlayer.name))
-    playerBase = playerBase.updatePlayer(0, calcDir(d)._1, calcDir(d)._2)
-    playerBase.nextPlayer // TODO next? iterator?
-    true
-  }
-*/
   def showStats(): Unit = {
     messanger.setMsg(playerBase.getPlayer.toString)
     notifyObservers

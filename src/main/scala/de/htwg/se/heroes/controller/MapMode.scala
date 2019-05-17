@@ -22,7 +22,6 @@ case class MapMode(var playField: Field, var playerBase: PlayerList) extends Gam
     playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
     playField = playField.set(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y, HeroCell(playerBase.getPlayer.name))
     playerBase = playerBase.updatePlayer(0, x, y)
-    println(playerBase.getPlayer.x + " " + playerBase.getPlayer.y)
     playerBase.nextPlayer // TODO next? iterator?
     MapMode(playField, playerBase)
   }
@@ -30,7 +29,6 @@ case class MapMode(var playField: Field, var playerBase: PlayerList) extends Gam
   def action(d : Event): GameMode = {
     val (x, y) = calcDir(d)
     val cell = playField.cell(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y)
-    println(cell)
     cell match {
       case Leer() => move(d)
       case Stop() => MapMode(playField, playerBase)

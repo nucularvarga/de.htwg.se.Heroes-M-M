@@ -27,8 +27,6 @@ case class Arena(cells: Matrix) {
      } this = replaceCell(row, col, Leer())
      */
     //map(i=>map(k=>(replaceCell(i,k,Leer()))))
-
-    println(length + " " + height)
     var f = this
     for(i <- 0 until height) {
       f = f.set(0, i, Stop())

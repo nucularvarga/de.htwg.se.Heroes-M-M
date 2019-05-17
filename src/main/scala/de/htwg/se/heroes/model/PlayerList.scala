@@ -10,7 +10,7 @@ class PlayerList {
   var attackUnit = 0
   var defendUnit = 0
 
-  def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList = {
+  def addPlayer(n: String, gold: Int, str: Int, units: UnitOrder, x: Int, y: Int): PlayerList = {
     playerBase = playerBase :+ Player(n, gold, str, units, x, y)
     this
   }

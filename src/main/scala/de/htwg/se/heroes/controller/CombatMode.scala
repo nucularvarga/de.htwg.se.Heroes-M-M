@@ -4,7 +4,7 @@ import de.htwg.se.heroes.controller.Event.Event
 import de.htwg.se.heroes.model._
 
 case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
-  println("CombatMode activ")
+  println("Spieler: " + playerBase.getPlayer)
   override def handle(e: Event):GameMode = {
     e match {
       //case Event.StartCombat => CombatMode()
@@ -23,7 +23,7 @@ case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: Enemy
 
   def action(d: Event) : GameMode = {
     val (x, y) = calcDir(d)
-    val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)   //playArena.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
+    val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)
     cell match {
       case Leer() => move(d)
       case Stop() => CombatMode(playArena, playerBase, enemy)
@@ -37,11 +37,13 @@ case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: Enemy
 
   def move(e: Event): GameMode = {
     val (x, y) = calcDir(e)
-    println(playerBase.getAttackUnit.x +"|"+  playerBase.getAttackUnit.y)
+    //ITERATOR WICHTIG SUPER WICHTIG
+    val itOrder = playerBase.getPlayer.units.createIterator
     playArena = playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer())
     playArena = playArena.set(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)
-    playerBase.playerBase = playerBase.playerBase.updated(0, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit))
+    playerBase.playerBase = playerBase.playerBase.updated(playerBase.PlayerTurn, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit))
     playerBase.nextAttackUnit
+    playerBase.nextPlayer
     CombatMode(playArena, playerBase, enemy)
   }
 
