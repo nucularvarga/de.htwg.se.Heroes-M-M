@@ -16,9 +16,11 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     }
   }
 
+  def updateArena(arena: Arena): CombatMode = copy(arena, playerBase, enemy)
+
   def initArena(): GameMode = {
-    playArena = playArena.initArena
-    setSoldier(enemy)
+    val f = updateArena(playArena.initArena)
+    f.setSoldier(f.enemy)
   }
 
   def action(d: Event) : GameMode = {
@@ -37,14 +39,16 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
 
   def move(e: Event): GameMode = {
     val (x, y) = calcDir(e)
+
     println(playerBase.getAttackUnit.x +"|"+  playerBase.getAttackUnit.y)
-    playArena = playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer())
-    playArena = playArena.set(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)
-    playerBase.playerBase = playerBase.playerBase.updated(0, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit))
+    var f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))
+    f = f.updateArena(f.playArena.set(playerBase.getAttackUnit.x + x, f.playerBase.getAttackUnit.y + y, f.playerBase.getAttackUnit))
+    f = f.updatePlayerBase(playerBase.playerBase.updated(0, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)))
     playerBase.nextAttackUnit
-    CombatMode(playArena, playerBase, enemy)
+    f
   }
 
+  def updatePlayerBase(base: PlayerList): CombatMode = copy(playArena, base)
 
   def setSoldier(enemy: EnemyCell): GameMode = {
     var unitVector: Vector[Soldier] = Vector.empty
