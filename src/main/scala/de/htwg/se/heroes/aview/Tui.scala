@@ -21,6 +21,7 @@ class Tui(controller: Controller) extends Observer {
       case "n" => controller.createNewField(9)
       case "i" => controller.init()
       case "r" => controller.undo
+      case "z" => controller.redo
       case "w" => controller.action(Event.MoveUp)
       case "a" => controller.action(Event.MoveLeft)
       case "s" => controller.action(Event.MoveDown)

@@ -15,9 +15,7 @@ class UndoManager {
       case  Nil =>
       case head::stack => {
         head.undoStep
-        println("old undostack= "+ undoStack)
         undoStack = stack
-        println("new undostack= "+undoStack)
         redoStack = head::redoStack
       }
     }
@@ -32,5 +30,10 @@ class UndoManager {
         undoStack = head::undoStack
       }
     }
+  }
+
+  def reset = {
+    redoStack = Nil
+    undoStack = Nil
   }
 }

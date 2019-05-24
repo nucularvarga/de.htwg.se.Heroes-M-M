@@ -8,7 +8,7 @@ import Event._
 
 class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
-  var playerBase = new PlayerList
+  var playerBase = PlayerList(Vector.empty[Player], 0)
   val messanger = new Messanger
   var mode: GameMode = MapMode(playField, playerBase)
   private val undoManager = new UndoManager
@@ -21,7 +21,6 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   def init(): Unit = {
     playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
     playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 3, 3)
-
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))
@@ -44,7 +43,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   def handle(e: Event) = undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
 
   def showStats(): Unit = {
-    messanger.setMsg(playerBase.getPlayer.toString)
+    messanger.setMsg(mode.asInstanceOf[MapMode].playerBase.getPlayer.toString)
     notifyObservers
   }
 
@@ -58,6 +57,11 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   def undo: Unit = {
     undoManager.undoStep
+    notifyObservers
+  }
+
+  def redo: Unit = {
+    undoManager.redoStep
     notifyObservers
   }
 

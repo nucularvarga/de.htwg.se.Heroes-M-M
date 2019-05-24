@@ -3,20 +3,17 @@ package de.htwg.se.heroes.model
 import scala.collection.immutable.ListMap
 
 
-class PlayerList {
+case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) {
 
-  var playerBase = Vector.empty[Player]
-  var PlayerTurn = 0
   var attackUnit = 0
   var defendUnit = 0
 
   def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList = {
-    playerBase = playerBase :+ Player(n, gold, str, units, x, y)
-    this
+    copy(playerBase :+ Player(n, gold, str, units, x, y))
   }
 
-  def nextPlayer: Unit = {
-    PlayerTurn += 1
+  def nextPlayer: PlayerList = {
+    copy(playerBase, PlayerTurn + 1)
   }
 
   def getPlayer: Player = {
@@ -65,14 +62,13 @@ class PlayerList {
     if(PlayerTurn >= playerBase.length) {
       PlayerTurn = 0
     }
-    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(x, y))
-    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).powerUp(str))
-    this
+    var f = this
+    f = f.copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).walk(x, y)))
+    f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).powerUp(str)))
   }
 
   def setUnits(number: Int, cost: Int): PlayerList = {
-    playerBase = playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(Soldier(1,1), number, cost))
-    this
+    copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(Soldier(1,1), number, cost)))
   }
 
 }

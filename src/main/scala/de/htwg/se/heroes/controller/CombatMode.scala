@@ -3,7 +3,7 @@ package de.htwg.se.heroes.controller
 import de.htwg.se.heroes.controller.Event.Event
 import de.htwg.se.heroes.model._
 
-case class CombatMode(var playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
+case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
   println("CombatMode activ")
   override def handle(e: Event):GameMode = {
     e match {

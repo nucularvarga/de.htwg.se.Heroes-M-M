@@ -3,8 +3,7 @@ package de.htwg.se.heroes.controller
 import de.htwg.se.heroes.controller.Event.{Event, MoveDown, MoveLeft, MoveRight, MoveUp, StartCombat}
 import de.htwg.se.heroes.model._
 
-case class MapMode(var playField: Field, var playerBase: PlayerList) extends GameMode {
-  println("MapMode activ")
+case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
   var enemy: EnemyCell = EnemyCell(0)
   override def handle(e: Event):GameMode = {
     e match {
@@ -17,14 +16,18 @@ case class MapMode(var playField: Field, var playerBase: PlayerList) extends Gam
     }
   }
 
+  def updateField(play: Field): MapMode = copy(play, playerBase)
+
+  def updatePlayerBase(base: PlayerList): MapMode = copy(playField, base)
+
   def move(e: Event): GameMode = {
     val (x, y) = calcDir(e)
-    playField = playField.set(playerBase.getPlayer.x, playerBase.getPlayer.y, Leer())
-    playField = playField.set(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y, HeroCell(playerBase.getPlayer.name))
-    playerBase = playerBase.updatePlayer(0, x, y)
-    println(playerBase.getPlayer.x + " " + playerBase.getPlayer.y)
-    playerBase.nextPlayer // TODO next? iterator?
-    MapMode(playField, playerBase)
+    var f = this
+    f = f.updateField(f.playField.set(f.playerBase.getPlayer.x, f.playerBase.getPlayer.y, Leer()))
+    f = f.updateField(f.playField.set(f.playerBase.getPlayer.x + x, f.playerBase.getPlayer.y + y, HeroCell(f.playerBase.getPlayer.name)))
+    f = f.updatePlayerBase(f.playerBase.updatePlayer(0, x, y))
+    println(f.playerBase.getPlayer.x + " " + f.playerBase.getPlayer.y)
+    f.updatePlayerBase(f.playerBase.nextPlayer) // TODO next? iterator?
   }
 
   def action(d : Event): GameMode = {

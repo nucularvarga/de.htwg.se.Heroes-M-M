@@ -8,9 +8,9 @@ class PlayerListSpec extends WordSpec with Matchers {
 
   "A PlayerList" when {
     "add player " should {
-      var emptyPlayerList = new PlayerList
+      var emptyPlayerList = PlayerList(Vector.empty[Player],0)
       "have value '' and 0" in {
-        emptyPlayerList.addPlayer("janko", 0, 0, new ListMap[Soldier, Int], 1, 1)
+        emptyPlayerList = emptyPlayerList.addPlayer("janko", 0, 0, new ListMap[Soldier, Int], 1, 1)
         emptyPlayerList.getPlayer should be(Player("janko", 0, 0, new ListMap[Soldier, Int], 1, 1))
       }
       "next player" in {
