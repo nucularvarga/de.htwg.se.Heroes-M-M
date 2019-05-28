@@ -43,7 +43,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     println(playerBase.getAttackUnit.x +"|"+  playerBase.getAttackUnit.y)
     var f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))
     f = f.updateArena(f.playArena.set(playerBase.getAttackUnit.x + x, f.playerBase.getAttackUnit.y + y, f.playerBase.getAttackUnit))
-    f = f.updatePlayerBase(playerBase.playerBase.updated(0, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)))
+    //f = f.updatePlayerBase(playerBase.playerBase.updated(0, playerBase.getPlayer.moveUnit(playerBase.getAttackUnit.x + x, playerBase.getAttackUnit.y + y, playerBase.getAttackUnit)))
     playerBase.nextAttackUnit
     f
   }
@@ -54,8 +54,8 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     var unitVector: Vector[Soldier] = Vector.empty
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {
-      playArena = playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list))
-      playArena = playArena.set(27, 1 + list, enemy)
+      //playArena = playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list))
+      //playArena = playArena.set(27, 1 + list, enemy)
     }
     CombatMode(playArena, playerBase, enemy)
   }
