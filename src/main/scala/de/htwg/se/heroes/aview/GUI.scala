@@ -11,7 +11,7 @@ import de.htwg.se.heroes.util.Observer
 import scalafx.application
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.geometry.Insets
-import scalafx.scene.control.Button
+import scalafx.scene.control.{Button, Label, TextArea, TextField}
 import de.htwg.se.heroes.model._
 import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout.{BorderPane, GridPane}
@@ -27,19 +27,21 @@ object GUI extends JFXApp {
   controller.init()
   stage = new JFXApp.PrimaryStage {
     outer =>
-    title = "Hello Stage"
+    title = "Heroes of Might and Magic"
     //fullScreen_=(true)
-    scene = new Scene(880, 680) {
+    scene = new Scene(1024, 590) {
+
+      val textinfo = new Label {
+      }
+      textinfo.setPrefWidth(250)
+      textinfo.setPrefHeight(50)
+      textinfo.setText("Spieler 1: Ist im Besitz des heiligen Gral!")
+      textinfo.layoutX = 650
+      textinfo.layoutY = 500
         val map = new GridPane {
           padding = Insets(5)
           vgap = 0
           hgap = 0
-          val buttom = new Button {
-            text = "Click me to close the dialog"
-            onAction = handle {
-              outer.close()
-            }
-          }
 
           for {
             y <- 0 until 9
@@ -50,8 +52,21 @@ object GUI extends JFXApp {
 
 
         val buton = new GridPane {
+          val buyfield = new TextField {
+            text = "0"
+          }
+
+          val buybutton = new Button {
+            text = "Kaufen"
+            onAction = handle {
+              controller.openShop(buyfield.text().toInt)
+              textinfo.text = controller.messanger.getMsg
+              drawMap
+            }
+          }
+
           val exit = new Button {
-            text = "Click me to close the dialog"
+            text = "exit"
             onAction = handle {
               outer.close()
             }
@@ -64,11 +79,38 @@ object GUI extends JFXApp {
               }
             }
 
-          add(exit, 0, 0)
-          add(up, 0, 1)
+          val right = new Button {
+            text = "Right"
+            onAction = handle {
+              controller.action(Event.MoveRight)
+              drawMap
+            }
+          }
+
+          val Left = new Button {
+            text = "Left"
+            onAction = handle {
+              controller.action(Event.MoveLeft)
+              drawMap
+            }
+          }
+
+          val Down = new Button {
+            text = "Down"
+            onAction = handle {
+              controller.action(Event.MoveDown)
+              drawMap
+            }
+          }
+          add(exit, 1, 0)
+          add(up, 1, 1)
+          add(right, 2, 2)
+          add(Left, 0, 2)
+          add(Down, 1, 2)
+          add(buyfield, 3,3)
+          add(buybutton, 4,3)
         }
       def drawMap = {
-        print("print test")
         for {
           y <- 0 until 9
           x <- 0 until 9
@@ -77,7 +119,7 @@ object GUI extends JFXApp {
       }
       buton.layoutX = 640
       buton.layoutY = 100
-      content = List(map, buton)
+      content = List(map, buton, textinfo)
     }
   }
 
