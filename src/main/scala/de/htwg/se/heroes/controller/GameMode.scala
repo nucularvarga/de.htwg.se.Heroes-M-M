@@ -11,8 +11,10 @@ object GameMode extends Enumeration {
 }
 
 import Event.{Event, _}
+import de.htwg.se.heroes.model.{Cell, Matrix}
 
-trait GameMode {
+trait GameMode{
+
   def handle(e: Event): GameMode
 
   def calcDir(d: Event): (Int, Int) = {
@@ -23,6 +25,10 @@ trait GameMode {
       case Event.MoveRight => (1, 0)
     }
   }
+
+  def cell(x: Int, y: Int): Cell
+
+
 }
 
 

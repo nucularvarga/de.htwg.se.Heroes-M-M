@@ -49,5 +49,7 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
   }
 
   override def toString: String = playField.toString
+
+  override def cell(x: Int, y: Int): Cell = playField.cell(x,y)
 }
 

@@ -5,6 +5,8 @@ import de.htwg.se.heroes.model._
 
 case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
   println("CombatMode activ")
+
+
   override def handle(e: Event):GameMode = {
     e match {
       //case Event.StartCombat => CombatMode()
@@ -60,4 +62,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     CombatMode(playArena, playerBase, enemy)
   }
     override def toString: String = playArena.toString
+
+  override def cell(x: Int, y: Int): Cell = playArena.cell(x,y)
+
 }

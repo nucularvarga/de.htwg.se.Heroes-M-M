@@ -8,7 +8,7 @@ import scalafx.scene.shape.Rectangle
 
 import scala.io.StdIn.readLine
 
-object testgui extends JFXApp{
+object estgui extends JFXApp{
   stage = new JFXApp.PrimaryStage {
     title.value = "Hello Stage"
     width = 600
