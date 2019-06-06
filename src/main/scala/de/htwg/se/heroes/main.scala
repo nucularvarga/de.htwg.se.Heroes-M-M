@@ -15,7 +15,7 @@ object main {
 
   //controller.notifyObservers
   def main(args: Array[String]): Unit = {
-    gui.show()
+    gui.createGUI()
     var input: String = ""
     do {
       input = readLine()

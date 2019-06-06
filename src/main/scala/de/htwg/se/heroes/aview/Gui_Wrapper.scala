@@ -13,7 +13,10 @@ class Gui_Wrapper(controller: Controller) extends Observer {
     GUI.main(ar)
   }
 
+  def createGUI(): Unit = {
+    new Thread(new GUI_Thread).start()
+  }
 
 
-  override def update: Unit =  println("dummy message")
+  override def update: Unit =  GUI.drawScene
 }

@@ -7,13 +7,18 @@ class Messanger() {
   var msgContainer = Vector.empty[String]
 
   def getMsg: String = {
-    val tmp = msg
-    msg = ""
-    tmp
+    if(msgContainer.isEmpty)
+      ""
+    else {
+      val a = msgContainer.last
+      msgContainer = msgContainer.tail
+      a
+    }
   }
 
   def setMsg(save: String): Unit = {
-    msg = save
+    msgContainer = msgContainer :+ save
+    msgContainer = msgContainer :+ save
   }
 
 }
