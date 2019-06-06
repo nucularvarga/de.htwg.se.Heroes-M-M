@@ -57,8 +57,8 @@ class TUISpec  extends WordSpec with Matchers{
     "player buys units" in {
       controller.playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 0, 0)
       tui.processInputLine("b,1")
-      controller.playerBase.getPlayer.gold should be(90)
-      controller.playerBase.getPlayer.units.toString should be("ListMap(S -> 1)")
+      controller.mode.playlist.getPlayer.gold should be(90)
+      controller.mode.playlist.getPlayer.units.toString should be("ListMap(S -> 1)")
     }
 
   }

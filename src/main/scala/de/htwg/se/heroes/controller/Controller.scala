@@ -40,7 +40,13 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     notifyObservers
   }
 
-  def handle(e: Event): Unit = undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
+  def handle(e: Event): Unit = {
+    mode match {
+      case f: MapMode => undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
+      case f: CombatMode => undoManager.doStep(new CombatCommand(mode.asInstanceOf[CombatMode], e, this))
+      case _ =>
+    }
+  }
 
   def showStats(): Unit = {
     messanger.setMsg(mode.asInstanceOf[MapMode].playerBase.getPlayer.toString)
