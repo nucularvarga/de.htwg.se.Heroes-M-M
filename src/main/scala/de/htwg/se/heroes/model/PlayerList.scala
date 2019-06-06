@@ -12,6 +12,10 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) {
     copy(playerBase :+ Player(n, gold, str, units, x, y))
   }
 
+  def moveunit(x: Int, y: Int, sol: Soldier): PlayerList = {
+    copy(playerBase.updated(PlayerTurn, getPlayer.moveUnit(x, y, sol)))
+  }
+
   def nextPlayer: PlayerList = {
     copy(playerBase, PlayerTurn + 1)
   }

@@ -6,7 +6,7 @@ import de.htwg.se.heroes.model._
 case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
   println("CombatMode activ")
 
-
+  var unitVector: Vector[Soldier] = Vector.empty
   override def handle(e: Event):GameMode = {
     e match {
       //case Event.StartCombat => CombatMode()
@@ -27,7 +27,6 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
   }
 
   def action(d: Event) : GameMode = {
-    println("action unit")
     val (x, y) = calcDir(d)
     val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)   //playArena.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
     cell match {
@@ -42,18 +41,18 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
   }
 
   def move(e: Event): GameMode = {
-    println("move unit")
     val (x, y) = calcDir(e)
-    var f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))
-    f = f.updateArena(f.playArena.set(playerBase.getAttackUnit.x + x, f.playerBase.getAttackUnit.y + y, f.playerBase.getAttackUnit))
-    playerBase.nextAttackUnit
+    var f = this
+    f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))
+    f = f.updateArena(f.playArena.set(f.playerBase.getAttackUnit.x + x, f.playerBase.getAttackUnit.y + y, f.playerBase.getAttackUnit))
+    f = f.updatePlayerBase(f.playerBase.moveunit(f.playerBase.getAttackUnit.x + x, f.playerBase.getAttackUnit.y + y, f.playerBase.getAttackUnit))
+    //f.playerBase.nextAttackUnit
     f
   }
 
-  override def updatePlayerBase(base: PlayerList): GameMode = copy(playArena, base)
+  override def updatePlayerBase(base: PlayerList): CombatMode = copy(playArena, base)
 
   def setSoldier(enemy: EnemyCell): GameMode = {
-    var unitVector: Vector[Soldier] = Vector.empty
     var f = this
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {

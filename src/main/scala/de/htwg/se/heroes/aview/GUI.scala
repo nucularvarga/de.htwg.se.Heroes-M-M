@@ -139,7 +139,6 @@ object GUI extends JFXApp {
       }
     }
 
-
   def drawTexture(cell: Cell): Node = {
     val typ = cell match {
       case f: HeroCell => new Image("file:hero.png")
