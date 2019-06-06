@@ -20,7 +20,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
 
   def updateArena(arena: Arena): CombatMode = copy(arena, playerBase, enemy)
 
-  def initArena(): GameMode = {
+  def initArena(): CombatMode = {
     println("action init")
     val f = updateArena(playArena.initArena)
     f.setSoldier(f.enemy)
@@ -40,7 +40,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     CombatMode(playArena, playerBase, enemy)
   }
 
-  def move(e: Event): GameMode = {
+  def move(e: Event): CombatMode = {
     val (x, y) = calcDir(e)
     var f = this
     f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))
@@ -52,7 +52,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
 
   override def updatePlayerBase(base: PlayerList): CombatMode = copy(playArena, base)
 
-  def setSoldier(enemy: EnemyCell): GameMode = {
+  def setSoldier(enemy: EnemyCell): CombatMode = {
     var f = this
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {
