@@ -11,7 +11,7 @@ object GameMode extends Enumeration {
 }
 
 import Event.{Event, _}
-import de.htwg.se.heroes.model.{Cell, Matrix}
+import de.htwg.se.heroes.model.{Cell, Matrix, PlayerList}
 
 trait GameMode{
 
@@ -27,6 +27,10 @@ trait GameMode{
   }
 
   def cell(x: Int, y: Int): Cell
+
+  def updatePlayerBase(base: PlayerList): GameMode
+
+  def playlist: PlayerList
 
 
 }

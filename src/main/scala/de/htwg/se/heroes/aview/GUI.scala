@@ -71,7 +71,15 @@ object GUI extends JFXApp {
               outer.close()
             }
           }
-            val up = new Button {
+
+          val info = new Button {
+            text = "info"
+            onAction = handle {
+              controller.showStats()
+              textinfo.text = controller.messanger.getMsg
+            }
+          }
+          val up = new Button {
               text = "Up"
               onAction = handle {
                 controller.action(Event.MoveUp)
@@ -86,11 +94,18 @@ object GUI extends JFXApp {
               drawMap
             }
           }
-
           val Left = new Button {
             text = "Left"
             onAction = handle {
               controller.action(Event.MoveLeft)
+              drawMap
+            }
+          }
+
+          val revert = new Button {
+            text = "Undo"
+            onAction = handle {
+              controller.undo
               drawMap
             }
           }
@@ -109,6 +124,8 @@ object GUI extends JFXApp {
           add(Down, 1, 2)
           add(buyfield, 3,3)
           add(buybutton, 4,3)
+          add(info, 5,3)
+          add(revert, 4,4)
         }
       def drawMap = {
         for {
@@ -131,6 +148,7 @@ object GUI extends JFXApp {
       case Leer() => new Image("file:grass.jpg")
       case Stop() => new Image("file:berg.jpg")
       case f: EnemyCell => new Image("file:drake.jpg")
+      case f: Soldier => new Image("file:lich.jpg")
     }
     new ImageView(typ)
   }

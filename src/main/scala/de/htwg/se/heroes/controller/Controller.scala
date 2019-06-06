@@ -40,7 +40,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
     notifyObservers
   }
 
-  def handle(e: Event) = undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
+  def handle(e: Event): Unit = undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
 
   def showStats(): Unit = {
     messanger.setMsg(mode.asInstanceOf[MapMode].playerBase.getPlayer.toString)
@@ -48,8 +48,8 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
   }
 
   def openShop(number: Int): Unit = {
-    if(playerBase.getPlayer.gold > number * Soldier(0,0).cost) {
-      playerBase = playerBase.setUnits(number, number * Soldier(0,0).cost)
+    if(mode.playlist.getPlayer.gold > number * Soldier(0,0).cost) {
+      mode = mode.updatePlayerBase(mode.playlist.setUnits(number, number * Soldier(0,0).cost))
       messanger.setMsg("Erfolgreich gekauft")
     } else messanger.setMsg("Nicht genug gold")
     notifyObservers

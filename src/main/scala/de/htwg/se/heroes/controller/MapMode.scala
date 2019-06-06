@@ -7,7 +7,7 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
   var enemy: EnemyCell = EnemyCell(0)
   override def handle(e: Event):GameMode = {
     e match {
-      case Event.StartCombat => CombatMode(  new Arena(30,10), playerBase, enemy).handle(StartCombat)
+      case Event.StartCombat => CombatMode(new Arena(9,9), playerBase, enemy).handle(StartCombat)
       case Event.EndCombat => MapMode(playField, playerBase)
       case Event.MoveUp => action(Event.MoveUp)
       case Event.MoveLeft => action(Event.MoveLeft)
@@ -18,7 +18,7 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
 
   def updateField(play: Field): MapMode = copy(play, playerBase)
 
-  def updatePlayerBase(base: PlayerList): MapMode = copy(playField, base)
+  override def updatePlayerBase(base: PlayerList): MapMode = copy(playField, base)
 
   def move(e: Event): GameMode = {
     val (x, y) = calcDir(e)
@@ -51,5 +51,8 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
   override def toString: String = playField.toString
 
   override def cell(x: Int, y: Int): Cell = playField.cell(x,y)
+
+  override def  playlist: PlayerList = playerBase
+
 }
 

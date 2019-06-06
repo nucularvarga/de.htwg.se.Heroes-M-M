@@ -50,19 +50,24 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     f
   }
 
-  def updatePlayerBase(base: PlayerList): CombatMode = copy(playArena, base)
+  override def updatePlayerBase(base: PlayerList): GameMode = copy(playArena, base)
 
   def setSoldier(enemy: EnemyCell): GameMode = {
     var unitVector: Vector[Soldier] = Vector.empty
+    var f = this
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {
-      //playArena = playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list))
-      //playArena = playArena.set(27, 1 + list, enemy)
+      f = f.updateArena(f.playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list)))
+      f = f.updateArena(f.playArena.set(7, 1 + list, enemy))
     }
-    CombatMode(playArena, playerBase, enemy)
+    //CombatMode(playArena, playerBase, enemy)
+    f
   }
-    override def toString: String = playArena.toString
+  override def toString: String = playArena.toString
 
   override def cell(x: Int, y: Int): Cell = playArena.cell(x,y)
+
+  override def  playlist: PlayerList = playerBase
+
 
 }
