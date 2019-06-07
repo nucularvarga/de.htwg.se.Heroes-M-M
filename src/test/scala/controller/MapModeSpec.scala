@@ -1,6 +1,6 @@
 package controller
 
-import de.htwg.se.heroes.controller.{CombatMode, Event, MapMode}
+import de.htwg.se.heroes.controller.{CombatMode, UIEvent, MapMode}
 import de.htwg.se.heroes.model._
 import org.scalatest.{Matchers, WordSpec}
 

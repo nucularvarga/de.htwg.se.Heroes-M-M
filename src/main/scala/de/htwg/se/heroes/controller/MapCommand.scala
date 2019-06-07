@@ -1,10 +1,10 @@
 package de.htwg.se.heroes.controller
 
-import de.htwg.se.heroes.controller.Event.Event
+import de.htwg.se.heroes.controller.UIEvent.UIEvent
 import de.htwg.se.heroes.model.HeroCell
 import de.htwg.se.heroes.util.Command
 
-class MapCommand(Map: MapMode, val e: Event, controller: Controller) extends Command {
+class MapCommand(Map: MapMode, val e: UIEvent, controller: Controller) extends Command {
 
   /*bewegung auf der karte*/
 
@@ -20,12 +20,12 @@ class MapCommand(Map: MapMode, val e: Event, controller: Controller) extends Com
   }
 
 
-  def inverseEvent(d: Event): Event = {
+  def inverseEvent(d: UIEvent): UIEvent = {
     d match {
-      case Event.MoveUp => Event.MoveDown
-      case Event.MoveLeft => Event.MoveRight
-      case Event.MoveDown => Event.MoveUp
-      case Event.MoveRight => Event.MoveLeft
+      case UIEvent.MoveUp => UIEvent.MoveDown
+      case UIEvent.MoveLeft => UIEvent.MoveRight
+      case UIEvent.MoveDown => UIEvent.MoveUp
+      case UIEvent.MoveRight => UIEvent.MoveLeft
     }
   }
 

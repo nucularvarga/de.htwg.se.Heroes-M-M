@@ -1,20 +1,20 @@
 package de.htwg.se.heroes.controller
 
-import de.htwg.se.heroes.controller.Event.Event
+import de.htwg.se.heroes.controller.UIEvent.UIEvent
 import de.htwg.se.heroes.model._
 
-case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell) extends  GameMode {
-  println("CombatMode activ")
+case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell, map: MapMode) extends  GameMode {
 
   var unitVector: Vector[Soldier] = Vector.empty
-  override def handle(e: Event):GameMode = {
+  override def handle(e: UIEvent):GameMode = {
     e match {
-      //case Event.StartCombat => CombatMode()
-      case Event.StartCombat => initArena()
-      case Event.MoveUp => action(Event.MoveUp)
-      case Event.MoveLeft => action(Event.MoveLeft)
-      case Event.MoveRight => action(Event.MoveRight)
-      case Event.MoveDown => action(Event.MoveDown)
+      case UIEvent.WinEndCombat => map.handle(UIEvent.WinEndCombat)
+      case UIEvent.LoseEndCombat => map.handle(UIEvent.LoseEndCombat)
+      case UIEvent.StartCombat => initArena()
+      case UIEvent.MoveUp => action(UIEvent.MoveUp)
+      case UIEvent.MoveLeft => action(UIEvent.MoveLeft)
+      case UIEvent.MoveRight => action(UIEvent.MoveRight)
+      case UIEvent.MoveDown => action(UIEvent.MoveDown)
     }
   }
 
@@ -26,21 +26,24 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     f.setSoldier(f.enemy)
   }
 
-  def action(d: Event) : GameMode = {
+  def action(d: UIEvent) : GameMode = {
     val (x, y) = calcDir(d)
     val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)   //playArena.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
     cell match {
       case Leer() => move(d)
-      case Stop() => CombatMode(playArena, playerBase, enemy)
-      case f: Soldier => fight(f)
+      case Stop() => CombatMode(playArena, playerBase, enemy, map)
+      case f: EnemyCell => fight(f,d)
     }
   }
 
-  def fight(soldir: Soldier): GameMode = {
-    CombatMode(playArena, playerBase, enemy)
+  def fight(soldir: EnemyCell, d:UIEvent): GameMode = {
+    if( soldir.strength > playerBase.getAttackUnit.str)
+      handle(UIEvent.LoseEndCombat)
+    else
+      handle(UIEvent.WinEndCombat)
   }
 
-  def move(e: Event): CombatMode = {
+  def move(e: UIEvent): CombatMode = {
     val (x, y) = calcDir(e)
     var f = this
     f =  updateArena(playArena.set(playerBase.getAttackUnit.x,  playerBase.getAttackUnit.y, Leer()))

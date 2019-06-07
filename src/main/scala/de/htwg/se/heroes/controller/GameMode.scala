@@ -1,8 +1,8 @@
 package de.htwg.se.heroes.controller
 
-object Event extends Enumeration {
-  type Event = Value
-  val StartCombat, EndCombat, MoveUp, MoveDown, MoveRight, MoveLeft = Value
+object UIEvent extends Enumeration {
+  type UIEvent = Value
+  val StartCombat, MoveUp, MoveDown, MoveRight, MoveLeft, WinEndCombat, LoseEndCombat = Value
 }
 
 object GameMode extends Enumeration {
@@ -10,19 +10,21 @@ object GameMode extends Enumeration {
   val Map, Combat = Value
 }
 
-import Event.{Event, _}
+import UIEvent._
 import de.htwg.se.heroes.model.{Cell, Matrix, PlayerList}
 
 trait GameMode{
 
-  def handle(e: Event): GameMode
+  var saveMap = MapMode
 
-  def calcDir(d: Event): (Int, Int) = {
+  def handle(e: UIEvent): GameMode
+
+  def calcDir(d: UIEvent): (Int, Int) = {
     d match {
-      case Event.MoveUp => (0, -1)
-      case Event.MoveLeft => (-1, 0)
-      case Event.MoveDown => (0, 1)
-      case Event.MoveRight => (1, 0)
+      case UIEvent.MoveUp => (0, -1)
+      case UIEvent.MoveLeft => (-1, 0)
+      case UIEvent.MoveDown => (0, 1)
+      case UIEvent.MoveRight => (1, 0)
     }
   }
 

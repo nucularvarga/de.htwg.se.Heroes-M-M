@@ -1,21 +1,28 @@
 package de.htwg.se.heroes.controller
 
 import de.htwg.se.heroes.model._
-import de.htwg.se.heroes.util.{Observable, UndoManager}
-
+import de.htwg.se.heroes.util.UndoManager
 import scala.collection.immutable.ListMap
-import Event._
+import UIEvent._
+import scala.swing.{Publisher, Reactor}
+import scala.swing.event.Event
 
-class Controller(var playField:Field, var playArena:Arena) extends Observable {
+class FieldChanged extends Event
+class GameStart extends Event
+
+
+
+class Controller(var playField:Field, var playArena:Arena) extends Publisher {
 
   var playerBase = PlayerList(Vector.empty[Player], 0)
   val messanger = new Messanger
   var mode: GameMode = MapMode(playField, playerBase)
-  private val undoManager = new UndoManager
+  var saveMap = mode
+  val undoManager = new UndoManager
 
   def createNewField(size: Int): Unit = {
     playField = new Field(size)
-    notifyObservers
+    publish(new FieldChanged)
   }
 
   def init(): Unit = {
@@ -27,22 +34,22 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
     playField = playField.set(3, 7, EnemyCell(2))
     mode = MapMode(playField, playerBase)
-    notifyObservers
+    publish(new FieldChanged)
   }
 
-  def action(d : Event): Unit = {
+  def action(d : UIEvent): Unit = {
     d match {
-      case MoveUp => handle(Event.MoveUp)
-      case MoveDown => handle(Event.MoveDown)
-      case MoveRight => handle(Event.MoveRight)
-      case MoveLeft => handle(Event.MoveLeft)
+      case MoveUp => handle(UIEvent.MoveUp)
+      case MoveDown => handle(UIEvent.MoveDown)
+      case MoveRight => handle(UIEvent.MoveRight)
+      case MoveLeft => handle(UIEvent.MoveLeft)
     }
-    notifyObservers
+    publish(new FieldChanged)
   }
 
-  def handle(e: Event): Unit = {
+  def handle(e: UIEvent): Unit = {
     mode match {
-      case f: MapMode => undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
+      case f: MapMode => saveMap = mode; undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))
       case f: CombatMode => undoManager.doStep(new CombatCommand(mode.asInstanceOf[CombatMode], e, this))
       case _ =>
     }
@@ -50,7 +57,7 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
 
   def showStats(): Unit = {
     messanger.setMsg(mode.asInstanceOf[MapMode].playerBase.getPlayer.toString)
-    notifyObservers
+    publish(new FieldChanged)
   }
 
   def openShop(number: Int): Unit = {
@@ -58,17 +65,17 @@ class Controller(var playField:Field, var playArena:Arena) extends Observable {
       mode = mode.updatePlayerBase(mode.playlist.setUnits(number, number * Soldier(0,0).cost))
       messanger.setMsg("Erfolgreich gekauft")
     } else messanger.setMsg("Nicht genug gold")
-    notifyObservers
+    publish(new FieldChanged)
   }
 
   def undo: Unit = {
     undoManager.undoStep
-    notifyObservers
+    publish(new FieldChanged)
   }
 
   def redo: Unit = {
     undoManager.redoStep
-    notifyObservers
+    publish(new FieldChanged)
   }
 
   def playgroundToString: String = {

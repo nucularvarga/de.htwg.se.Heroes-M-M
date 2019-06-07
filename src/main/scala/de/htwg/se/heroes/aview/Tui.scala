@@ -4,9 +4,13 @@ import de.htwg.se.heroes.controller._
 import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.util.Observer
 
-class Tui(controller: Controller) extends Observer {
+import scala.swing.Reactor
 
-  controller.add(this)
+class Tui(controller: Controller) extends Reactor {
+
+  listenTo(controller)
+
+
 
   def processInputLine(input: String):Unit = {
 
@@ -22,15 +26,20 @@ class Tui(controller: Controller) extends Observer {
       case "i" => controller.init()
       case "r" => controller.undo
       case "z" => controller.redo
-      case "w" => controller.action(Event.MoveUp)
-      case "a" => controller.action(Event.MoveLeft)
-      case "s" => controller.action(Event.MoveDown)
-      case "d" => controller.action(Event.MoveRight)
+      case "w" => controller.action(UIEvent.MoveUp)
+      case "a" => controller.action(UIEvent.MoveLeft)
+      case "s" => controller.action(UIEvent.MoveDown)
+      case "d" => controller.action(UIEvent.MoveRight)
       case "t" => controller.showStats()
       case "b" => controller.openShop(inputsplit(1).toInt)
       case _   =>
     }
   }
 
-  override def update: Unit =  println(controller.playgroundToString + "TUI")
+  reactions += {
+    case event: FieldChanged => updated
+    case event: GameStart => updated
+  }
+
+  def updated =  println(controller.playgroundToString)
 }
