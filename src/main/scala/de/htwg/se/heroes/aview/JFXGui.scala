@@ -80,7 +80,9 @@ class JFXGui(controller: Controller) extends JFXApp with Reactor {
 
   def drawScene = {
     Platform.runLater {
-
+      val subScene = getSubScene
+      //val basicContent = createBasic3dContent  MODPROG github
+      val
       stage.scene = new Scene(1024, 590) {
         fill = Color.Brown
         private val textinfo = new Text {

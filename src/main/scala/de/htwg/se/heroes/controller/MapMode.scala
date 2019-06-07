@@ -39,7 +39,6 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
   def action(d : UIEvent): GameMode = {
     val (x, y) = calcDir(d)
     val cell = playField.cell(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y)
-    println(cell)
     cell match {
       case Leer() => move(d)
       case Stop() => MapMode(playField, playerBase)
@@ -50,7 +49,6 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
 
   def startBattle(enemys: EnemyCell): GameMode = {
     enemy = enemys
-    println("start battle")
     handle(StartCombat)//CombatMode(playerBase, enemy)
   }
 
