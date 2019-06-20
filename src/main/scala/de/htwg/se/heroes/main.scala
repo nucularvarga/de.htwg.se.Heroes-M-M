@@ -1,8 +1,8 @@
 package de.htwg.se.heroes
 
 import de.htwg.se.heroes.aview.{JFXGui, Tui}
-import de.htwg.se.heroes.model._
-import de.htwg.se.heroes.controller.{Controller, FieldChanged, GameStart}
+import de.htwg.se.heroes.controllerComponent.{Controller, FieldChanged, GameStart}
+import de.htwg.se.heroes.model.fieldComponent.{Arena, Field}
 import javafx.embed.swing.JFXPanel
 
 import scala.io.StdIn.readLine

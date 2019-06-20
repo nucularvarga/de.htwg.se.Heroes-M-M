@@ -2,8 +2,10 @@
 package controller
 
 
-import de.htwg.se.heroes.controller.{CombatMode, MapMode, UIEvent}
+import de.htwg.se.heroes.controllerComponent.{CombatMode, MapMode, UIEvent}
 import de.htwg.se.heroes.model._
+import de.htwg.se.heroes.model.fieldComponent.{Arena, EnemyCell, Field}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, Soldier}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -19,29 +21,29 @@ class CombatModeSpec extends WordSpec with Matchers {
       playerBase = playerBase.setUnits(5, 5)
 
       var enemy = EnemyCell(1)
-      val comb = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+      val comb = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
       comb.initArena()
       "setup the bloody arena" in {
-        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         combat.handle(UIEvent.StartCombat).toString should be(comb.initArena().toString)
       }
       "move gladiator" in {
-        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.move(UIEvent.MoveRight)
         moved.playArena.cell(2,1).toString should be("S")
       }
       "action left" in {
-        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.action(UIEvent.MoveUp)
         moved.asInstanceOf[CombatMode].playArena.cell(1,0).toString should be("S")
       }
       "action top" in {
-        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.move(UIEvent.MoveDown)
         moved.playArena.cell(1,2).toString should be("S")
       }
       "action blocked" in {
-        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, new MapMode(new Field(9), playerBase))
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         var moved = combat.initArena()
         moved = moved.action(UIEvent.MoveUp).asInstanceOf[CombatMode]
         moved.playArena.cell(1,1).toString should be("S")

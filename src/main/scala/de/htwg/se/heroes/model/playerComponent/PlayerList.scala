@@ -1,9 +1,7 @@
-package de.htwg.se.heroes.model
-
-import scala.collection.immutable.ListMap
+package de.htwg.se.heroes.model.playerComponent
 
 
-case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) {
+case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
 
   var attackUnit = 0
   var defendUnit = 0

@@ -1,6 +1,6 @@
-package de.htwg.se.heroes.model
+package de.htwg.se.heroes.model.playerComponent
 
-case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, Int], x: Int, y: Int) {
+case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, Int], x: Int, y: Int) extends PlayerInterface {
 
   override def toString: String = name + ": Gold: " + gold + " Strength: " + strength + " Units: " + units.toString()// TODO add units
 

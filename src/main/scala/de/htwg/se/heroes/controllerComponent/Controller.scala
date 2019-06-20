@@ -1,18 +1,20 @@
-package de.htwg.se.heroes.controller
+package de.htwg.se.heroes.controllerComponent
 
-import de.htwg.se.heroes.model._
+
 import de.htwg.se.heroes.util.UndoManager
+
 import scala.collection.immutable.ListMap
 import UIEvent._
-import scala.swing.{Publisher, Reactor}
+import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
+import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
+
+import scala.swing.Publisher
 import scala.swing.event.Event
 
-class FieldChanged extends Event
-class GameStart extends Event
 
 
-
-class Controller(var playField:Field, var playArena:Arena) extends Publisher {
+class Controller(var playField:FieldInterface, var playArena:ArenaInterface) extends ControllerInterface with Publisher {
 
   var playerBase = PlayerList(Vector.empty[Player], 0)
   val messanger = new Messanger
@@ -80,6 +82,14 @@ class Controller(var playField:Field, var playArena:Arena) extends Publisher {
 
   def playgroundToString: String = {
       mode.toString + messanger.getMsg
-
   }
+
+  def getMessage: String = {
+    messanger.getMsg
+  }
+
+  def getCell(x: Int, y: Int): Cell = {
+    mode.cell(x,y)
+  }
+
 }

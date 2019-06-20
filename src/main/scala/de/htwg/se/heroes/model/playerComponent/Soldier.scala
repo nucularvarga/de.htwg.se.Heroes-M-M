@@ -1,4 +1,7 @@
-package de.htwg.se.heroes.model
+package de.htwg.se.heroes.model.playerComponent
+
+import de.htwg.se.heroes.model.fieldComponent.Cell
+
 
 case class Soldier(x: Int, y: Int) extends Cell() {
   val name = "Sap"

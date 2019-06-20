@@ -3,10 +3,11 @@ package de.htwg.se.heroes.aview
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
-import de.htwg.se.heroes.controller.{Controller, FieldChanged, GameStart, UIEvent}
+import de.htwg.se.heroes.controllerComponent.{Controller, ControllerInterface, FieldChanged, GameStart, UIEvent}
+import de.htwg.se.heroes.model.fieldComponent.{Cell, EnemyCell, HeroCell, Leer, Stop}
+import de.htwg.se.heroes.model.playerComponent.Soldier
 import scalafx.geometry.Insets
 import scalafx.scene.control.{Button, Label, TextArea, TextField}
-import de.htwg.se.heroes.model._
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.beans.property.ReadOnlyDoubleProperty
 import scalafx.scene.image.{Image, ImageView}
@@ -17,7 +18,7 @@ import scalafx.scene.text.Text
 import scala.swing.Reactor
 
 
-class JFXGui(controller: Controller) extends JFXApp with Reactor {
+class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
   listenTo(controller)
 
@@ -75,14 +76,13 @@ class JFXGui(controller: Controller) extends JFXApp with Reactor {
   def setStatusText {
     val javaText = stage.scene().lookup("#statusText").asInstanceOf[javafx.scene.text.Text]
     val text = new Text(javaText)
-    text.text = controller.messanger.getMsg
+    text.text = controller.getMessage
   }
 
   def drawScene = {
     Platform.runLater {
-      val subScene = getSubScene
+      //val subScene = getSubScene
       //val basicContent = createBasic3dContent  MODPROG github
-      val
       stage.scene = new Scene(1024, 590) {
         fill = Color.Brown
         private val textinfo = new Text {
@@ -101,7 +101,7 @@ class JFXGui(controller: Controller) extends JFXApp with Reactor {
           for {
             y <- 0 until 9
             x <- 0 until 9
-          } add(drawTexture(controller.mode.cell(x, y)), x, y)
+          } add(drawTexture(controller.getCell(x,y)), x, y)
         }
 
 
@@ -114,7 +114,7 @@ class JFXGui(controller: Controller) extends JFXApp with Reactor {
             text = "Kaufen"
             onAction = handle {
               controller.openShop(buyfield.text().toInt)
-              textinfo.text = controller.messanger.getMsg
+              textinfo.text = controller.getMessage
             }
           }
 

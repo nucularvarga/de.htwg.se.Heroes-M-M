@@ -1,7 +1,6 @@
-package de.htwg.se.heroes.model
+package de.htwg.se.heroes.model.messageComponent
 
-
-class Messanger() {
+class Messanger() extends MessangerInterface {
 
   var msg = ""
   var msgContainer = Vector.empty[String]

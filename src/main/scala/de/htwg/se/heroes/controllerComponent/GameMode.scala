@@ -1,4 +1,4 @@
-package de.htwg.se.heroes.controller
+package de.htwg.se.heroes.controllerComponent
 
 object UIEvent extends Enumeration {
   type UIEvent = Value
@@ -11,7 +11,8 @@ object GameMode extends Enumeration {
 }
 
 import UIEvent._
-import de.htwg.se.heroes.model.{Cell, Matrix, PlayerList}
+import de.htwg.se.heroes.model.fieldComponent.Cell
+import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 
 trait GameMode{
 
@@ -30,9 +31,9 @@ trait GameMode{
 
   def cell(x: Int, y: Int): Cell
 
-  def updatePlayerBase(base: PlayerList): GameMode
+  def updatePlayerBase(base: PlayerListInterface): GameMode
 
-  def playlist: PlayerList
+  def playlist: PlayerListInterface
 
 
 }

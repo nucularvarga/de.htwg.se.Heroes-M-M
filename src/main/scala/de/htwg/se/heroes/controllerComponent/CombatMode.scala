@@ -1,9 +1,11 @@
-package de.htwg.se.heroes.controller
+package de.htwg.se.heroes.controllerComponent
 
-import de.htwg.se.heroes.controller.UIEvent.UIEvent
-import de.htwg.se.heroes.model._
+import de.htwg.se.heroes.controllerComponent.UIEvent.UIEvent
+import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell, Leer, Stop}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
 
-case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell, map: MapMode) extends  GameMode {
+
+case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface, enemy: EnemyCell, map: MapMode) extends GameMode {
 
   var unitVector: Vector[Soldier] = Vector.empty
   override def handle(e: UIEvent):GameMode = {
@@ -18,7 +20,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     }
   }
 
-  def updateArena(arena: Arena): CombatMode = copy(arena, playerBase, enemy)
+  def updateArena(arena: ArenaInterface): CombatMode = copy(arena, playerBase, enemy)
 
   def initArena(): CombatMode = {
     println("action init")
@@ -53,7 +55,7 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
     f
   }
 
-  override def updatePlayerBase(base: PlayerList): CombatMode = copy(playArena, base)
+  override def updatePlayerBase(base: PlayerListInterface): CombatMode = copy(playArena, base)
 
   def setSoldier(enemy: EnemyCell): CombatMode = {
     var f = this
@@ -69,7 +71,6 @@ case class CombatMode(playArena: Arena, playerBase: PlayerList, enemy: EnemyCell
 
   override def cell(x: Int, y: Int): Cell = playArena.cell(x,y)
 
-  override def  playlist: PlayerList = playerBase
-
+  override def  playlist: PlayerListInterface = playerBase
 
 }

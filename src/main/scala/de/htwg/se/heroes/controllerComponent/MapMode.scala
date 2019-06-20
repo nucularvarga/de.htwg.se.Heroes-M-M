@@ -1,9 +1,11 @@
-package de.htwg.se.heroes.controller
+package de.htwg.se.heroes.controllerComponent
 
-import de.htwg.se.heroes.controller.UIEvent.{UIEvent, MoveDown, MoveLeft, MoveRight, MoveUp, StartCombat}
-import de.htwg.se.heroes.model._
+import de.htwg.se.heroes.controllerComponent.UIEvent.{MoveDown, MoveLeft, MoveRight, MoveUp, StartCombat, UIEvent}
+import de.htwg.se.heroes.model.fieldComponent.{Arena, ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell, Leer, Stop}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
+import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
 
-case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
+case class MapMode(playField: FieldInterface, playerBase: PlayerListInterface) extends GameMode {
   var enemy: EnemyCell = EnemyCell(0)
   private var t: GameMode = this
   override def handle(e: UIEvent):GameMode = {
@@ -22,9 +24,9 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
     t
   }
 
-  def updateField(play: Field): MapMode = copy(play, playerBase)
+  def updateField(play: FieldInterface): MapMode = copy(play, playerBase)
 
-  override def updatePlayerBase(base: PlayerList): MapMode = copy(playField, base)
+  override def updatePlayerBase(base: PlayerListInterface): MapMode = copy(playField, base)
 
   def move(e: UIEvent): GameMode = {
     val (x, y) = calcDir(e)
@@ -56,7 +58,6 @@ case class MapMode(playField: Field, playerBase: PlayerList) extends GameMode {
 
   override def cell(x: Int, y: Int): Cell = playField.cell(x,y)
 
-  override def  playlist: PlayerList = playerBase
+  override def  playlist: PlayerListInterface = playerBase
 
 }
-

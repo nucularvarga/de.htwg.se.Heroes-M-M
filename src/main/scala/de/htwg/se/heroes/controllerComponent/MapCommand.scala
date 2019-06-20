@@ -1,7 +1,6 @@
-package de.htwg.se.heroes.controller
+package de.htwg.se.heroes.controllerComponent
 
-import de.htwg.se.heroes.controller.UIEvent.UIEvent
-import de.htwg.se.heroes.model.HeroCell
+import de.htwg.se.heroes.controllerComponent.UIEvent.UIEvent
 import de.htwg.se.heroes.util.Command
 
 class MapCommand(Map: MapMode, val e: UIEvent, controller: Controller) extends Command {

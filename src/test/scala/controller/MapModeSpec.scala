@@ -1,7 +1,9 @@
 package controller
 
-import de.htwg.se.heroes.controller.{CombatMode, UIEvent, MapMode}
+import de.htwg.se.heroes.controllerComponent.{CombatMode, MapMode, UIEvent}
 import de.htwg.se.heroes.model._
+import de.htwg.se.heroes.model.fieldComponent.{EnemyCell, Field}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, Soldier}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap

@@ -1,6 +1,6 @@
 package de.htwg.se.heroes.util
 
-import de.htwg.se.heroes.controller.GameMode
+import de.htwg.se.heroes.controllerComponent.GameMode
 
 trait Command {
 

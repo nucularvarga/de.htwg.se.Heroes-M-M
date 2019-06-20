@@ -1,7 +1,8 @@
 package util
 
-import de.htwg.se.heroes.controller.{Controller, UIEvent, MapCommand, MapMode}
-import de.htwg.se.heroes.model.{Arena, Field, Player, PlayerList}
+import de.htwg.se.heroes.controllerComponent.{Controller, MapCommand, MapMode, UIEvent}
+import de.htwg.se.heroes.model.fieldComponent.{Arena, Field}
+import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList}
 import de.htwg.se.heroes.util.UndoManager
 import org.scalatest.{Matchers, WordSpec}
 
