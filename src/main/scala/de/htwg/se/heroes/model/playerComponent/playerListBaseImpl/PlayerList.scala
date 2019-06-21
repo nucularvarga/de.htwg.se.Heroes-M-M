@@ -1,5 +1,7 @@
-package de.htwg.se.heroes.model.playerComponent
+package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
+import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
 
@@ -69,8 +71,8 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).powerUp(str)))
   }
 
-  def setUnits(number: Int, cost: Int): PlayerList = {
-    copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(Soldier(1,1), number, cost)))
+  def setUnits(typ: Soldier, number: Int, cost: Int): PlayerList = {
+    copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(typ, number, cost)))
   }
 
 }

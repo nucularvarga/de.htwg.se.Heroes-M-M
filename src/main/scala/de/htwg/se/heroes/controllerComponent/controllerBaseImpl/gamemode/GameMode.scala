@@ -1,8 +1,8 @@
-package de.htwg.se.heroes.controllerComponent
+package de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode
 
 object UIEvent extends Enumeration {
   type UIEvent = Value
-  val StartCombat, MoveUp, MoveDown, MoveRight, MoveLeft, WinEndCombat, LoseEndCombat = Value
+  val StartCombat, MoveUp, MoveDown, MoveRight, MoveLeft, WinEndCombat, LoseEndCombat, BuyMelee, BuyRange = Value
 }
 
 object GameMode extends Enumeration {
@@ -10,8 +10,8 @@ object GameMode extends Enumeration {
   val Map, Combat = Value
 }
 
-import UIEvent._
-import de.htwg.se.heroes.model.fieldComponent.Cell
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent._
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 
 trait GameMode{

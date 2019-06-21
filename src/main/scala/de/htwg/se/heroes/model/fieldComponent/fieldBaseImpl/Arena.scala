@@ -1,4 +1,6 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
+
+import de.htwg.se.heroes.model.fieldComponent.ArenaInterface
 
 case class Arena(cells: Matrix) extends ArenaInterface {
   def this(x: Int, y: Int) = this(new Matrix(x, y))

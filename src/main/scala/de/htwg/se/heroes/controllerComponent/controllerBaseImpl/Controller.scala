@@ -1,16 +1,18 @@
-package de.htwg.se.heroes.controllerComponent
+package de.htwg.se.heroes.controllerComponent.controllerBaseImpl
 
-
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode._
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.{BuyMelee, BuyRange, MoveDown, MoveLeft, MoveRight, MoveUp}
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged}
+import de.htwg.se.heroes.model.fieldComponent._
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, EnemyCell, Field, HeroCell}
+import de.htwg.se.heroes.model.messageComponent.messangerBaseImpl.Messanger
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 import de.htwg.se.heroes.util.UndoManager
 
 import scala.collection.immutable.ListMap
-import UIEvent._
-import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell}
-import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
-import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
-
 import scala.swing.Publisher
-import scala.swing.event.Event
 
 
 
@@ -62,12 +64,18 @@ class Controller(var playField:FieldInterface, var playArena:ArenaInterface) ext
     publish(new FieldChanged)
   }
 
-  def openShop(number: Int): Unit = {
-    if(mode.playlist.getPlayer.gold > number * Soldier(0,0).cost) {
-      mode = mode.updatePlayerBase(mode.playlist.setUnits(number, number * Soldier(0,0).cost))
-      messanger.setMsg("Erfolgreich gekauft")
-    } else messanger.setMsg("Nicht genug gold")
-    publish(new FieldChanged)
+  def openShop(e: UIEvent, number: Int): Unit = {
+    val typ = e match {
+      case BuyMelee => MeleeSoldier(0,0)
+      case BuyRange => RangeSoldier(0,0)
+      case _ => MeleeSoldier(0,0) //TODO Flaschentransport
+    }
+
+    if (mode.playlist.getPlayer.gold > number * typ.cost) {
+    mode = mode.updatePlayerBase (mode.playlist.setUnits(typ, number, number * typ.cost) )
+    messanger.setMsg ("Erfolgreich gekauft")
+    } else messanger.setMsg ("Nicht genug gold")
+    publish (new FieldChanged)
   }
 
   def undo: Unit = {

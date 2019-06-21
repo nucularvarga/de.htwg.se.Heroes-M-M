@@ -1,9 +1,9 @@
-package de.htwg.se.heroes.controllerComponent
+package de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode
 
-import de.htwg.se.heroes.controllerComponent.UIEvent.{MoveDown, MoveLeft, MoveRight, MoveUp, StartCombat, UIEvent}
-import de.htwg.se.heroes.model.fieldComponent.{Arena, ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell, Leer, Stop}
-import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
-import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.{StartCombat, UIEvent}
+import de.htwg.se.heroes.model.fieldComponent.FieldInterface
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 
 case class MapMode(playField: FieldInterface, playerBase: PlayerListInterface) extends GameMode {
   var enemy: EnemyCell = EnemyCell(0)

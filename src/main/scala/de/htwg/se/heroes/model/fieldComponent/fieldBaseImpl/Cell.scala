@@ -1,4 +1,4 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
 
 //TODO DECORATOR
 class Cell() {

@@ -1,7 +1,7 @@
-package de.htwg.se.heroes.controllerComponent
+package de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode
 
-
-import de.htwg.se.heroes.controllerComponent.UIEvent.UIEvent
+import UIEvent.UIEvent
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.heroes.util.Command
 
 class CombatCommand(Combat: GameMode, e: UIEvent, controller: Controller) extends Command {

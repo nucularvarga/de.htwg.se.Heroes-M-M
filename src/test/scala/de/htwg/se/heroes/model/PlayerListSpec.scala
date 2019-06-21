@@ -1,6 +1,8 @@
 package de.htwg.se.heroes.model
 
-import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, Soldier}
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -12,7 +14,7 @@ class PlayerListSpec extends WordSpec with Matchers {
       var emptyPlayerList = PlayerList(Vector.empty[Player],0)
       "have value '' and 0" in {
         emptyPlayerList = emptyPlayerList.addPlayer("janko", 0, 0, new ListMap[Soldier, Int], 1, 1)
-        emptyPlayerList.getPlayer should be(Player("janko", 0, 0, new ListMap[Soldier, Int], 1, 1))
+        emptyPlayerList.getPlayer should be(playerListBaseImpl.Player("janko", 0, 0, new ListMap[Soldier, Int], 1, 1))
       }
       "next player" in {
         emptyPlayerList.nextPlayer

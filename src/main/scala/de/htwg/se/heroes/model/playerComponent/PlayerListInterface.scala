@@ -1,5 +1,8 @@
 package de.htwg.se.heroes.model.playerComponent
 
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+
 trait PlayerListInterface {
   def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList
   def moveunit(x: Int, y: Int, sol: Soldier): PlayerList
@@ -11,7 +14,7 @@ trait PlayerListInterface {
   def updateAttackUnit: PlayerList
   def getDefendUnit: Soldier
   def updatePlayer(str: Int, x: Int, y: Int): PlayerList
-  def setUnits(number: Int, cost: Int): PlayerList
+  def setUnits(typ: Soldier, number: Int, cost: Int): PlayerList
 }
 
 trait PlayerInterface {

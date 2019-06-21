@@ -1,4 +1,6 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
+
+import de.htwg.se.heroes.model.fieldComponent.FieldInterface
 
 case class Field(cells: Matrix) extends FieldInterface {
  def this(size: Int) = this(new Matrix(size))

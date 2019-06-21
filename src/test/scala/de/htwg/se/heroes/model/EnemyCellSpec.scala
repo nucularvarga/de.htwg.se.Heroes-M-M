@@ -1,6 +1,6 @@
 package de.htwg.se.heroes.model
 
-import de.htwg.se.heroes.model.fieldComponent.EnemyCell
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.EnemyCell
 import org.scalatest.{Matchers, WordSpec}
 
 class EnemyCellSpec extends WordSpec with Matchers {

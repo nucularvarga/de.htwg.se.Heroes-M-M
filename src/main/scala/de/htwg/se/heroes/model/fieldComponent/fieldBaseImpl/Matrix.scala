@@ -1,4 +1,6 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
+
+import de.htwg.se.heroes.model.fieldComponent.MatrixInterface
 
 case class Matrix(rows: Vector[Vector[Cell]]) extends MatrixInterface {
   def this(size: Int) = this(Vector.tabulate(size, size) { (y, x) => Leer() })

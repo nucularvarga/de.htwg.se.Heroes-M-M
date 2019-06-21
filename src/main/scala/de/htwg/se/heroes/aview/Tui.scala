@@ -1,6 +1,8 @@
 package de.htwg.se.heroes.aview
 
 import de.htwg.se.heroes.controllerComponent._
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
 import de.htwg.se.heroes.model._
 import de.htwg.se.heroes.util.Observer
 
@@ -15,6 +17,12 @@ class Tui(controller: Controller) extends Reactor {
   def processInputLine(input: String):Unit = {
 
     val inputsplit = input.split(",")
+
+    val typ = inputsplit(2) match  {
+      case "m" => UIEvent.BuyMelee
+      case "r" => UIEvent.BuyRange
+      case _ => UIEvent.BuyMelee
+    }
 
    // val pattern = "([a-z]) ([0-9]+)".r
    // val pattern(cmd, number) = input
@@ -31,7 +39,7 @@ class Tui(controller: Controller) extends Reactor {
       case "s" => controller.action(UIEvent.MoveDown)
       case "d" => controller.action(UIEvent.MoveRight)
       case "t" => controller.showStats()
-      case "b" => controller.openShop(inputsplit(1).toInt)
+      case "b" => controller.openShop(typ, inputsplit(1).toInt)
       case _   =>
     }
   }

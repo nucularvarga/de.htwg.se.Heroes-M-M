@@ -1,6 +1,8 @@
 package de.htwg.se.heroes.model
 
-import de.htwg.se.heroes.model.playerComponent.{Player, Soldier}
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -19,17 +21,17 @@ class PlayerSpec extends WordSpec with Matchers {
       }
     }
     "set to a specific values" should {
-      var nonEmptyPlayer = Player("test", 100, 10, new ListMap[Soldier, Int], 1, 1)
+      var nonEmptyPlayer = playerListBaseImpl.Player("test", 100, 10, new ListMap[Soldier, Int], 1, 1)
       "return the values" in {
         nonEmptyPlayer.name should be("test")
         nonEmptyPlayer.gold should be(100)
         nonEmptyPlayer.strength should be(10)
       }
       "player walks right" in {
-        nonEmptyPlayer.walk(1, 0) should be(Player("test", 100, 10, new ListMap[Soldier, Int], 2, 1))
+        nonEmptyPlayer.walk(1, 0) should be(playerListBaseImpl.Player("test", 100, 10, new ListMap[Soldier, Int], 2, 1))
       }
       "player grows stronger" in {
-        nonEmptyPlayer.powerUp(200) should be(Player("test", 100, 210, new ListMap[Soldier, Int], 1, 1))
+        nonEmptyPlayer.powerUp(200) should be(playerListBaseImpl.Player("test", 100, 210, new ListMap[Soldier, Int], 1, 1))
       }
       "player adds units" in {
         val list = new ListMap[Soldier, Int]()
