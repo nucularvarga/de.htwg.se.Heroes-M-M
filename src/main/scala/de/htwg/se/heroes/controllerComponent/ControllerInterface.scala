@@ -13,6 +13,8 @@ trait ControllerInterface extends Publisher{
   def handle(e: UIEvent): Unit
   def showStats(): Unit
   def openShop(number: Int): Unit
+  def save: Unit
+  def load: Unit
   def undo: Unit
   def redo: Unit
   def playgroundToString: String

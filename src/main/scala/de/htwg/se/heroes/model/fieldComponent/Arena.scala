@@ -10,6 +10,8 @@ case class Arena @Inject()(cells: Matrix) extends ArenaInterface {
   val length: Int = cells.length
   val height: Int = cells.height
 
+  override def size: (Int, Int) = (length, height)
+
   def cell(x: Int, y: Int): Cell = cells.cell(x, y)
 
   def set(x: Int, y: Int, cell: Cell): Arena = copy(cells.replaceCell(x, y, cell))

@@ -16,7 +16,12 @@ trait MatrixInterface {
 
 trait ArenaInterface {
   def cell(x: Int, y: Int): Cell
+  def size: (Int, Int)
   def set(x: Int, y: Int, cell: Cell): ArenaInterface
   def initArena: ArenaInterface
   //def Arena(x: Int, y: Int): ArenaInterface
+}
+
+trait CellInterface {
+  def value: String
 }

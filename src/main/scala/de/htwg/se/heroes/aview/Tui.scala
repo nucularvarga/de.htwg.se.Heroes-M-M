@@ -24,6 +24,8 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "i" => controller.init()
       case "r" => controller.undo
       case "z" => controller.redo
+      case "k" => controller.save
+      case "l" => controller.load
       case "w" => controller.action(UIEvent.MoveUp)
       case "a" => controller.action(UIEvent.MoveLeft)
       case "s" => controller.action(UIEvent.MoveDown)

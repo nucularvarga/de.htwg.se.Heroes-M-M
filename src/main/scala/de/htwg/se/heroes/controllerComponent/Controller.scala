@@ -10,6 +10,7 @@ import com.google.inject.{Guice, Inject}
 import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.heroes.HeroesModule
 import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell}
+import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
 import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
 
@@ -21,6 +22,7 @@ import scala.swing.event.Event
 class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInterface) extends ControllerInterface with Publisher {
 
   val injector = Guice.createInjector(new HeroesModule)
+  val fileIo = injector.instance[FileIOInterface]
   var playerBase = injector.instance[PlayerListInterface]//PlayerList(Vector.empty[Player], 0)
   val messanger = new Messanger
   var mode: GameMode = MapMode(playField, playerBase)
@@ -30,6 +32,20 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def createNewField(size: Int): Unit = {
     playField = injector.instance[FieldInterface]
+    publish(new FieldChanged)
+  }
+
+  def load(): Unit = {
+    playField = fileIo.load_Field
+    playArena = fileIo.load_Arena
+    playerBase = fileIo.load_PlayerList
+    publish(new FieldChanged)
+  }
+
+  def save(): Unit = {
+    fileIo.save_Arena(playArena)
+    //fileIo.save_Field(playField)
+    //fileIo.save_PlayerList(playerBase)
     publish(new FieldChanged)
   }
 
