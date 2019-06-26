@@ -1,6 +1,9 @@
 package de.htwg.se.heroes.model.fieldComponent
 
-case class Field(cells: Matrix) extends FieldInterface {
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions._
+
+case class Field @Inject()(cells: Matrix) extends FieldInterface {
  def this(size: Int) = this(new Matrix(size))
 
 

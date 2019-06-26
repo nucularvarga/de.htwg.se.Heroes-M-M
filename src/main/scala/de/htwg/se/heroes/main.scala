@@ -1,14 +1,16 @@
 package de.htwg.se.heroes
 
+import com.google.inject.Guice
 import de.htwg.se.heroes.aview.{JFXGui, Tui}
-import de.htwg.se.heroes.controllerComponent.{Controller, FieldChanged, GameStart}
-import de.htwg.se.heroes.model.fieldComponent.{Arena, Field}
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart}
 import javafx.embed.swing.JFXPanel
 
 import scala.io.StdIn.readLine
 
 object main {
-  val controller = new Controller(new Field(9), new Arena(8, 20))
+  val injector = Guice.createInjector(new HeroesModule)
+  val controller = injector.getInstance(classOf[ControllerInterface])
+  //val controller = new Controller(new Field(9), new Arena(8, 20))
   val tui = new Tui(controller)
   val gui = new JFXGui(controller)
   controller.publish(new GameStart)

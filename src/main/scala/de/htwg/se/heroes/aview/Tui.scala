@@ -1,12 +1,10 @@
 package de.htwg.se.heroes.aview
 
 import de.htwg.se.heroes.controllerComponent._
-import de.htwg.se.heroes.model._
-import de.htwg.se.heroes.util.Observer
 
 import scala.swing.Reactor
 
-class Tui(controller: Controller) extends Reactor {
+class Tui(controller: ControllerInterface) extends Reactor {
 
   listenTo(controller)
 

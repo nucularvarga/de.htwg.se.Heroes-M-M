@@ -5,6 +5,10 @@ import de.htwg.se.heroes.util.UndoManager
 
 import scala.collection.immutable.ListMap
 import UIEvent._
+import com.google.inject.name.Names
+import com.google.inject.{Guice, Inject}
+import net.codingwell.scalaguice.InjectorExtensions._
+import de.htwg.se.heroes.HeroesModule
 import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell}
 import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
 import de.htwg.se.heroes.model.messageComponent.{Messanger, MessangerInterface}
@@ -14,16 +18,18 @@ import scala.swing.event.Event
 
 
 
-class Controller(var playField:FieldInterface, var playArena:ArenaInterface) extends ControllerInterface with Publisher {
+class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInterface) extends ControllerInterface with Publisher {
 
-  var playerBase = PlayerList(Vector.empty[Player], 0)
+  val injector = Guice.createInjector(new HeroesModule)
+  var playerBase = injector.instance[PlayerListInterface]//PlayerList(Vector.empty[Player], 0)
   val messanger = new Messanger
   var mode: GameMode = MapMode(playField, playerBase)
   var saveMap = mode
   val undoManager = new UndoManager
 
+
   def createNewField(size: Int): Unit = {
-    playField = new Field(size)
+    playField = injector.instance[FieldInterface]
     publish(new FieldChanged)
   }
 

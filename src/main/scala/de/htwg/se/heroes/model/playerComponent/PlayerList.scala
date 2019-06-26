@@ -1,7 +1,9 @@
 package de.htwg.se.heroes.model.playerComponent
 
+import javax.inject.Inject
 
-case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
+
+case class PlayerList @Inject()(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
 
   var attackUnit = 0
   var defendUnit = 0
