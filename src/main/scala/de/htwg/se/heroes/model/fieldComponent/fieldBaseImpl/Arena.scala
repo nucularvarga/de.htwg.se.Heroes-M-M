@@ -1,7 +1,7 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
 
-import com.google.inject.{Guice, Inject}
-import net.codingwell.scalaguice.InjectorExtensions._
+import com.google.inject.Inject
+import de.htwg.se.heroes.model.fieldComponent.ArenaInterface
 
 case class Arena @Inject()(cells: Matrix) extends ArenaInterface {
   def this (x: Int, y: Int) = this(new Matrix(x, y))

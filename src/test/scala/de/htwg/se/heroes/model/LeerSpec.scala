@@ -1,6 +1,6 @@
 package de.htwg.se.heroes.model
 
-import de.htwg.se.heroes.model.fieldComponent.Leer
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Leer
 import org.scalatest.{Matchers, WordSpec}
 
 class LeerSpec extends WordSpec with Matchers {

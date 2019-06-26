@@ -1,4 +1,7 @@
-package de.htwg.se.heroes.model.playerComponent
+package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
+
+import de.htwg.se.heroes.model.playerComponent.PlayerInterface
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, Int], x: Int, y: Int) extends PlayerInterface {
 

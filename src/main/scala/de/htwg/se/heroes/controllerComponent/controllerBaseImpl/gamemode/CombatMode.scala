@@ -1,9 +1,10 @@
-package de.htwg.se.heroes.controllerComponent
+package de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode
 
-import de.htwg.se.heroes.controllerComponent.UIEvent.UIEvent
-import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, Cell, EnemyCell, Field, FieldInterface, HeroCell, Leer, Stop}
-import de.htwg.se.heroes.model.playerComponent.{Player, PlayerList, PlayerListInterface, Soldier}
-
+import UIEvent.UIEvent
+import de.htwg.se.heroes.model.fieldComponent._
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, EnemyCell, Leer, Stop}
+import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface, enemy: EnemyCell, map: MapMode) extends GameMode {
 

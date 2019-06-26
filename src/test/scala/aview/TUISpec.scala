@@ -1,9 +1,10 @@
 package aview
 
 import de.htwg.se.heroes.aview._
-import de.htwg.se.heroes.controllerComponent.{Controller, MapMode}
-import de.htwg.se.heroes.model.fieldComponent.{Arena, EnemyCell, Field, HeroCell}
-import de.htwg.se.heroes.model.playerComponent.Soldier
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.MapMode
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, EnemyCell, Field, HeroCell}
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap

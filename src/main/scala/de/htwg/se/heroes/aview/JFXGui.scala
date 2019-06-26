@@ -1,11 +1,13 @@
 package de.htwg.se.heroes.aview
 
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
-import de.htwg.se.heroes.controllerComponent.{Controller, ControllerInterface, FieldChanged, GameStart, UIEvent}
-import de.htwg.se.heroes.model.fieldComponent.{Cell, EnemyCell, HeroCell, Leer, Stop}
-import de.htwg.se.heroes.model.playerComponent.Soldier
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart}
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import scalafx.geometry.Insets
 import scalafx.scene.control.{Button, Label, TextArea, TextField}
 import scalafx.application.JFXApp.PrimaryStage
@@ -29,26 +31,20 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
   onGameStart
 
-    stage = new PrimaryStage {
-      outer =>
-      title = "Heroes of Might and Magic"
-      scene = new Scene(1024, 590) {
-        root = new BorderPane {
-          fill = Color.Brown
-          var tmpw = this.width
-          var tmph = this.height
-          private val Down = new Button {
-            text = "Down"
-            onAction = handle {
-              controller.init()
-            }
-          }
-          add( 1, 0)
-          center = createView(tmpw, tmph)
-        }
-        //fullScreen_=(true)
+  stage = new PrimaryStage {
+    outer =>
+    title = "Heroes of Might and Magic"
+    scene = new Scene(1024, 590) {
+      root = new BorderPane {
+        fill = Color.Brown
+        var tmpw = this.width
+        var tmph = this.height
+        add( 1, 0)
+        center = createView(tmpw, tmph)
       }
+      //fullScreen_=(true)
     }
+  }
 
   def getSubScene = {
     val javaSubScene = stage.scene().lookup("#sub").asInstanceOf[javafx.scene.SubScene]
@@ -60,16 +56,21 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     new BorderPane {
       center = new SubScene(boundWidth.get(), boundHeight.get(), true, SceneAntialiasing.Balanced) {
         id = "sub"
-        fill = Color.Black
+        fill = Color.Green
         this.width.bind(boundWidth.add(0))
         this.height.bind(boundHeight.add(-20))
+        content = new Button {
+          text = "Down"
+          onAction = handle {
+            controller.init()
+          }
+        }
       }
     }
   }
 
 
   def onGameStart = {
-
   }
 
 
@@ -110,10 +111,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
             text = "0"
           }
 
+          private val buytyp = new TextField {
+            text = "0"
+          }
+
           private val buybutton = new Button {
             text = "Kaufen"
             onAction = handle {
-              controller.openShop(buyfield.text().toInt)
+              controller.openShop(getTyp(buytyp.text()), buyfield.text().toInt)
               textinfo.text = controller.getMessage
             }
           }
@@ -183,6 +188,13 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     }
   }
 
+  def getTyp(input: String): UIEvent = {
+    input match  {
+      case "m" => UIEvent.BuyMelee
+      case "r" => UIEvent.BuyRange
+      case _ => UIEvent.BuyMelee
+    }
+  }
 
   def drawTexture(cell: Cell): Node = {
     val typ = cell match {

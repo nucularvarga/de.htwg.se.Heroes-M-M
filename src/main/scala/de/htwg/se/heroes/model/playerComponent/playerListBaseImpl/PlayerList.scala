@@ -1,9 +1,9 @@
-package de.htwg.se.heroes.model.playerComponent
+package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
-import javax.inject.Inject
+import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
-
-case class PlayerList @Inject()(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
+case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
 
   var attackUnit = 0
   var defendUnit = 0
@@ -71,8 +71,8 @@ case class PlayerList @Inject()(playerBase: Vector[Player], var PlayerTurn: Int)
     f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).powerUp(str)))
   }
 
-  def setUnits(number: Int, cost: Int): PlayerList = {
-    copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(Soldier(1,1), number, cost)))
+  def setUnits(typ: Soldier, number: Int, cost: Int): PlayerList = {
+    copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(typ, number, cost)))
   }
 
 }

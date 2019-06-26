@@ -1,4 +1,6 @@
-package de.htwg.se.heroes.model.messageComponent
+package de.htwg.se.heroes.model.messageComponent.messangerBaseImpl
+
+import de.htwg.se.heroes.model.messageComponent.MessangerInterface
 
 class Messanger() extends MessangerInterface {
 

@@ -1,6 +1,6 @@
-package de.htwg.se.heroes.model.fieldComponent
+package de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl
 
-import javax.inject.Inject
+import de.htwg.se.heroes.model.fieldComponent.CellInterface
 
 //TODO DECORATOR
 class Cell() extends CellInterface  {

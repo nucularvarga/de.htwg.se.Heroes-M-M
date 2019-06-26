@@ -1,6 +1,8 @@
 package de.htwg.se.heroes.model
 
-import de.htwg.se.heroes.model.playerComponent.{Player, Soldier}
+
+import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap

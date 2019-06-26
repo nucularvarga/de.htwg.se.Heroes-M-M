@@ -1,7 +1,7 @@
 package de.htwg.se.heroes.controllerComponent
 
-import de.htwg.se.heroes.controllerComponent.UIEvent.UIEvent
-import de.htwg.se.heroes.model.fieldComponent.Cell
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
 
 import scala.swing.Publisher
 
@@ -12,7 +12,7 @@ trait ControllerInterface extends Publisher{
   def action(d : UIEvent): Unit
   def handle(e: UIEvent): Unit
   def showStats(): Unit
-  def openShop(number: Int): Unit
+  def openShop(e: UIEvent, number: Int): Unit
   def save: Unit
   def load: Unit
   def undo: Unit
