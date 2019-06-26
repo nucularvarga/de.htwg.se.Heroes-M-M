@@ -18,7 +18,7 @@ class CombatModeSpec extends WordSpec with Matchers {
       playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  1, 1)
       playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 1, 1)
 
-      playerBase = playerBase.setUnits(new MeleeSoldier(4,4),5, 5)
+      playerBase = playerBase.setUnits(new MeleeSoldier(4,4),1, 5)
 
       var enemy = EnemyCell(1)
       val comb = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
@@ -30,23 +30,23 @@ class CombatModeSpec extends WordSpec with Matchers {
       "move gladiator" in {
         val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.move(UIEvent.MoveRight)
-        moved.playArena.cell(2,1).toString should be("S")
+        moved.playArena.cell(2,1).toString should be("M")
       }
-      "action left" in {
+      "action up" in {
         val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.action(UIEvent.MoveUp)
-        moved.asInstanceOf[CombatMode].playArena.cell(1,0).toString should be("S")
+        moved.asInstanceOf[CombatMode].playArena.cell(1,0).toString should be("M")
       }
-      "action top" in {
+      "action down" in {
         val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         val moved = combat.move(UIEvent.MoveDown)
-        moved.playArena.cell(1,2).toString should be("S")
+        moved.playArena.cell(1,2).toString should be("M")
       }
       "action blocked" in {
         val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
         var moved = combat.initArena()
         moved = moved.action(UIEvent.MoveUp).asInstanceOf[CombatMode]
-        moved.playArena.cell(1,1).toString should be("S")
+        moved.playArena.cell(1,1).toString should be("M")
       }
     }
 

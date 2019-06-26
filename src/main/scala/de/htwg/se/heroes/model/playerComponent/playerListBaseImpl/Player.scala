@@ -21,8 +21,7 @@ case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, In
   def moveUnit(xs: Int, ys: Int, remove: Soldier): Player = {
     var f =  removeUnit(remove)
     println(f)
-    f = f.copy(name, gold, strength, f.units + (Soldier(xs, ys) -> 5), x, y)
-    println(f)
+    f = f.copy(name, gold, strength, f.units + (remove -> 5), x, y)
     f
   }
 

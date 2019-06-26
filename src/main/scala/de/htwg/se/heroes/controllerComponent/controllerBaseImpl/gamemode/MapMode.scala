@@ -34,7 +34,6 @@ case class MapMode(playField: FieldInterface, playerBase: PlayerListInterface) e
     f = f.updateField(f.playField.set(f.playerBase.getPlayer.x, f.playerBase.getPlayer.y, Leer()))
     f = f.updateField(f.playField.set(f.playerBase.getPlayer.x + x, f.playerBase.getPlayer.y + y, HeroCell(f.playerBase.getPlayer.name)))
     f = f.updatePlayerBase(f.playerBase.updatePlayer(0, x, y))
-    println(f.playerBase.getPlayer.x + " " + f.playerBase.getPlayer.y)
     f.updatePlayerBase(f.playerBase.nextPlayer) // TODO next? iterator?
   }
 

@@ -32,10 +32,12 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
   def action(d: UIEvent) : GameMode = {
     val (x, y) = calcDir(d)
     val cell = playArena.cell(playerBase.getAttackUnit.x + x,  playerBase.getAttackUnit.y + y)   //playArena.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
+    println(playerBase.getAttackUnit.x + "|" + playerBase.getAttackUnit.y)
     cell match {
       case Leer() => move(d)
       case Stop() => CombatMode(playArena, playerBase, enemy, map)
       case f: EnemyCell => fight(f,d)
+      case _ => this
     }
   }
 
@@ -62,7 +64,7 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
     var f = this
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {
-      f = f.updateArena(f.playArena.set(unitVector(list).x, list + unitVector(list).y, unitVector(list)))
+      f = f.updateArena(f.playArena.set(unitVector(list).x , list + unitVector(list).y, unitVector(list)))
       f = f.updateArena(f.playArena.set(7, 1 + list, enemy))
     }
     //CombatMode(playArena, playerBase, enemy)

@@ -88,9 +88,9 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def openShop(e: UIEvent, number: Int): Unit = {
     val typ = e match {
-      case BuyMelee => new MeleeSoldier(0,0)
-      case BuyRange => new RangeSoldier(0,0)
-      case _ => new MeleeSoldier(0,0) //TODO Flaschentransport
+      case BuyMelee => new MeleeSoldier(1,1)
+      case BuyRange => new RangeSoldier(1,1)
+      case _ => new MeleeSoldier(1,1) //TODO Flaschentransport
     }
 
     if (mode.playlist.getPlayer.gold > number * typ.cost) {

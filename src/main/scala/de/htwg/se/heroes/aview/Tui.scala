@@ -14,11 +14,13 @@ class Tui(controller: ControllerInterface) extends Reactor {
   def processInputLine(input: String):Unit = {
 
     val inputsplit = input.split(",")
-
-    val typ = inputsplit(2) match  {
-      case "m" => UIEvent.BuyMelee
-      case "r" => UIEvent.BuyRange
-      case _ => UIEvent.BuyMelee
+    var typ = UIEvent.BuyMelee
+    if(inputsplit.length >= 2) {
+      typ = inputsplit(2) match {
+        case "m" => UIEvent.BuyMelee
+        case "r" => UIEvent.BuyRange
+        case _ => UIEvent.BuyMelee
+    }
     }
 
    // val pattern = "([a-z]) ([0-9]+)".r
