@@ -8,6 +8,11 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
   var attackUnit = 0
   var defendUnit = 0
 
+
+  override def getSize: Int = playerBase.size
+
+  override def getTurn: Int = PlayerTurn
+
   def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList = {
     copy(playerBase :+ Player(n, gold, str, units, x, y))
   }
@@ -25,6 +30,14 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
       PlayerTurn = 0
     }
     playerBase(PlayerTurn)
+  }
+
+  def getPlayer(number: Int): Player = {
+    if(number >= playerBase.length) {
+      playerBase(0)
+    } else
+    playerBase(number)
+
   }
 
   def nextAttackUnit: Unit = {

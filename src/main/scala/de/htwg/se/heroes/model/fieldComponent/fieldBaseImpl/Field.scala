@@ -7,28 +7,30 @@ case class Field @Inject()(cells: Matrix) extends FieldInterface {
  def this(size: Int) = this(new Matrix(size))
 
 
- val size: Int = cells.length
+ val sizev = cells.length
 
  def cell(x: Int, y: Int): Cell = cells.cell(x, y)
 
  def set(x: Int, y: Int, cell: Cell): Field = copy(cells.replaceCell(x, y, cell))
 
+  override def size(): Int =  sizev
+
  override def toString: String = {
-   var box = (("G" * size) + "\n") * size
+   var box = (("G" * sizev) + "\n") * sizev
    for {
-     y <- 0 until size
-     x <- 0 until size
+     y <- 0 until sizev
+     x <- 0 until sizev
    } box = box.replaceFirst("G", cell(x, y).toString)
    box
  }
 
  def initField: Field = {
    var f = this
-   for(i <- 0 until size) {
+   for(i <- 0 until sizev) {
      f = f.set(0, i, Stop())
-     f = f.set(size - 1, i, Stop())
+     f = f.set(sizev - 1, i, Stop())
      f = f.set(i, 0, Stop())
-     f = f.set(i, size - 1, Stop())
+     f = f.set(i, sizev - 1, Stop())
    }
    f
  }

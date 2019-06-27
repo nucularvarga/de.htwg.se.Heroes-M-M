@@ -5,6 +5,7 @@ import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
 
 trait FieldInterface {
   def cell(x: Int, y: Int): Cell
+  def size: Int
   def set(x: Int, y: Int, cell: Cell): FieldInterface
   def initField: FieldInterface
 }

@@ -10,11 +10,14 @@ trait PlayerListInterface {
   def moveunit(x: Int, y: Int, sol: Soldier): PlayerListInterface
   def nextPlayer: PlayerListInterface
   def getPlayer: Player
+  def getPlayer(number: Int): Player
   def nextAttackUnit: Unit
   def getAttackUnit: Soldier
   def nextDefendUnit: Unit
   def updateAttackUnit: PlayerListInterface
   def getDefendUnit: Soldier
+  def getTurn: Int
+  def getSize: Int
   def updatePlayer(str: Int, x: Int, y: Int): PlayerListInterface
   def setUnits(typ: Soldier, number: Int, cost: Int): PlayerListInterface
 }

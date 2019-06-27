@@ -5,4 +5,6 @@ class RangeSoldier(x: Int, y: Int) extends Soldier(x,y) {
   override val cost = 40
   override val str = 10
   val range = 1
+
+  def getRange: Int = range
 }

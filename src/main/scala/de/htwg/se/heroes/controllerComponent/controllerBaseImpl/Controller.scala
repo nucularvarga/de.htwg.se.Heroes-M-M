@@ -32,22 +32,23 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   val undoManager = new UndoManager
 
 
+
   def createNewField(size: Int): Unit = {
     playField = injector.instance[FieldInterface]
     publish(new FieldChanged)
   }
 
-  def load(): Unit = {
+  def load(): Unit = { //TODO: GAMESTATUS ARENA/FIELD DAMIT WIR WISSEN WAS WIR LADEN MUESSEN!!!!!!!!!111!11!!1?
     playField = fileIo.load_Field
     playArena = fileIo.load_Arena
-    playerBase = fileIo.load_PlayerList
+    mode = mode.updatePlayerBase(fileIo.load_PlayerList)
     publish(new FieldChanged)
   }
 
   def save(): Unit = {
     fileIo.save_Arena(playArena)
-    //fileIo.save_Field(playField)
-    //fileIo.save_PlayerList(playerBase)
+    fileIo.save_Field(playField)
+    fileIo.save_PlayerList(mode.playlist)
     publish(new FieldChanged)
   }
 
