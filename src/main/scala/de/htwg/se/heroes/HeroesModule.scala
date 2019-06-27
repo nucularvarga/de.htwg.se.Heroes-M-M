@@ -21,6 +21,6 @@ class HeroesModule extends AbstractModule with ScalaModule {
     bind[FieldInterface].annotatedWithName("field").toInstance(Field(Matrix(Vector.tabulate(9, 9) { (y, x) => Leer() })))
     bind[ArenaInterface].annotatedWithName("arena").toInstance(Arena(fieldBaseImpl.Matrix(Vector.tabulate(9, 9) { (y, x) => Leer() })))
 
-    bind[FileIOInterface].to[fileIoJsonImpl.FileIO]
+    bind[FileIOInterface].to[fileIoXmlImpl.FileIO]
   }
 }
