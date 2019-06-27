@@ -1,11 +1,12 @@
 package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
 import de.htwg.se.heroes.model.playerComponent.PlayerInterface
+import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, Int], x: Int, y: Int) extends PlayerInterface {
 
-  override def toString: String = name + ": Gold: " + gold + " Strength: " + strength + " Units: " + units.toString()// TODO add units
+  override def toString: String = name + ": Gold: " + gold + " Strength: " + strength + " Units: " + units.toString()
 
   def walk(nx: Int, ny: Int): Player = copy(name, gold, strength, units, x + nx, y + ny)
 

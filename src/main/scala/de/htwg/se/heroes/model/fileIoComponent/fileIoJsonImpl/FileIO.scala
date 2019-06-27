@@ -1,7 +1,11 @@
 package de.htwg.se.heroes.model.fileIoComponent.fileIoJsonImpl
 
+import java.security.cert.CertStoreParameters
+
 import com.google.inject.Guice
 import com.google.inject.name.Names
+import de.htwg.se.heroes.HeroesModule
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, EnemyCell, HeroCell, Leer, Stop}
 import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, CellInterface, FieldInterface}
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
@@ -11,13 +15,39 @@ import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import play.api.libs.json._
 
+import scala.io.Source
 import scala.xml.{NodeSeq, PrettyPrinter}
 
 class FileIO extends FileIOInterface{
 
   override def load_Arena: ArenaInterface = ???
 
-  override def load_Field: FieldInterface = ???
+  override def load_Field: FieldInterface = {
+    var field: FieldInterface = null
+    val sourceFile = Source.fromFile("field.json")
+    val source: String = sourceFile.getLines.mkString
+    sourceFile.close()
+    val json: JsValue = Json.parse(source)
+    val size = (json \ "field" \ "x").get.toString.toInt
+    val injector = Guice.createInjector(new HeroesModule)
+    field = injector.instance[FieldInterface]
+
+    for (index <- 0 until size * size) {
+      val row = (json \\ "row")(index).as[Int]
+      val col = (json \\ "col")(index).as[Int]
+      val cell = (json \\ "cell")(index)
+      val value = (cell \ "value").as[String]
+      println(value)
+      val typ = value match  {
+        case " " => Leer()
+        case "X" => Stop()
+        case "F" => EnemyCell(5)
+        case _ => HeroCell(value)
+      }
+      field = field.set(col, row, typ)
+    }
+    field
+  }
 
   override def load_PlayerList: PlayerListInterface = ???
 
@@ -72,9 +102,8 @@ class FileIO extends FileIOInterface{
 
   def fieldToJson(field: FieldInterface) = {
     Json.obj(
-      "arena" -> Json.obj(
+      "field" -> Json.obj(
         "x" -> JsNumber(field.size),
-        "y" -> JsNumber(field.size),
         "cells" -> Json.toJson(
           for {
             row <- 0 until field.size
@@ -83,7 +112,7 @@ class FileIO extends FileIOInterface{
             Json.obj(
               "row" -> row,
               "col" -> col,
-              "cell" -> Json.toJson(field.cell(row,col))
+              "cell" -> Json.toJson(field.cell(col,row))
             )
           }
         )
@@ -101,12 +130,12 @@ class FileIO extends FileIOInterface{
     )
   }
 
-  implicit val UnitWrites = new Writes[SoldierInterface] {
-    def writes(soldier: SoldierInterface) = Json.obj(
+  implicit val UnitWrites = new Writes[Soldier] {
+    def writes(soldier: Soldier) = Json.obj(
       "typ" -> soldier.getTyp,
       "cost" -> soldier.getCost,
       "str" -> soldier.getStrength,
-      "range" -> soldier.getRange,
+      //"range" -> soldier.getRange,
     )
   }
 
@@ -133,8 +162,8 @@ class FileIO extends FileIOInterface{
                 unit <- unitVector.indices
               } yield {
                 Json.obj(
-                  "unit" -> Json.toJson(unitVector(unit)),
-                  "amount" -> JsNumber(amountVector(unit))
+                  "unit" -> Json.toJson(UnitWrites.writes(unitVector(unit))),
+                  "amount" -> JsNumber(amountVector(unit)),
                 )
               }
             )
