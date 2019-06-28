@@ -66,7 +66,7 @@ class FileIO extends FileIOInterface{
       val x = (json \\ "x")(index).as[Int]
       val y = (json \\ "x")(index).as[Int]
 
-      playlist = playlist.addPlayer(name, gold, strength, new ListMap[Soldier, Int],x,y)
+      playlist = playlist.addPlayer(name, gold, strength, new ListMap[SoldierInterface, Int],x,y)
     }
     playlist
   }
@@ -150,8 +150,8 @@ class FileIO extends FileIOInterface{
     )
   }
 
-  implicit val UnitWrites = new Writes[Soldier] {
-    def writes(soldier: Soldier) = Json.obj(
+  implicit val UnitWrites = new Writes[SoldierInterface] {
+    def writes(soldier: SoldierInterface) = Json.obj(
       "typ" -> soldier.getTyp,
       "cost" -> soldier.getCost,
       "str" -> soldier.getStrength,
@@ -162,7 +162,7 @@ class FileIO extends FileIOInterface{
 
   //name: String, gold: Int, strength: Int, units: Map[Soldier, Int], x: Int, y: Int
   def playlistToJson(playlist: PlayerListInterface) = {
-    var unitVector: Vector[Soldier] = Vector.empty
+    var unitVector: Vector[SoldierInterface] = Vector.empty
     var amountVector: Vector[Int] = Vector.empty
     Json.obj(
       "playerlist" -> Json.obj(

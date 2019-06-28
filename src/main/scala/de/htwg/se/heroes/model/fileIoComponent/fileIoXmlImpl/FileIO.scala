@@ -8,8 +8,8 @@ import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, FieldInterface}
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
+import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
-
 
 import scala.collection.immutable.ListMap
 import scala.io.Source
@@ -60,7 +60,7 @@ class FileIO extends FileIOInterface{
       val x: Int = (player \ "@x").text.toInt
       val y: Int = (player \ "@y").text.toInt
 
-      playlist = playlist.addPlayer(name, gold, strength, new ListMap[Soldier, Int],x,y)
+      playlist = playlist.addPlayer(name, gold, strength, new ListMap[SoldierInterface, Int],x,y)
     }
     playlist
   }
@@ -96,7 +96,7 @@ class FileIO extends FileIOInterface{
   def playerListToXml(playlist: PlayerListInterface) = {
     <playerList turn={ playlist.getTurn.toString } amount ={ playlist.getSize.toString} >
       {
-      var unitVector: Vector[Soldier] = Vector.empty
+      var unitVector: Vector[SoldierInterface] = Vector.empty
       var amountVector: Vector[Int] = Vector.empty
       <playerinfo>
         {
@@ -121,7 +121,7 @@ class FileIO extends FileIOInterface{
           for {
             unit <- unitVector.indices
           } yield {
-            <unit unit={unitVector(unit).toString} amount={amountVector(unit).toString} cost={unitVector(unit).cost.toString} strength={unitVector(unit).str.toString}></unit>
+            <unit unit={unitVector(unit).toString} amount={amountVector(unit).toString} cost={unitVector(unit).getCost.toString} strength={unitVector(unit).getStrength.toString}></unit>
           }
         }}
         </Units>

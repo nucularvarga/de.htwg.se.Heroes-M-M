@@ -45,20 +45,20 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
       //fullScreen_=(true)
     }
   }
-
+/*
   def getSubScene = {
     val javaSubScene = stage.scene().lookup("#sub").asInstanceOf[javafx.scene.SubScene]
     new SubScene(javaSubScene)
   }
-
+*/
   // creategame window
   def createView(boundWidth: ReadOnlyDoubleProperty, boundHeight: ReadOnlyDoubleProperty): BorderPane = {
     new BorderPane {
-      center = new SubScene(boundWidth.get(), boundHeight.get(), true, SceneAntialiasing.Balanced) {
+      center = new SubScene(1024, 590){
         id = "sub"
         fill = Color.Green
-        this.width.bind(boundWidth.add(0))
-        this.height.bind(boundHeight.add(-20))
+        //this.width.bind(boundWidth.add(0))
+        //this.height.bind(boundHeight.add(-20))
         content = new Button {
           text = "Down"
           onAction = handle {
@@ -71,13 +71,6 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
 
   def onGameStart = {
-  }
-
-
-  def setStatusText {
-    val javaText = stage.scene().lookup("#statusText").asInstanceOf[javafx.scene.text.Text]
-    val text = new Text(javaText)
-    text.text = controller.getMessage
   }
 
   def drawScene = {

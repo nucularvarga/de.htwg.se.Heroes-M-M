@@ -4,7 +4,7 @@ import de.htwg.se.heroes.aview._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.MapMode
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, EnemyCell, Field, HeroCell}
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import de.htwg.se.heroes.model.soldier.SoldierInterface
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -58,7 +58,7 @@ class TUISpec  extends WordSpec with Matchers{
       tui.processInputLine("t")
     }
     "player buys units" in {
-      controller.playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 0, 0)
+      controller.playerBase.addPlayer("2", 100, 100, new ListMap[SoldierInterface, Int], 0, 0)
       tui.processInputLine("b,1,m")
       controller.mode.playlist.getPlayer.gold should be(90)
       controller.mode.playlist.getPlayer.units.toString should be("ListMap(M -> 1)")

@@ -1,6 +1,7 @@
 package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
+import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends PlayerListInterface {
@@ -13,11 +14,11 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
 
   override def getTurn: Int = PlayerTurn
 
-  def addPlayer(n: String, gold: Int, str: Int, units: Map[Soldier, Int], x: Int, y: Int): PlayerList = {
+  def addPlayer(n: String, gold: Int, str: Int, units: Map[SoldierInterface, Int], x: Int, y: Int): PlayerList = {
     copy(playerBase :+ Player(n, gold, str, units, x, y))
   }
 
-  def moveunit(x: Int, y: Int, sol: Soldier): PlayerList = {
+  def moveunit(x: Int, y: Int, sol: SoldierInterface): PlayerList = {
     copy(playerBase.updated(PlayerTurn, getPlayer.moveUnit(x, y, sol)))
   }
 
@@ -44,7 +45,7 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     attackUnit += 1
   }
 
-  def getAttackUnit: Soldier = {
+  def getAttackUnit: SoldierInterface = {
     if(attackUnit >= playerBase(PlayerTurn).units.size) {
       attackUnit = 0
     }
@@ -59,7 +60,7 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     this
   }
 
-  def getDefendUnit: Soldier = {
+  def getDefendUnit: SoldierInterface = {
     if(defendUnit >= playerBase(PlayerTurn).units.size) {
       defendUnit = 0
     }
@@ -84,7 +85,7 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).powerUp(str)))
   }
 
-  def setUnits(typ: Soldier, number: Int, cost: Int): PlayerList = {
+  def setUnits(typ: SoldierInterface, number: Int, cost: Int): PlayerList = {
     copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(typ, number, cost)))
   }
 

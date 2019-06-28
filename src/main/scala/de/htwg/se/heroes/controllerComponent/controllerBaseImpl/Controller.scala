@@ -13,6 +13,7 @@ import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.messageComponent.messangerBaseImpl.Messanger
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
+import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 import de.htwg.se.heroes.util.UndoManager
 
@@ -53,8 +54,8 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 3, 3)
+    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[SoldierInterface, Int],  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[SoldierInterface, Int], 3, 3)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(3, 3, HeroCell("2"))

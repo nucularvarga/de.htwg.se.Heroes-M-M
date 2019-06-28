@@ -1,4 +1,4 @@
-version       := "0.2.0"
+version       := "0.14.0"
 scalaVersion  := "2.12.7"
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.5"
@@ -13,8 +13,7 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8", "-feature")
 
-// Fork a new JVM for 'run' and 'test:run', to avoid JavaFX double initialization problems
-fork := true
+
 
 // Determine OS version of JavaFX binaries
 lazy val osName = System.getProperty("os.name") match {
@@ -25,7 +24,8 @@ lazy val osName = System.getProperty("os.name") match {
 }
 
 // Add JavaFX dependencies
-lazy val javaFXModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
-libraryDependencies ++= javaFXModules.map( m=>
-  "org.openjfx" % s"javafx-$m" % "11" classifier osName
-)
+val javafxModules = Seq("base", "controls", "fxml", "graphics", "media", "swing", "web")
+libraryDependencies ++= javafxModules.map(m => "org.openjfx" % s"javafx-$m" % "11" classifier osName)
+
+// Fork a new JVM for 'run' and 'test:run', to avoid JavaFX double initialization problems
+fork := true

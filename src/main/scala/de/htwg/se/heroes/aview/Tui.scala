@@ -12,7 +12,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
 
 
   def processInputLine(input: String):Unit = {
-
+    /*
     val inputsplit = input.split(",")
     var typ = UIEvent.BuyMelee
     if(inputsplit.length >= 2) {
@@ -22,11 +22,11 @@ class Tui(controller: ControllerInterface) extends Reactor {
         case _ => UIEvent.BuyMelee
     }
     }
-
+*/
    // val pattern = "([a-z]) ([0-9]+)".r
    // val pattern(cmd, number) = input
 
-    inputsplit(0) match {
+    input match {
       case "q" =>
       // TODO case "add" => addspieler(name)
       case "n" => controller.createNewField(9)
@@ -40,7 +40,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "s" => controller.action(UIEvent.MoveDown)
       case "d" => controller.action(UIEvent.MoveRight)
       case "t" => controller.showStats()
-      case "b" => controller.openShop(typ, inputsplit(1).toInt)
+      //case "b" => controller.openShop(typ, inputsplit(1).toInt)
       case _   =>
     }
   }
