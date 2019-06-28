@@ -1,9 +1,8 @@
 package de.htwg.se.heroes.model.fileIoComponent.fileIoJsonImpl
 
-import java.security.cert.CertStoreParameters
+
 
 import com.google.inject.Guice
-import com.google.inject.name.Names
 import de.htwg.se.heroes.HeroesModule
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, EnemyCell, HeroCell, Leer, Stop}
 import net.codingwell.scalaguice.InjectorExtensions._
@@ -15,12 +14,13 @@ import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import play.api.libs.json._
 
+import scala.collection.immutable.ListMap
 import scala.io.Source
 import scala.xml.{NodeSeq, PrettyPrinter}
 
 class FileIO extends FileIOInterface{
 
-  override def load_Arena: ArenaInterface = ???
+  //override def load_Arena: ArenaInterface = ???
 
   override def load_Field: FieldInterface = {
     var field: FieldInterface = null
@@ -49,9 +49,29 @@ class FileIO extends FileIOInterface{
     field
   }
 
-  override def load_PlayerList: PlayerListInterface = ???
+  override def load_PlayerList: PlayerListInterface = {
+    var playlist: PlayerListInterface = null
+    val sourceFile = Source.fromFile("playlist.json")
+    val source: String = sourceFile.getLines.mkString
+    sourceFile.close()
+    val json: JsValue = Json.parse(source)
+    val size = (json \ "playerlist" \ "amount").get.toString.toInt
+    val injector = Guice.createInjector(new HeroesModule)
+    playlist = injector.instance[PlayerListInterface]
 
-  override def save_Arena(arena: ArenaInterface): Unit = {
+    for (index <- 0 until size ) {
+      val name = (json \\ "name")(index).as[String]
+      val gold = (json \\ "gold")(index).as[Int]
+      val strength = (json \\ "strength")(index).as[Int]
+      val x = (json \\ "x")(index).as[Int]
+      val y = (json \\ "x")(index).as[Int]
+
+      playlist = playlist.addPlayer(name, gold, strength, new ListMap[Soldier, Int],x,y)
+    }
+    playlist
+  }
+
+  def save_Arena(arena: ArenaInterface): Unit = {
     import java.io._
     val pw = new PrintWriter(new File("arena.json"))
     pw.write(Json.prettyPrint(arenaToJson(arena)))
@@ -147,6 +167,7 @@ class FileIO extends FileIOInterface{
     Json.obj(
       "playerlist" -> Json.obj(
         "turn" -> JsNumber(playlist.getTurn),
+        "amount" -> JsNumber(playlist.getSize),
         "players" -> Json.toJson(
        for {
         player <- 0 until playlist.getSize

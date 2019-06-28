@@ -11,11 +11,12 @@ case class Player(name: String, gold: Int, strength: Int, units: Map[Soldier, In
   def walk(nx: Int, ny: Int): Player = copy(name, gold, strength, units, x + nx, y + ny)
 
   def addUnit(unit: Soldier, amount: Int, costs: Int): Player = {
-    if(units.contains(unit)) {
+    if(units contains unit) {
+      println("map contains " + unit)
       val tmp = units(unit) + amount
-      copy(name, gold - costs, strength, units.updated(unit, tmp), x, y)
+      copy(name, gold - costs, strength, units + (unit -> tmp), x, y)
     } else {
-      copy(name, gold - costs, strength, units.updated(unit, amount), x, y)
+      copy(name, gold - costs, strength, units + (unit -> amount), x, y)
     }
   }
 

@@ -136,6 +136,20 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
               controller.showStats()
             }
           }
+
+          private val save = new Button {
+            text = "save"
+            onAction = handle {
+              controller.save
+            }
+          }
+
+          private val load = new Button {
+            text = "load"
+            onAction = handle {
+              controller.load
+            }
+          }
           private val up = new Button {
             text = "Up"
             onAction = handle {
@@ -178,6 +192,8 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           add(buybutton, 4, 3)
           add(info, 5, 3)
           add(revert, 4, 4)
+          add(save, 2, 4)
+          add(load, 2, 5)
         }
 
 

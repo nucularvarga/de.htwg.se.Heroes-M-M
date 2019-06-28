@@ -41,7 +41,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   def load(): Unit = { //TODO: GAMESTATUS ARENA/FIELD DAMIT WIR WISSEN WAS WIR LADEN MUESSEN!!!!!!!!!111!11!!1?
     mode  = MapMode(fileIo.load_Field, playerBase)
     //playArena = fileIo.load_Arena
-    //mode = mode.updatePlayerBase(fileIo.load_PlayerList)
+    mode.updatePlayerBase(fileIo.load_PlayerList)
     publish(new FieldChanged)
   }
 
