@@ -31,7 +31,7 @@ case class Zoom(x: Int, y: Int, view: Matrix) {
     if(y + off._2 > 15) {
       pos_y = 15
     }
-    println("x= " + pos_x +" y= " + pos_y)
+
     for{
       row <- pos_y until size + pos_y
       col <- pos_x until size + pos_x
