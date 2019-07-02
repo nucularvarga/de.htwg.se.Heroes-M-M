@@ -32,4 +32,6 @@ case class Player(name: String, gold: Int, strength: Int, units: Map[SoldierInte
   }
 
   def powerUp(str: Int): Player = copy(name, gold, str + strength, units, x, y)
+
+  def setGold(n_gold: Int): Player = copy(name, n_gold + gold, strength, units, x, y)
 }

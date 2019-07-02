@@ -17,7 +17,7 @@ object main {
 
 
   def main(args: Array[String]): Unit = {
-    //startJFGUI(gui)
+    startJFGUI(gui)
     var input: String = ""
     do {
       input = readLine()

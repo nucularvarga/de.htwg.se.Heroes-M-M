@@ -5,10 +5,10 @@ import de.htwg.se.heroes.HeroesModule
 import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
-import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.{BuyMelee, BuyRange, MoveDown, MoveLeft, MoveRight, MoveUp}
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent._
 import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged}
 import de.htwg.se.heroes.model.fieldComponent._
-import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, EnemyCell, Field, HeroCell}
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.messageComponent.messangerBaseImpl.Messanger
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
@@ -61,6 +61,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
     playField = playField.set(3, 3, HeroCell("2"))
 
     playField = playField.set(3, 7, EnemyCell(2))
+    playField = playField.set(1, 1, GoldCell())
     mode = MapMode(playField, playerBase)
     publish(new FieldChanged)
   }

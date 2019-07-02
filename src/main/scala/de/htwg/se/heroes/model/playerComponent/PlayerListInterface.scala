@@ -20,6 +20,7 @@ trait PlayerListInterface {
   def getTurn: Int
   def getSize: Int
   def updatePlayer(str: Int, x: Int, y: Int): PlayerListInterface
+  def updatePlayerGold(gold: Int): PlayerListInterface
   def setUnits(typ: SoldierInterface, number: Int, cost: Int): PlayerListInterface
 }
 
@@ -29,4 +30,5 @@ trait PlayerInterface {
   def moveUnit(xs: Int, ys: Int, remove: SoldierInterface): Player
   def removeUnit(remove: SoldierInterface): Player
   def powerUp(str: Int): Player
+  def setGold(gold: Int): Player
 }

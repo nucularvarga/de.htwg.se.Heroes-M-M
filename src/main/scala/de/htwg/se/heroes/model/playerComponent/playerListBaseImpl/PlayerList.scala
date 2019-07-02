@@ -85,6 +85,15 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).powerUp(str)))
   }
 
+  def updatePlayerGold(gold: Int): PlayerListInterface = {
+    if(PlayerTurn >= playerBase.length) {
+      PlayerTurn = 0
+    }
+    val f = this
+    f.copy(f.playerBase.updated(PlayerTurn, f.playerBase(PlayerTurn).setGold(gold)))
+  }
+
+
   def setUnits(typ: SoldierInterface, number: Int, cost: Int): PlayerList = {
     copy(playerBase.updated(PlayerTurn, playerBase(PlayerTurn).addUnit(typ, number, cost)))
   }

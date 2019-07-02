@@ -210,6 +210,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
       case f: HeroCell => new Image("file:hero.png")
       case Leer() => new Image("file:grass.jpg")
       case Stop() => new Image("file:berg.jpg")
+      case GoldCell() => new Image("file:gold.jpg")
       case f: EnemyCell => new Image("file:drake.jpg")
       case f: Soldier => new Image("file:lich.jpg")
     }

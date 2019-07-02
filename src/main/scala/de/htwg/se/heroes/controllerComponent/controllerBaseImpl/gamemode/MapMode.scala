@@ -5,7 +5,7 @@ import de.htwg.se.heroes.model.fieldComponent.FieldInterface
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 
-case class MapMode(playField: FieldInterface, playerBase: PlayerListInterface) extends GameMode {
+case class MapMode(playField: FieldInterface, var playerBase: PlayerListInterface) extends GameMode {
   var enemy: EnemyCell = EnemyCell(0)
   private var t: GameMode = this
   override def handle(e: UIEvent):GameMode = {
@@ -37,10 +37,16 @@ case class MapMode(playField: FieldInterface, playerBase: PlayerListInterface) e
     f.updatePlayerBase(f.playerBase.nextPlayer) // TODO next? iterator?
   }
 
+  def pickupGold(event: UIEvent.UIEvent): GameMode = {
+    playerBase = playerBase.updatePlayerGold(50)
+    move(event)
+  }
+
   def action(d : UIEvent): GameMode = {
     val (x, y) = calcDir(d)
     val cell = playField.cell(playerBase.getPlayer.x + x, playerBase.getPlayer.y + y)
     cell match {
+      case GoldCell() => pickupGold(d)
       case Leer() => move(d)
       case Stop() => MapMode(playField, playerBase)
       case f: EnemyCell => t = t.asInstanceOf[MapMode].move(d); startBattle(f)
