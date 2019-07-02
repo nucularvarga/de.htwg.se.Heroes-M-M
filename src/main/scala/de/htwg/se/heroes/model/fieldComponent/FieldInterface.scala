@@ -1,6 +1,6 @@
 package de.htwg.se.heroes.model.fieldComponent
 
-import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Cell, Matrix}
 
 
 trait FieldInterface {
@@ -8,6 +8,7 @@ trait FieldInterface {
   def size: Int
   def set(x: Int, y: Int, cell: Cell): FieldInterface
   def initField: FieldInterface
+  def getMatrix: Matrix
 }
 
 trait MatrixInterface {

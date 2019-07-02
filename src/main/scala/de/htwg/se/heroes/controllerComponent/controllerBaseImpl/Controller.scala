@@ -6,7 +6,7 @@ import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent._
-import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged}
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, ViewChanged}
 import de.htwg.se.heroes.model.fieldComponent._
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
@@ -15,6 +15,7 @@ import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
+import de.htwg.se.heroes.model.zoomComponent.zoomBaseImpl.Zoom
 import de.htwg.se.heroes.util.UndoManager
 
 import scala.collection.immutable.ListMap
@@ -31,6 +32,8 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   var mode: GameMode = MapMode(playField, playerBase)
   var saveMap = mode
   val undoManager = new UndoManager
+  var matrix = new Matrix(9)
+  var zoom = Zoom(8,8, new Matrix(20))
 
 
 
@@ -55,10 +58,10 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def init(): Unit = {
     playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[SoldierInterface, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[SoldierInterface, Int], 3, 3)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[SoldierInterface, Int], 8, 8)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
-    playField = playField.set(3, 3, HeroCell("2"))
+    playField = playField.set(8, 8, HeroCell("2"))
 
     playField = playField.set(3, 7, EnemyCell(2))
     playField = playField.set(1, 1, GoldCell())
@@ -114,7 +117,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   }
 
   def playgroundToString: String = {
-      mode.toString + messanger.getMsg
+      mode.toString// + messanger.getMsg
   }
 
   def getMessage: String = {
@@ -123,6 +126,21 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def getCell(x: Int, y: Int): Cell = {
     mode.cell(x,y)
+  }
+
+  def getMatrixCell(x:Int, y: Int): Cell = {
+    matrix.cell(x,y)
+  }
+
+  def show(e: UIEvent): Unit = {
+    zoom = zoom.updateMatrix(mode.asInstanceOf[MapMode].playField.getMatrix)
+    zoom = zoom.show(e)
+    matrix = zoom.getMatrix
+    publish(new ViewChanged)
+  }
+
+  override def viewToString: String = {
+    matrix.toString
   }
 
 }

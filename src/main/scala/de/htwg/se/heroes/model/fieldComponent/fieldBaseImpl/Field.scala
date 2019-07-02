@@ -9,6 +9,8 @@ case class Field @Inject()(cells: Matrix) extends FieldInterface {
 
  val sizev = cells.length
 
+  def getMatrix: Matrix = cells
+
  def cell(x: Int, y: Int): Cell = cells.cell(x, y)
 
  def set(x: Int, y: Int, cell: Cell): Field = copy(cells.replaceCell(x, y, cell))
@@ -16,11 +18,11 @@ case class Field @Inject()(cells: Matrix) extends FieldInterface {
   override def size(): Int =  sizev
 
  override def toString: String = {
-   var box = (("G" * sizev) + "\n") * sizev
+   var box = (("J" * sizev) + "\n") * sizev
    for {
      y <- 0 until sizev
      x <- 0 until sizev
-   } box = box.replaceFirst("G", cell(x, y).toString)
+   } box = box.replaceFirst("J", cell(x, y).toString)
    box
  }
 

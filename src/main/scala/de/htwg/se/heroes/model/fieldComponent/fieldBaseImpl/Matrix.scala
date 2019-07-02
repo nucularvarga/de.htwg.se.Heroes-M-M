@@ -14,4 +14,13 @@ case class Matrix (rows: Vector[Vector[Cell]]) extends MatrixInterface {
 
   def replaceCell(x: Int, y: Int, cell: Cell): Matrix = copy(rows.updated(y, rows(y).updated(x, cell)))
 
+  override def toString: String = {
+    var box = (("G" * length) + "\n") * height
+    for {
+      y <- 0 until height
+      x <- 0 until length
+    } box = box.replaceFirst("G", cell(x, y).toString)
+    box
+  }
+
 }

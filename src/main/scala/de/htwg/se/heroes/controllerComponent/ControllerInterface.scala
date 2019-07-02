@@ -20,6 +20,9 @@ trait ControllerInterface extends Publisher{
   def playgroundToString: String
   def getMessage: String
   def getCell(x: Int, y:Int): Cell
+  def show(e: UIEvent): Unit
+  def viewToString: String
+  def getMatrixCell(x:Int, y: Int): Cell
 }
 
 
@@ -27,3 +30,4 @@ import scala.swing.event.Event
 
 class FieldChanged extends Event
 class GameStart extends Event
+class ViewChanged extends Event

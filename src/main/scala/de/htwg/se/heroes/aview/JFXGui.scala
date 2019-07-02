@@ -5,7 +5,7 @@ import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
-import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart}
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart, ViewChanged}
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import scalafx.geometry.Insets
@@ -27,6 +27,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
   reactions += {
     case e: FieldChanged => drawScene
     case e: GameStart => onGameStart
+    case e: ViewChanged => drawView
   }
 
   onGameStart
@@ -72,6 +73,163 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
   def onGameStart = {
   }
+
+  def drawView = {
+    Platform.runLater {
+      //val subScene = getSubScene
+      //val basicContent = createBasic3dContent  MODPROG github
+      stage.scene = new Scene(1024, 590) {
+        fill = Color.Brown
+        private val textinfo = new Text {
+          id = "statusText"
+        }
+        //textinfo.setPrefWidth(250)
+        //textinfo.setPrefHeight(50)
+        //textinfo.setText(controller.messanger.getMsg)
+        textinfo.layoutX = 650
+        textinfo.layoutY = 500
+        val map = new GridPane {
+          padding = Insets(5)
+          vgap = 0
+          hgap = 0
+
+          for {
+            y <- 0 until 9
+            x <- 0 until 9
+          } add(drawTexture(controller.getMatrixCell(x,y)), x, y)
+        }
+
+
+        val buton = new GridPane {
+          private val buyfield = new TextField {
+            text = "0"
+          }
+
+          private val buytyp = new TextField {
+            text = "0"
+          }
+
+          private val buybutton = new Button {
+            text = "Kaufen"
+            onAction = handle {
+              controller.openShop(getTyp(buytyp.text()), buyfield.text().toInt)
+              textinfo.text = controller.getMessage
+            }
+          }
+
+          private val exit = new Button {
+            text = "exit"
+            onAction = handle {
+              System.exit(0)
+            }
+          }
+
+          private val info = new Button {
+            text = "info"
+            onAction = handle {
+              controller.showStats()
+            }
+          }
+
+          private val save = new Button {
+            text = "save"
+            onAction = handle {
+              controller.save
+            }
+          }
+
+          private val load = new Button {
+            text = "load"
+            onAction = handle {
+              controller.load
+            }
+          }
+          private val up = new Button {
+            text = "Up"
+            onAction = handle {
+              controller.action(UIEvent.MoveUp)
+            }
+          }
+
+          private val right = new Button {
+            text = "Right"
+            onAction = handle {
+              controller.action(UIEvent.MoveRight)
+            }
+          }
+          private val Left = new Button {
+            text = "Left"
+            onAction = handle {
+              controller.action(UIEvent.MoveLeft)
+            }
+          }
+
+          private val revert = new Button {
+            text = "Undo"
+            onAction = handle {
+              controller.undo
+            }
+          }
+
+          private val Down = new Button {
+            text = "Down"
+            onAction = handle {
+              controller.action(UIEvent.MoveDown)
+            }
+          }
+
+          private val lookright = new Button {
+            text = "lookright"
+            onAction = handle {
+              controller.show(UIEvent.MoveRight)
+            }
+          }
+
+          private val lookleft = new Button {
+            text = "lookleft"
+            onAction = handle {
+              controller.show(UIEvent.MoveLeft)
+            }
+          }
+
+          private val lookdown = new Button {
+            text = "lookdown"
+            onAction = handle {
+              controller.show(UIEvent.MoveDown)
+            }
+          }
+
+          private val looup = new Button {
+            text = "looup"
+            onAction = handle {
+              controller.show(UIEvent.MoveUp)
+            }
+          }
+          add(exit, 1, 0)
+          add(up, 1, 1)
+          add(right, 2, 2)
+          add(Left, 0, 2)
+          add(Down, 1, 2)
+          add(buyfield, 3, 3)
+          add(buybutton, 4, 3)
+          add(info, 5, 3)
+          add(revert, 4, 4)
+          add(save, 2, 4)
+          add(load, 2, 5)
+          add(looup, 2, 7)
+          add(lookdown, 2, 8)
+          add(lookleft, 1, 8)
+          add(lookright, 3, 8)
+        }
+
+
+        buton.layoutX = 640
+        buton.layoutY = 100
+        content = List(map, buton, textinfo)
+      }
+    }
+  }
+
 
   def drawScene = {
     Platform.runLater {
@@ -176,6 +334,34 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
               controller.action(UIEvent.MoveDown)
             }
           }
+
+          private val lookright = new Button {
+            text = "lookright"
+            onAction = handle {
+              controller.show(UIEvent.MoveRight)
+            }
+          }
+
+          private val lookleft = new Button {
+            text = "lookleft"
+            onAction = handle {
+              controller.show(UIEvent.MoveLeft)
+            }
+          }
+
+          private val lookdown = new Button {
+            text = "lookdown"
+            onAction = handle {
+              controller.show(UIEvent.MoveDown)
+            }
+          }
+
+          private val looup = new Button {
+            text = "looup"
+            onAction = handle {
+              controller.show(UIEvent.MoveUp)
+            }
+          }
           add(exit, 1, 0)
           add(up, 1, 1)
           add(right, 2, 2)
@@ -187,6 +373,10 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           add(revert, 4, 4)
           add(save, 2, 4)
           add(load, 2, 5)
+          add(looup, 2, 7)
+          add(lookdown, 2, 8)
+          add(lookleft, 1, 8)
+          add(lookright, 3, 8)
         }
 
 

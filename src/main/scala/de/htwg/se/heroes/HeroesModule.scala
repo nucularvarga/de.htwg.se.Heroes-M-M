@@ -15,10 +15,10 @@ class HeroesModule extends AbstractModule with ScalaModule {
   def configure() = {
 
     bind[ControllerInterface].to[Controller]
-    bind[FieldInterface].toInstance(new Field(9))
+    bind[FieldInterface].toInstance(new Field(20))
     bind[ArenaInterface].toInstance(new Arena(9,9))
     bind[PlayerListInterface].toInstance(PlayerList(Vector.empty[Player], 0))
-    bind[FieldInterface].annotatedWithName("field").toInstance(Field(Matrix(Vector.tabulate(9, 9) { (y, x) => Leer() })))
+    bind[FieldInterface].annotatedWithName("field").toInstance(Field(Matrix(Vector.tabulate(20, 20) { (y, x) => Leer() })))
     bind[ArenaInterface].annotatedWithName("arena").toInstance(Arena(fieldBaseImpl.Matrix(Vector.tabulate(9, 9) { (y, x) => Leer() })))
 
     bind[FileIOInterface].to[fileIoJsonImpl.FileIO]

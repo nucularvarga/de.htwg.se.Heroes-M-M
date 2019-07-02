@@ -17,11 +17,11 @@ case class Arena @Inject()(cells: Matrix) extends ArenaInterface {
   def set(x: Int, y: Int, cell: Cell): Arena = copy(cells.replaceCell(x, y, cell))
 
   override def toString: String = {
-    var box = (("G" * length) + "\n") * height
+    var box = (("J" * length) + "\n") * height
     for {
       y <- 0 until height
       x <- 0 until length
-    } box = box.replaceFirst("G", cell(x, y).toString)
+    } box = box.replaceFirst("J", cell(x, y).toString)
     box
   }
 
