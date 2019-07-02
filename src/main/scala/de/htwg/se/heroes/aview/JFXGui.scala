@@ -102,10 +102,12 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
         val buton = new GridPane {
           private val buyfield = new TextField {
+            maxWidth_=(40)
             text = "0"
           }
 
           private val buytyp = new TextField {
+            maxWidth_=(40)
             text = "0"
           }
 
@@ -212,6 +214,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           add(Down, 1, 2)
           add(buyfield, 3, 3)
           add(buybutton, 4, 3)
+          add(buytyp, 2,3)
           add(info, 5, 3)
           add(revert, 4, 4)
           add(save, 2, 4)
@@ -259,10 +262,12 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
         val buton = new GridPane {
           private val buyfield = new TextField {
+            maxWidth_=(40)
             text = "0"
           }
 
           private val buytyp = new TextField {
+            maxWidth_=(40)
             text = "0"
           }
 
@@ -368,6 +373,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           add(Left, 0, 2)
           add(Down, 1, 2)
           add(buyfield, 3, 3)
+          add(buytyp, 2,3)
           add(buybutton, 4, 3)
           add(info, 5, 3)
           add(revert, 4, 4)

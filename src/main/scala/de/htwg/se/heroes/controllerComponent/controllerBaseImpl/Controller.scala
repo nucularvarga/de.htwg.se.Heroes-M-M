@@ -117,7 +117,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   }
 
   def playgroundToString: String = {
-      mode.toString// + messanger.getMsg
+      mode.toString + messanger.getMsg
   }
 
   def getMessage: String = {
