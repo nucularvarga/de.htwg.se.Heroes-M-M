@@ -1,13 +1,13 @@
 package de.htwg.se.heroes.aview
 
-import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.{CombatMode, UIEvent}
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
 import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart, ViewChanged}
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 import scalafx.geometry.Insets
 import scalafx.scene.control.{Button, Label, TextArea, TextField}
 import scalafx.application.JFXApp.PrimaryStage
@@ -233,6 +233,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     }
   }
 
+  def addEnemy(xs:Int, ys:Int): Node = {
+    new ImageView {
+      image = new Image("file:drake.jpg")
+      onMousePressed = handle {
+        controller.selectEnemy(xs,ys)
+      }
+    }
+  }
 
   def drawScene = {
     Platform.runLater {
@@ -256,7 +264,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           for {
             y <- 0 until 9
             x <- 0 until 9
-          } add(drawTexture(controller.getCell(x,y)), x, y)
+          } {
+            if(controller.getCell(x, y) match {
+              case f:EnemyCell => controller.getMode match {case d:CombatMode => true case _ => false}
+              case _ => false
+            }) add(addEnemy(x,y), x, y)
+            else
+              add(drawTexture(controller.getCell(x,y)), x, y)
+          }
         }
 
 
@@ -408,7 +423,8 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
       case Stop() => new Image("file:berg.jpg")
       case GoldCell() => new Image("file:gold.jpg")
       case f: EnemyCell => new Image("file:drake.jpg")
-      case f: Soldier => new Image("file:lich.jpg")
+      case f: MeleeSoldier => new Image("file:lich.jpg")
+      case f: RangeSoldier => new Image("file:gold.jpg")
     }
     new ImageView(typ)
   }

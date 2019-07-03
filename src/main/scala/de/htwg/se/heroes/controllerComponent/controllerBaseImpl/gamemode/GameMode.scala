@@ -2,7 +2,7 @@ package de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode
 
 object UIEvent extends Enumeration {
   type UIEvent = Value
-  val StartCombat, MoveUp, MoveDown, MoveRight, MoveLeft, WinEndCombat, LoseEndCombat, BuyMelee, BuyRange = Value
+  val StartCombat, MoveUp, MoveDown, MoveRight, MoveLeft, WinEndCombat, LoseEndCombat, BuyMelee, BuyRange, Selected = Value
 }
 
 object GameMode extends Enumeration {

@@ -79,6 +79,16 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
     publish(new FieldChanged)
   }
 
+  def selectEnemy(x: Int, y:Int): Unit = {
+    mode.asInstanceOf[CombatMode].playArena.cell(x, y) match {
+      case f:EnemyCell => mode.asInstanceOf[CombatMode].selectX = x; mode.asInstanceOf[CombatMode].selectY = y; handle(UIEvent.Selected)
+      case _ =>
+    }
+    publish(new FieldChanged)
+  }
+
+  override def getMode: GameMode = mode
+
   def handle(e: UIEvent): Unit = {
     mode match {
       case f: MapMode => saveMap = mode; undoManager.doStep(new MapCommand(mode.asInstanceOf[MapMode], e, this))

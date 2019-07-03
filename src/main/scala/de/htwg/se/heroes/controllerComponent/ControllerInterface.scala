@@ -1,5 +1,6 @@
 package de.htwg.se.heroes.controllerComponent
 
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.GameMode
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
 
@@ -23,6 +24,8 @@ trait ControllerInterface extends Publisher{
   def show(e: UIEvent): Unit
   def viewToString: String
   def getMatrixCell(x:Int, y: Int): Cell
+  def selectEnemy(x: Int, y: Int): Unit
+  def getMode: GameMode
 }
 
 

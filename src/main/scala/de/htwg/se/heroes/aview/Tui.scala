@@ -12,17 +12,17 @@ class Tui(controller: ControllerInterface) extends Reactor {
 
 
   def processInputLine(input: String):Unit = {
-    /*
+
     val inputsplit = input.split(",")
     var typ = UIEvent.BuyMelee
-    if(inputsplit.length >= 2) {
+    if(inputsplit.length > 2) {
       typ = inputsplit(2) match {
         case "m" => UIEvent.BuyMelee
         case "r" => UIEvent.BuyRange
         case _ => UIEvent.BuyMelee
     }
     }
-*/
+
    // val pattern = "([a-z]) ([0-9]+)".r
    // val pattern(cmd, number) = input
 
@@ -45,7 +45,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "j" => controller.show(UIEvent.MoveRight)
       case "t" => controller.showStats()
       //case "b" => controller.openShop(typ, inputsplit(1).toInt)
-      case _   =>
+      case _   => controller.selectEnemy(inputsplit(0).toInt, inputsplit(1).toInt)
     }
   }
 
