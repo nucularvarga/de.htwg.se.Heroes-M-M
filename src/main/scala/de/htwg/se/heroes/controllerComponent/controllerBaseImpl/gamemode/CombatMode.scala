@@ -9,7 +9,7 @@ import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface, enemy: EnemyCell, map: MapMode) extends GameMode {
 
-  var unitVector: Vector[SoldierInterface] = Vector.empty
+  var unitVector: Vector[Soldier] = Vector.empty
   override def handle(e: UIEvent):GameMode = {
     e match {
       case UIEvent.WinEndCombat => map.handle(UIEvent.WinEndCombat)
@@ -32,8 +32,7 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
 
   def action(d: UIEvent) : GameMode = {
     val (x, y) = calcDir(d)
-    val cell = playArena.cell(playerBase.getAttackUnit.getX + x,  playerBase.getAttackUnit.getY + y)   //playArena.cell(playerBase.getPlayer.x + calcDir(d)._1, playerBase.getPlayer.y + calcDir(d)._2)
-    //println(playerBase.getAttackUnit.x + "|" + playerBase.getAttackUnit.y)
+    val cell = playArena.cell(playerBase.getAttackUnit.getX + x,  playerBase.getAttackUnit.getY + y)
     cell match {
       case Leer() => move(d)
       case Stop() => CombatMode(playArena, playerBase, enemy, map)
@@ -55,7 +54,9 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
     f =  updateArena(playArena.set(playerBase.getAttackUnit.getX,  playerBase.getAttackUnit.getY, Leer()))
     f = f.updateArena(f.playArena.set(f.playerBase.getAttackUnit.getX + x, f.playerBase.getAttackUnit.getY + y, f.playerBase.getAttackUnit.asInstanceOf[Cell]))
     f = f.updatePlayerBase(f.playerBase.moveunit(f.playerBase.getAttackUnit.getX + x, f.playerBase.getAttackUnit.getY + y, f.playerBase.getAttackUnit))
-    //f.playerBase.nextAttackUnit
+    println("x= " + f.playerBase.getAttackUnit.getX + " y= " + f.playerBase.getAttackUnit.getY)
+    //f = f.updatePlayerBase(f.playerBase.nextAttackUnit)
+    println("attacknumber =" + f.playerBase.getAttackUnit)
     f
   }
 
@@ -65,7 +66,7 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
     var f = this
     for (e <- playerBase.getPlayer.units) unitVector = unitVector :+ e._1
     for {list <- 0 until playerBase.getPlayer.units.size} {
-      f = f.updateArena(f.playArena.set(unitVector(list).getX , list + unitVector(list).getY, unitVector(list).asInstanceOf[Cell]))
+      f = f.updateArena(f.playArena.set(unitVector(list).getX , unitVector(list).getY, unitVector(list).asInstanceOf[Cell]))
       f = f.updateArena(f.playArena.set(7, 1 + list, enemy))
     }
     //CombatMode(playArena, playerBase, enemy)

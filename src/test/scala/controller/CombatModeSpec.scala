@@ -6,7 +6,7 @@ import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.{Combat
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, EnemyCell, Field}
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
 import de.htwg.se.heroes.model.soldier.SoldierInterface
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.MeleeSoldier
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, Soldier}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -16,8 +16,8 @@ class CombatModeSpec extends WordSpec with Matchers {
   "A Arena" when {
     "set to a specific value" should {
       var playerBase = PlayerList(Vector.empty[Player],0)
-      playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[SoldierInterface, Int],  1, 1)
-      playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[SoldierInterface, Int], 1, 1)
+      playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  1, 1)
+      playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 1, 1)
 
       playerBase = playerBase.setUnits(new MeleeSoldier(4,4),1, 5)
 

@@ -60,7 +60,7 @@ class FileIO extends FileIOInterface{
       val x: Int = (player \ "@x").text.toInt
       val y: Int = (player \ "@y").text.toInt
 
-      playlist = playlist.addPlayer(name, gold, strength, new ListMap[SoldierInterface, Int],x,y)
+      playlist = playlist.addPlayer(name, gold, strength, new ListMap[Soldier, Int],x,y)
     }
     playlist
   }

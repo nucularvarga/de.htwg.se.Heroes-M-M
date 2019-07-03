@@ -3,7 +3,7 @@ package de.htwg.se.heroes.model.soldier.soldierBaseImpl
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.Cell
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 
-case class Soldier(x: Int, y: Int) extends Cell() with SoldierInterface {
+class Soldier(x: Int, y: Int) extends Cell() with SoldierInterface {
   override val typ  = "S"
   val cost = 10
   val str = 5

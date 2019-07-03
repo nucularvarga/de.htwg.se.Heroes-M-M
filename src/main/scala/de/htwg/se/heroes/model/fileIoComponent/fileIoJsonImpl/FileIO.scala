@@ -66,7 +66,7 @@ class FileIO extends FileIOInterface{
       val x = (json \\ "x")(index).as[Int]
       val y = (json \\ "x")(index).as[Int]
 
-      playlist = playlist.addPlayer(name, gold, strength, new ListMap[SoldierInterface, Int],x,y)
+      playlist = playlist.addPlayer(name, gold, strength, new ListMap[Soldier, Int],x,y)
     }
     playlist
   }

@@ -7,13 +7,13 @@ import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import scala.collection.immutable.ListMap
 
 trait PlayerListInterface {
-  def addPlayer(n: String, gold: Int, str: Int, units: Map[SoldierInterface, Int], x: Int, y: Int): PlayerListInterface
-  def moveunit(x: Int, y: Int, sol: SoldierInterface): PlayerListInterface
+  def addPlayer(n: String, gold: Int, str: Int, units: ListMap[Soldier, Int], x: Int, y: Int): PlayerListInterface
+  def moveunit(x: Int, y: Int, sol: Soldier): PlayerListInterface
   def nextPlayer: PlayerListInterface
   def getPlayer: Player
   def getPlayer(number: Int): Player
-  def nextAttackUnit: Unit
-  def getAttackUnit: SoldierInterface
+  def nextAttackUnit: PlayerListInterface
+  def getAttackUnit: Soldier
   def nextDefendUnit: Unit
   def updateAttackUnit: PlayerListInterface
   def getDefendUnit: SoldierInterface
@@ -21,14 +21,14 @@ trait PlayerListInterface {
   def getSize: Int
   def updatePlayer(str: Int, x: Int, y: Int): PlayerListInterface
   def updatePlayerGold(gold: Int): PlayerListInterface
-  def setUnits(typ: SoldierInterface, number: Int, cost: Int): PlayerListInterface
+  def setUnits(typ: Soldier, number: Int, cost: Int): PlayerListInterface
 }
 
 trait PlayerInterface {
   def walk(nx: Int, ny: Int): Player
-  def addUnit(unit: SoldierInterface, amount: Int, costs: Int): Player
-  def moveUnit(xs: Int, ys: Int, remove: SoldierInterface): Player
-  def removeUnit(remove: SoldierInterface): Player
+  def addUnit(unit: Soldier, amount: Int, costs: Int): Player
+  def moveUnit(xs: Int, ys: Int, remove: Soldier): Player
+  def removeUnit(remove: Soldier): Player
   def powerUp(str: Int): Player
   def setGold(gold: Int): Player
 }

@@ -57,8 +57,8 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   }
 
   def init(): Unit = {
-    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[SoldierInterface, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[SoldierInterface, Int], 8, 8)
+    playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
     playField = playField.set(8, 8, HeroCell("2"))
@@ -94,9 +94,9 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def openShop(e: UIEvent, number: Int): Unit = {
     val typ = e match {
-      case BuyMelee => new MeleeSoldier(1,1)
+      case BuyMelee => new MeleeSoldier(1,2)
       case BuyRange => new RangeSoldier(1,1)
-      case _ => new MeleeSoldier(1,1) //TODO Flaschentransport
+      case _ => new MeleeSoldier(1,2) //TODO Flaschentransport
     }
 
     if (mode.playlist.getPlayer.gold > number * typ.cost) {

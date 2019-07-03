@@ -1,16 +1,20 @@
 package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.{BuyMelee, BuyRange}
 import de.htwg.se.heroes.model.playerComponent.PlayerInterface
 import de.htwg.se.heroes.model.soldier.SoldierInterface
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
+//import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 
-case class Player(name: String, gold: Int, strength: Int, units: Map[SoldierInterface, Int], x: Int, y: Int) extends PlayerInterface {
+import scala.collection.immutable.ListMap
+
+case class Player(name: String, gold: Int, strength: Int, units: ListMap[Soldier, Int], x: Int, y: Int) extends PlayerInterface {
 
   override def toString: String = name + ": Gold: " + gold + " Strength: " + strength + " Units: " + units.toString()
 
   def walk(nx: Int, ny: Int): Player = copy(name, gold, strength, units, x + nx, y + ny)
 
-  def addUnit(unit: SoldierInterface, amount: Int, costs: Int): Player = {
+  def addUnit(unit: Soldier, amount: Int, costs: Int): Player = {
     if(units contains unit) {
       println("map contains " + unit)
       val tmp = units(unit) + amount
@@ -20,14 +24,19 @@ case class Player(name: String, gold: Int, strength: Int, units: Map[SoldierInte
     }
   }
 
-  def moveUnit(xs: Int, ys: Int, remove: SoldierInterface): Player = {
+  def moveUnit(xs: Int, ys: Int, remove: Soldier): Player = {
+    val amount = units.getOrElse(remove, 0)
     var f =  removeUnit(remove)
-    println(f)
-    f = f.copy(name, gold, strength, f.units + (remove -> 5), x, y)
+    val typ = remove match {
+      case f:MeleeSoldier => new MeleeSoldier(xs,ys)
+      case r:RangeSoldier => new RangeSoldier(xs,ys)
+      case _ => new MeleeSoldier(1,1) //TODO Flaschentransport
+    }
+    f = f.copy(name, gold, strength, f.units + (typ -> amount), x, y)
     f
   }
 
-  def removeUnit(remove: SoldierInterface): Player = {
+  def removeUnit(remove: Soldier): Player = {
     copy(name, gold, strength, units - remove, x, y)
   }
 

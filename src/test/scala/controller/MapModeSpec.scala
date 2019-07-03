@@ -13,8 +13,8 @@ class MapModeSpec extends WordSpec with Matchers {
   "A MapMode" when {
     "set to a specific value" should {
       var playerBase = PlayerList(Vector.empty[Player],0)
-      playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[SoldierInterface, Int], 1, 1)
-      playerBase = playerBase.addPlayer("2", 100, 100, new ListMap[SoldierInterface, Int], 1, 1)
+      playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int], 1, 1)
+      playerBase = playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 1, 1)
 
       playerBase = playerBase.setUnits(new MeleeSoldier(4,4), 5, 5)
 
