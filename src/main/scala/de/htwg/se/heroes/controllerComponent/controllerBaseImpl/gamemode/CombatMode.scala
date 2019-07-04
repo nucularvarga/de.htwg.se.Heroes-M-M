@@ -10,8 +10,11 @@ import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface, enemy: EnemyCell, map: MapMode) extends GameMode {
 
   var unitVector: Vector[Soldier] = Vector.empty
+  var selectX: Int = 0
+  var selectY: Int = 0
   override def handle(e: UIEvent):GameMode = {
     e match {
+      case UIEvent.Selected => executeRange()
       case UIEvent.WinEndCombat => map.handle(UIEvent.WinEndCombat)
       case UIEvent.LoseEndCombat => map.handle(UIEvent.LoseEndCombat)
       case UIEvent.StartCombat => initArena()
@@ -20,6 +23,13 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
       case UIEvent.MoveRight => action(UIEvent.MoveRight)
       case UIEvent.MoveDown => action(UIEvent.MoveDown)
     }
+  }
+
+  def executeRange(): GameMode = {
+    if( playArena.cell(selectX, selectY).asInstanceOf[EnemyCell].strength > playerBase.getAttackUnit.getStrength)
+      handle(UIEvent.LoseEndCombat)
+    else
+      handle(UIEvent.WinEndCombat)
   }
 
   def updateArena(arena: ArenaInterface): CombatMode = copy(arena, playerBase, enemy)
@@ -47,6 +57,12 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
     else
       handle(UIEvent.WinEndCombat)
   }
+
+  def meleeAttack(soldir: EnemyCell): Boolean = {
+    soldir.strength > playerBase.getAttackUnit.getStrength
+  }
+
+  //def rangeAttack(): GameMode = {}
 
   def move(e: UIEvent): CombatMode = {
     val (x, y) = calcDir(e)

@@ -1,19 +1,19 @@
 package de.htwg.se.heroes.aview
 
-import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.{CombatMode, UIEvent}
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
-import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart, ViewChanged}
+import de.htwg.se.heroes.controllerComponent._
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
-import scalafx.geometry.Insets
-import scalafx.scene.control.{Button, Label, TextArea, TextField, RadioButton, ToggleGroup}
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Cell => _, _}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.beans.property.ReadOnlyDoubleProperty
 import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.{BorderPane, GridPane}
+import scalafx.scene.layout.{BorderPane, GridPane, Priority, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.text.Text
 
@@ -28,6 +28,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     case e: FieldChanged => drawScene
     case e: GameStart => onGameStart
     case e: ViewChanged => drawView
+    case e: Win => drawFinished
   }
 
   onGameStart
@@ -100,6 +101,53 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
 
   def onGameStart = {
+  }
+
+  def drawFinished = {
+    Platform.runLater {
+      //val subScene = getSubScene
+      //val basicContent = createBasic3dContent  MODPROG github
+      stage.scene = new Scene(1024, 590) {
+        fill = Color.Brown
+        root = new VBox {
+          children = Seq(
+            button( "Winner is: " + controller.getMode.playlist.getPlayer, textInputDialog),
+            new Button {
+              text = "exit"
+              onAction = handle {
+                System.exit(0)
+              }
+            }
+          )
+        }
+      }
+    }
+  }
+
+  def button[R](text: String, action: () => R) = new Button(text) {
+    onAction = handle {action()}
+    alignmentInParent = Pos.Center
+    hgrow = Priority.Always
+    maxWidth = Double.MaxValue
+    padding = Insets(7)
+  }
+
+  def exitDialog(): Unit = {
+    val dialog = new TextInputDialog(defaultValue = "walter") {
+      initOwner(stage)
+      title = "Text Input Dialog"
+      headerText = "Look, a Text Input Dialog."
+      contentText = "Please enter your name:"
+    }
+  }
+
+  def textInputDialog(): Unit = {
+    val dialog = new TextInputDialog(defaultValue = "walter") {
+      initOwner(stage)
+      title = "Text Input Dialog"
+      headerText = "Look, a Text Input Dialog."
+      contentText = "Please enter your name:"
+    }
   }
 
   def drawView = {
@@ -261,6 +309,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     }
   }
 
+  def addEnemy(xs:Int, ys:Int): Node = {
+    new ImageView {
+      image = new Image("file:drake.jpg")
+      onMousePressed = handle {
+        controller.selectEnemy(xs,ys)
+      }
+    }
+  }
 
   def drawScene = {
     Platform.runLater {
@@ -284,7 +340,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           for {
             y <- 0 until 9
             x <- 0 until 9
-          } add(drawTexture(controller.getCell(x,y)), x, y)
+          } {
+            if(controller.getCell(x, y) match {
+              case f:EnemyCell => controller.getMode match {case d:CombatMode => true case _ => false}
+              case _ => false
+            }) add(addEnemy(x,y), x, y)
+            else
+              add(drawTexture(controller.getCell(x,y)), x, y)
+          }
         }
 
 
@@ -436,7 +499,8 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
       case Stop() => new Image("file:berg.jpg")
       case GoldCell() => new Image("file:gold.jpg")
       case f: EnemyCell => new Image("file:drake.jpg")
-      case f: Soldier => new Image("file:lich.jpg")
+      case f: MeleeSoldier => new Image("file:lich.jpg")
+      case f: RangeSoldier => new Image("file:gold.jpg")
     }
     new ImageView(typ)
   }

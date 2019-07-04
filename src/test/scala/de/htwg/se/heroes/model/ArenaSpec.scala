@@ -27,6 +27,7 @@ class ArenaSpec extends WordSpec with Matchers {
         var arena = new Arena(2, 2)
         arena = arena.initArena
         arena.toString should be("XX\nXX\n")
+        arena.size should be((2,2))
       }
     }
   }

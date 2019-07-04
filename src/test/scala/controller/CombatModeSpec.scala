@@ -49,6 +49,14 @@ class CombatModeSpec extends WordSpec with Matchers {
         moved = moved.action(UIEvent.MoveUp).asInstanceOf[CombatMode]
         moved.playArena.cell(1,1).toString should be(" ")
       }
+      "get cell" in {
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
+        combat.cell(3,3).toString should be(" ")
+      }
+      "get playbase" in {
+        val combat = CombatMode(new Arena(30, 10), playerBase, enemy, MapMode(new Field(9), playerBase))
+        combat.playerBase should be(playerBase)
+      }
     }
 
   }

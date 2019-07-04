@@ -3,7 +3,7 @@ package aview
 import de.htwg.se.heroes.aview._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.MapMode
-import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, EnemyCell, Field, HeroCell, GoldCell}
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
@@ -56,10 +56,6 @@ class TUISpec  extends WordSpec with Matchers{
       tui.processInputLine("d")
       controller.mode.asInstanceOf[MapMode].playField.cell(9, 9) should be(HeroCell("2"))
     }
-    "create a random heroes on input 'Any'" in {
-      tui.processInputLine("x")
-      controller.mode.asInstanceOf[MapMode].playField.cell(9, 9) should be(HeroCell("2"))
-    }
     "quit" in {
       tui.processInputLine("q")
     }
@@ -68,7 +64,7 @@ class TUISpec  extends WordSpec with Matchers{
     }
     "player buys units" in {
       controller.playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 0, 0)
-      tui.processInputLine("b,1,m")
+      tui.processInputLine("b,1")
       controller.mode.playlist.getPlayer.gold should be(90)
       controller.mode.playlist.getPlayer.units.toString should be("ListMap(M -> 1)")
     }

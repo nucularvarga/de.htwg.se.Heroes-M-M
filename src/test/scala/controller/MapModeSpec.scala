@@ -1,6 +1,6 @@
 package controller
 
-import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.{CombatMode, MapMode}
+import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.{CombatMode, MapMode, UIEvent}
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{EnemyCell, Field}
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.{Player, PlayerList}
 import de.htwg.se.heroes.model.soldier.SoldierInterface
@@ -23,6 +23,13 @@ class MapModeSpec extends WordSpec with Matchers {
       "setup the bloody arena" in {
         map.startBattle(enemy).isInstanceOf[CombatMode] should be(true)
         //map.handle(Event.StartCombat).isInstanceOf[CombatMode] should be(true)
+      }
+      "pickup gold" in {
+        map.pickupGold(UIEvent.MoveDown)
+        map.playerBase.getPlayer.gold should be(145)
+      }
+      "getCell" in {
+        map.cell(0,0).toString should be(" ")
       }
     }
   }
