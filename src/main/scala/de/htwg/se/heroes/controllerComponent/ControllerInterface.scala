@@ -34,3 +34,4 @@ import scala.swing.event.Event
 class FieldChanged extends Event
 class GameStart extends Event
 class ViewChanged extends Event
+class Win extends Event

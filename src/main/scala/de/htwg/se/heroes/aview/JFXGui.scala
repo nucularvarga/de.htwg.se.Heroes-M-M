@@ -5,15 +5,15 @@ import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
 import scalafx.Includes._
 import scalafx.application.{JFXApp, Platform}
 import scalafx.scene.{Node, Scene, SceneAntialiasing, SubScene}
-import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, GameStart, ViewChanged}
+import de.htwg.se.heroes.controllerComponent._
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
-import scalafx.geometry.Insets
-import scalafx.scene.control.{Button, Label, TextArea, TextField}
+import scalafx.geometry.{Insets, Pos}
+import scalafx.scene.control.{Cell => _, _}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.beans.property.ReadOnlyDoubleProperty
 import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.{BorderPane, GridPane}
+import scalafx.scene.layout.{BorderPane, GridPane, Priority, VBox}
 import scalafx.scene.paint.Color
 import scalafx.scene.text.Text
 
@@ -28,6 +28,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     case e: FieldChanged => drawScene
     case e: GameStart => onGameStart
     case e: ViewChanged => drawView
+    case e: Win => drawFinished
   }
 
   onGameStart
@@ -72,6 +73,53 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
 
 
   def onGameStart = {
+  }
+
+  def drawFinished = {
+    Platform.runLater {
+      //val subScene = getSubScene
+      //val basicContent = createBasic3dContent  MODPROG github
+      stage.scene = new Scene(1024, 590) {
+        fill = Color.Brown
+        root = new VBox {
+          children = Seq(
+            button( "Winner is: " + controller.getMode.playlist.getPlayer, textInputDialog),
+            new Button {
+              text = "exit"
+              onAction = handle {
+                System.exit(0)
+              }
+            }
+          )
+        }
+      }
+    }
+  }
+
+  def button[R](text: String, action: () => R) = new Button(text) {
+    onAction = handle {action()}
+    alignmentInParent = Pos.Center
+    hgrow = Priority.Always
+    maxWidth = Double.MaxValue
+    padding = Insets(7)
+  }
+
+  def exitDialog(): Unit = {
+    val dialog = new TextInputDialog(defaultValue = "walter") {
+      initOwner(stage)
+      title = "Text Input Dialog"
+      headerText = "Look, a Text Input Dialog."
+      contentText = "Please enter your name:"
+    }
+  }
+
+  def textInputDialog(): Unit = {
+    val dialog = new TextInputDialog(defaultValue = "walter") {
+      initOwner(stage)
+      title = "Text Input Dialog"
+      headerText = "Look, a Text Input Dialog."
+      contentText = "Please enter your name:"
+    }
   }
 
   def drawView = {

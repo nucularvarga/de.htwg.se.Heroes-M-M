@@ -6,7 +6,7 @@ import net.codingwell.scalaguice.InjectorExtensions._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.UIEvent
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent._
-import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, ViewChanged}
+import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged, ViewChanged, Win}
 import de.htwg.se.heroes.model.fieldComponent._
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
@@ -58,10 +58,10 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def init(): Unit = {
     playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
+    //playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
-    playField = playField.set(8, 8, HeroCell("2"))
+   // playField = playField.set(8, 8, HeroCell("2"))
 
     playField = playField.set(3, 7, EnemyCell(2))
     playField = playField.set(1, 1, GoldCell())
@@ -76,7 +76,10 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
       case MoveRight => handle(UIEvent.MoveRight)
       case MoveLeft => handle(UIEvent.MoveLeft)
     }
-    publish(new FieldChanged)
+    if(checkWin())
+      publish(new Win)
+    else
+      publish(new FieldChanged)
   }
 
   def selectEnemy(x: Int, y:Int): Unit = {
@@ -84,10 +87,17 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
       case f:EnemyCell => mode.asInstanceOf[CombatMode].selectX = x; mode.asInstanceOf[CombatMode].selectY = y; handle(UIEvent.Selected)
       case _ =>
     }
-    publish(new FieldChanged)
+    if(checkWin())
+      publish(new Win)
+    else
+      publish(new FieldChanged)
   }
 
   override def getMode: GameMode = mode
+
+  def checkWin(): Boolean = {
+    mode.playlist.getSize == 1
+  }
 
   def handle(e: UIEvent): Unit = {
     mode match {

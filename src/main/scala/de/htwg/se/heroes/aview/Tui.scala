@@ -53,7 +53,10 @@ class Tui(controller: ControllerInterface) extends Reactor {
     case event: FieldChanged => updated
     case event: GameStart => updated
     case event: ViewChanged => lookAround
+    case event: Win => finished
   }
+
+  def finished: Unit = println("Winner is: " + controller.getMode.playlist.getPlayer)
 
   def lookAround = println(controller.viewToString)
 
