@@ -63,7 +63,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
     if (number.toInt == 2) {
       playerBase = playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 8, 8)
-      playField = playField.set(5, 8, HeroCell("2"))
+      playField = playField.set(8, 8, HeroCell("2"))
       playField = playField.set(11, 9, GoldCell())
       playField = playField.set(16, 16, GoldCell())
       playField = playField.set(17, 8, EnemyCell(100))

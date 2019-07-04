@@ -31,7 +31,8 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "q" =>
       // TODO case "add" => addspieler(name)
       case "n" => controller.createNewField(9)
-      case "i" => println("Wie viel spieler?"); controller.init(readLine())
+      case "i1" => controller.init("1")
+      case "i2" => controller.init("2")
       case "r" => controller.undo
       case "y" => controller.redo
       case "k" => controller.save
