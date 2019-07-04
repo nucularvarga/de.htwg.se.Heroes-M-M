@@ -3,7 +3,7 @@ package aview
 import de.htwg.se.heroes.aview._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.MapMode
-import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, EnemyCell, Field, HeroCell}
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import org.scalatest.{Matchers, WordSpec}
@@ -17,16 +17,18 @@ class TUISpec  extends WordSpec with Matchers{
     val tui = new Tui(controller)
     "create and empty playground on input 'n'" in {
       tui.processInputLine("n")
-      controller.playField.toString should be(new Field(9).toString)
+      controller.playField.toString should be(new Field(20).toString)
     }
     "init playground on input 'i'" in {
       tui.processInputLine("i")
-      var filed = new Field(9)
+      var filed = new Field(20)
 
       filed = filed.initField
       filed = filed.set(6, 6, HeroCell("1"))
-      filed = filed.set(3, 3, HeroCell("2"))
+      filed = filed.set(8, 8, HeroCell("2"))
+
       filed = filed.set(3, 7, EnemyCell(2))
+      filed = filed.set(1, 1, GoldCell())
       controller.playField.toString should be(filed.toString)
     }
 
@@ -38,7 +40,7 @@ class TUISpec  extends WordSpec with Matchers{
 
     "create a random heroes on input 's'" in {
       tui.processInputLine("s")
-      controller.mode.asInstanceOf[MapMode].playField.cell(3,4) should be(HeroCell("2"))
+      controller.mode.asInstanceOf[MapMode].playField.cell(8,9) should be(HeroCell("2"))
     }
     "create a random heroes on input 'a'" in {
       tui.processInputLine("a")
@@ -46,11 +48,7 @@ class TUISpec  extends WordSpec with Matchers{
     }
     "create a random heroes on input 'd'" in {
       tui.processInputLine("d")
-      controller.mode.asInstanceOf[MapMode].playField.cell(4, 4) should be(HeroCell("2"))
-    }
-    "create a random heroes on input 'Any'" in {
-      tui.processInputLine("x")
-      controller.mode.asInstanceOf[MapMode].playField.cell(4, 4) should be(HeroCell("2"))
+      controller.mode.asInstanceOf[MapMode].playField.cell(9, 9) should be(HeroCell("2"))
     }
     "quit" in {
       tui.processInputLine("q")
@@ -60,7 +58,7 @@ class TUISpec  extends WordSpec with Matchers{
     }
     "player buys units" in {
       controller.playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 0, 0)
-      tui.processInputLine("b,1,m")
+      tui.processInputLine("b,1")
       controller.mode.playlist.getPlayer.gold should be(90)
       controller.mode.playlist.getPlayer.units.toString should be("ListMap(M -> 1)")
     }

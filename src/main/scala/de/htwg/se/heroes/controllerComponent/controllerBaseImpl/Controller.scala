@@ -58,10 +58,10 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
 
   def init(): Unit = {
     playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
-    //playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
+    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
-   // playField = playField.set(8, 8, HeroCell("2"))
+    playField = playField.set(8, 8, HeroCell("2"))
 
     playField = playField.set(3, 7, EnemyCell(2))
     playField = playField.set(1, 1, GoldCell())
