@@ -7,7 +7,7 @@ import scala.swing.Publisher
 
 
 trait ControllerInterface extends Publisher{
-  def init(): Unit
+  def init(number: String): Unit
   def createNewField(size: Int): Unit
   def action(d : UIEvent): Unit
   def handle(e: UIEvent): Unit

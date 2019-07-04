@@ -56,15 +56,25 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
     publish(new FieldChanged)
   }
 
-  def init(): Unit = {
+  def init(number: String): Unit = {
     playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
-    playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
     playField = playField.initField
     playField = playField.set(6, 6, HeroCell("1"))
-    playField = playField.set(8, 8, HeroCell("2"))
 
-    playField = playField.set(3, 7, EnemyCell(2))
-    playField = playField.set(1, 1, GoldCell())
+    if (number.toInt == 2) {
+      playerBase = playerBase.addPlayer("2", 100, 100, new ListMap[Soldier, Int], 8, 8)
+      playField = playField.set(5, 8, HeroCell("2"))
+      playField = playField.set(11, 9, GoldCell())
+      playField = playField.set(16, 16, GoldCell())
+      playField = playField.set(17, 8, EnemyCell(100))
+    }
+
+    playField = playField.set(3, 7, EnemyCell(20))
+    playField = playField.set(11, 3, EnemyCell(50))
+    playField = playField.set(10, 14, EnemyCell(100))
+    playField = playField.set(3, 2, GoldCell())
+    playField = playField.set(15, 3, GoldCell())
+    playField = playField.set(4, 15, GoldCell())
     mode = MapMode(playField, playerBase)
     publish(new FieldChanged)
   }

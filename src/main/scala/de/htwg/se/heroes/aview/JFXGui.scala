@@ -9,7 +9,7 @@ import de.htwg.se.heroes.controllerComponent.{ControllerInterface, FieldChanged,
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 import scalafx.geometry.Insets
-import scalafx.scene.control.{Button, Label, TextArea, TextField}
+import scalafx.scene.control.{Button, Label, TextArea, TextField, RadioButton, ToggleGroup}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.beans.property.ReadOnlyDoubleProperty
 import scalafx.scene.image.{Image, ImageView}
@@ -55,17 +55,45 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
   // creategame window
   def createView(boundWidth: ReadOnlyDoubleProperty, boundHeight: ReadOnlyDoubleProperty): BorderPane = {
     new BorderPane {
-      center = new SubScene(1024, 590){
+      center = new SubScene(1024, 590) {
         id = "sub"
         fill = Color.Green
         //this.width.bind(boundWidth.add(0))
         //this.height.bind(boundHeight.add(-20))
-        content = new Button {
-          text = "Down"
-          onAction = handle {
-            controller.init()
+        val startGame = new GridPane {
+          private val label = new Label {
+            text = "Wie viele Spieler?"
           }
+
+          private val tog = new ToggleGroup()
+
+          private val radioButton1 = new RadioButton {
+            text = "Solo Spiel"
+            id = "1"
+            toggleGroup = tog
+          }
+
+          private val radioButton2 = new RadioButton {
+            text = "2 Spieler"
+            id = "2"
+            toggleGroup = tog
+          }
+
+          private val startButton = new Button {
+            text = "Start"
+            onAction = handle {
+              controller.init(tog.selectedToggle.get.asInstanceOf[javafx.scene.control.ToggleButton].id())
+            }
+          }
+
+          add(label, 1, 1)
+          add(radioButton1, 1, 2)
+          add(radioButton2, 1, 3)
+          add(startButton, 1, 4)
         }
+
+        content = startGame
+
       }
     }
   }

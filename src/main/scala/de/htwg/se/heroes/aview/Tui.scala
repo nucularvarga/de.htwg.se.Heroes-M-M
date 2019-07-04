@@ -3,6 +3,7 @@ package de.htwg.se.heroes.aview
 import de.htwg.se.heroes.controllerComponent._
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent
 
+import scala.io.StdIn.readLine
 import scala.swing.Reactor
 
 class Tui(controller: ControllerInterface) extends Reactor {
@@ -30,7 +31,7 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "q" =>
       // TODO case "add" => addspieler(name)
       case "n" => controller.createNewField(9)
-      case "i" => controller.init()
+      case "i" => println("Wie viel spieler?"); controller.init(readLine())
       case "r" => controller.undo
       case "y" => controller.redo
       case "k" => controller.save
