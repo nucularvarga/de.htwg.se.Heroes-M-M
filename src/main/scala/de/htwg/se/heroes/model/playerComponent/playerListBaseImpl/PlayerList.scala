@@ -63,13 +63,6 @@ case class PlayerList(playerBase: Vector[Player], var PlayerTurn: Int) extends P
     this
   }
 
-  def getDefendUnit: SoldierInterface = {
-    if(defendUnit >= playerBase(PlayerTurn).units.size) {
-      defendUnit = 0
-    }
-    playerBase(PlayerTurn).units.toList(defendUnit)._1
-  }
-
 /*
   def updatePlayer(player: Player, row: Int, col: Int): PlayerList = {
     if(PlayerTurn >= playerBase.length) {

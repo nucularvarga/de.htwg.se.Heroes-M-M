@@ -16,7 +16,6 @@ trait PlayerListInterface {
   def getAttackUnit: Soldier
   def nextDefendUnit: Unit
   def updateAttackUnit: PlayerListInterface
-  def getDefendUnit: SoldierInterface
   def getTurn: Int
   def getSize: Int
   def updatePlayer(str: Int, x: Int, y: Int): PlayerListInterface
