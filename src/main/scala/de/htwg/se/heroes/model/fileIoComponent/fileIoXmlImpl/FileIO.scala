@@ -89,8 +89,7 @@ class FileIO extends FileIOInterface{
   }
 
   def cellToXml(grid: FieldInterface, row: Int, col: Int) = {
-    <cell row={ row.toString } col={ col.toString } typ={ grid.cell(col, row).toString }>
-    </cell>
+    <cell row={ row.toString } col={ col.toString } typ={ grid.cell(col, row).toString }></cell>
   }
 
   def playerListToXml(playlist: PlayerListInterface) = {
