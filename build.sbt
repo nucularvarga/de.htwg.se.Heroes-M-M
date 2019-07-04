@@ -14,7 +14,6 @@ resolvers += Resolver.sonatypeRepo("snapshots")
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-Xcheckinit", "-encoding", "utf8", "-feature")
 
 
-
 // Determine OS version of JavaFX binaries
 lazy val osName = System.getProperty("os.name") match {
   case n if n.startsWith("Linux") => "linux"

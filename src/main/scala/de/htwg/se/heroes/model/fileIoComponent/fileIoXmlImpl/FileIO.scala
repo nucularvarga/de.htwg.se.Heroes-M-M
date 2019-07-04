@@ -9,19 +9,24 @@ import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
 import de.htwg.se.heroes.model.soldier.SoldierInterface
+import java.io._
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 import scala.collection.immutable.ListMap
-import scala.io.Source
-import scala.xml.PrettyPrinter
+import scala.xml.{Elem, PrettyPrinter}
 
 class FileIO extends FileIOInterface{
 
   //override def load_Arena: ArenaInterface = ???
 
   override def load_Field: FieldInterface = {
-    var field: FieldInterface = null
     val file = scala.xml.XML.loadFile("field.xml")
+    load_Field_file(file)
+  }
+
+
+  def load_Field_file(file: Elem): FieldInterface = {
+    var field: FieldInterface = null
     val sizeAttr = (file \\ "field" \ "@size")
     val size = sizeAttr.text.toInt
     val injector = Guice.createInjector(new HeroesModule)
@@ -41,11 +46,15 @@ class FileIO extends FileIOInterface{
       field = field.set(col, row, typ)
     }
     field
+
+  }
+  override def load_PlayerList: PlayerListInterface = {
+    val file = scala.xml.XML.loadFile("playlist.xml")
+    load_List_file(file)
   }
 
-  override def load_PlayerList: PlayerListInterface = {
+  def load_List_file(file: Elem): PlayerListInterface = {
     var playlist: PlayerListInterface = null
-    val file = scala.xml.XML.loadFile("playlist.xml")
 
     val size = (file \\ "playerList" \ "@amount")
     val amount = size.text.toInt
@@ -64,7 +73,6 @@ class FileIO extends FileIOInterface{
     }
     playlist
   }
-
 
   //override def save_Arena(arena: ArenaInterface): Unit = ???
 
@@ -131,10 +139,10 @@ class FileIO extends FileIOInterface{
 
   override def save_PlayerList(playerList: PlayerListInterface): Unit = {
     import java.io._
-    val pw = new PrintWriter(new File("playlist.xml"))
+    val pwr = new PrintWriter(new File("playlist.xml"))
     val prettyPrinter = new PrettyPrinter(120, 4)
     val xml = prettyPrinter.format(playerListToXml(playerList))
-    pw.write(xml)
-    pw.close()
+    pwr.write(xml)
+    pwr.close()
   }
 }

@@ -44,8 +44,29 @@ class XmlSpec extends WordSpec with Matchers {
         </playerList>
       }
       "load field" in {
+        val el = <field size="2"><cell row="0" col="0" typ="X"></cell><cell row="0" col="1" typ=" "></cell><cell row="1" col="0" typ="F"></cell><cell row="1" col="1" typ="l"></cell></field>
+        file.load_Field_file(el)
+        Field(new Matrix(2)) should equal (Field(new Matrix(2)))
+      }
+      "load list" in {
+        val el = <playerList turn="0" amount="2">
+          <playerinfo>
+            <player name="1" gold="100" strength="100" x="6" y="6">
+            </player><player name="2" gold="100" strength="100" x="8" y="8">
+          </player>
+          </playerinfo><Units>
+
+          </Units>
+        </playerList>
+        file.load_List_file(el)
+        Field(new Matrix(2)) should equal (Field(new Matrix(2)))
+      }
+      "asd" in {
         val injector = Guice.createInjector(new HeroesModule)
-       // file.load_Field.toString should be(injector.instance[FieldInterface].toString)
+        var playerBase = injector.instance[PlayerListInterface]
+        playerBase = playerBase.addPlayer("1", 100, 100, new ListMap[Soldier, Int],  6, 6)
+        playerBase = playerBase.addPlayer("2", 100, 100,  new ListMap[Soldier, Int], 8, 8)
+        file.save_PlayerList(playerBase)
       }
     }
   }
