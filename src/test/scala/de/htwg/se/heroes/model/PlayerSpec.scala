@@ -3,7 +3,7 @@ package de.htwg.se.heroes.model
 
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
 import de.htwg.se.heroes.model.soldier.SoldierInterface
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -44,6 +44,24 @@ class PlayerSpec extends WordSpec with Matchers {
         nonEmptyPlayer = nonEmptyPlayer.addUnit(new Soldier(1,1), 1, 5)
         //nonEmptyPlayer.units should be(list.updated(new Soldier(1,1), 2))
         nonEmptyPlayer.toString should be("test: Gold: 90 Strength: 10 Units: ListMap(S -> 1, S -> 1)")
+      }
+      "move units" in {
+        var Player1 = Player("nargh", 100, 10, new ListMap[Soldier, Int], 1, 1)
+        Player1 = Player1.addUnit(new RangeSoldier(2,2), 1, 5)
+
+        var Player2 = Player("nargh", 100, 10, new ListMap[Soldier, Int], 1, 1)
+        Player2 = Player2.addUnit(new RangeSoldier(2,2), 1, 5)
+        Player2 = Player2.addUnit(new RangeSoldier(2,2), 0, 0)
+        Player1.moveUnit(2,2, new RangeSoldier(2,2)).toString should be(Player2.toString)
+      }
+      "move unit" in {
+        var Player1 = Player("nargh", 100, 10, new ListMap[Soldier, Int], 1, 1)
+        Player1 = Player1.addUnit(new Soldier(2,2), 1, 5)
+
+        var Player2 = Player("nargh", 100, 10, new ListMap[Soldier, Int], 1, 1)
+        Player2 = Player2.addUnit(new Soldier(2,2), 1, 5)
+        Player2 = Player2.addUnit(new MeleeSoldier(2,2), 0, 0)
+        Player1.moveUnit(2,2, new Soldier(2,2)).toString should be(Player2.toString)
       }
     }
   }

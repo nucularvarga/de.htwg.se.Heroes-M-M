@@ -1,10 +1,7 @@
 package de.htwg.se.heroes.model.playerComponent.playerListBaseImpl
 
-import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.UIEvent.{BuyMelee, BuyRange}
 import de.htwg.se.heroes.model.playerComponent.PlayerInterface
-import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
-//import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 
 import scala.collection.immutable.ListMap
 
@@ -15,13 +12,12 @@ case class Player(name: String, gold: Int, strength: Int, units: ListMap[Soldier
   def walk(nx: Int, ny: Int): Player = copy(name, gold, strength, units, x + nx, y + ny)
 
   def addUnit(unit: Soldier, amount: Int, costs: Int): Player = {
-    if(units contains unit) {
-      println("map contains " + unit)
+    /*if(units contains unit) {
       val tmp = units(unit) + amount
       copy(name, gold - costs, strength, units + (unit -> tmp), x, y)
     } else {
-      copy(name, gold - costs, strength, units + (unit -> amount), x, y)
-    }
+     */ copy(name, gold - costs, strength, units + (unit -> amount), x, y)
+    //}
   }
 
   def moveUnit(xs: Int, ys: Int, remove: Soldier): Player = {
