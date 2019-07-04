@@ -12,7 +12,7 @@ class GUISpec  extends WordSpec with Matchers {
   "A Heroes Gui" should {
     val controller = new Controller(new Field(9), new Arena(5, 10))
     val gui = new JFXGui(controller)
-    new Thread(new Runnable {
+ /*   new Thread(new Runnable {
       def run(): Unit = {
         gui.main(Array())
       }
@@ -20,5 +20,5 @@ class GUISpec  extends WordSpec with Matchers {
     "create and empty playground on input 'n'" in {
       gui.drawView should be()
     }
-  }
+  */}
 }
