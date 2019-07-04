@@ -5,7 +5,7 @@ import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.Controller
 import de.htwg.se.heroes.controllerComponent.controllerBaseImpl.gamemode.MapMode
 import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.soldier.SoldierInterface
-import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{RangeSoldier, Soldier}
 import org.scalatest.{Matchers, WordSpec}
 
 import scala.collection.immutable.ListMap
@@ -32,7 +32,7 @@ class TUISpec  extends WordSpec with Matchers{
       filed = filed.set(15, 3, GoldCell())
       filed = filed.set(4, 15, GoldCell())
       filed = filed.set(17, 8, EnemyCell(100))
-      filed = filed.set(3, 7, EnemyCell(20))
+      filed = filed.set(5, 6, EnemyCell(20))
       filed = filed.set(11, 3, EnemyCell(50))
       filed = filed.set(10, 14, EnemyCell(100))
       controller.playField.toString should be(filed.toString)
@@ -67,6 +67,31 @@ class TUISpec  extends WordSpec with Matchers{
       tui.processInputLine("b,1")
       controller.mode.playlist.getPlayer.gold should be(90)
       controller.mode.playlist.getPlayer.units.toString should be("ListMap(M -> 1)")
+    }
+    "select enemy" in {
+      var controller = new Controller(Field(new Matrix(20)), Arena(new Matrix(9)))
+      val tu = new Tui(controller)
+      controller.init("1")
+      controller.mode = controller.getMode.updatePlayerBase(controller.getMode.playlist.setUnits(new RangeSoldier(1,1), 1, 1) )
+      tu.processInputLine("d")
+      tu.processInputLine("a")
+      tu.processInputLine("y")
+      tu.processInputLine("r")
+      tu.processInputLine("a")
+      tu.processInputLine("a")
+      tu.processInputLine("d")
+      tu.processInputLine("s")
+      tu.processInputLine("w")
+      tu.processInputLine("a")
+      tu.processInputLine("r")
+      tu.processInputLine("y")
+      tu.processInputLine("k")
+      controller.getCell(0,0) should be(Stop())
+      controller.getMatrixCell(0,0) should be(Leer())
+      controller.getMessage should be("")
+      //tu.processInputLine("l")
+      tu.processInputLine("7,1")
+      controller.getMode should be(controller.mode)
     }
 
   }

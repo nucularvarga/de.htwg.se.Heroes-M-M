@@ -69,7 +69,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
       playField = playField.set(17, 8, EnemyCell(100))
     }
 
-    playField = playField.set(3, 7, EnemyCell(20))
+    playField = playField.set(5, 6, EnemyCell(20))
     playField = playField.set(11, 3, EnemyCell(50))
     playField = playField.set(10, 14, EnemyCell(100))
     playField = playField.set(3, 2, GoldCell())
