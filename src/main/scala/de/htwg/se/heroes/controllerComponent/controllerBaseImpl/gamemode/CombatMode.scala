@@ -35,7 +35,6 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
   def updateArena(arena: ArenaInterface): CombatMode = copy(arena, playerBase, enemy)
 
   def initArena(): CombatMode = {
-    println("action init")
     val f = updateArena(playArena.initArena)
     f.setSoldier(f.enemy)
   }
@@ -70,9 +69,7 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
     f =  updateArena(playArena.set(playerBase.getAttackUnit.getX,  playerBase.getAttackUnit.getY, Leer()))
     f = f.updateArena(f.playArena.set(f.playerBase.getAttackUnit.getX + x, f.playerBase.getAttackUnit.getY + y, f.playerBase.getAttackUnit.asInstanceOf[Cell]))
     f = f.updatePlayerBase(f.playerBase.moveunit(f.playerBase.getAttackUnit.getX + x, f.playerBase.getAttackUnit.getY + y, f.playerBase.getAttackUnit))
-    println("x= " + f.playerBase.getAttackUnit.getX + " y= " + f.playerBase.getAttackUnit.getY)
     //f = f.updatePlayerBase(f.playerBase.nextAttackUnit)
-    println("attacknumber =" + f.playerBase.getAttackUnit)
     f
   }
 

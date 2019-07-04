@@ -5,7 +5,6 @@ import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{Arena, Cell, HeroCe
 import org.scalatest.{Matchers, WordSpec}
 
 class ArenaSpec extends WordSpec with Matchers {
-
   "A Arena" when {
     "set to a specific value" should {
       val EmptyArena = new Arena(10, 5)
