@@ -11,6 +11,7 @@ class CellSpec extends WordSpec with Matchers {
       "have value ' '" in {
         emptyCell.typ should be(" ")
         emptyCell.toString should be(" ")
+        emptyCell.value should be(" ")
       }
     }
   }
