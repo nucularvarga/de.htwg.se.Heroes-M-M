@@ -6,7 +6,7 @@ import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 
 case class MapMode(playField: FieldInterface, var playerBase: PlayerListInterface) extends GameMode {
-  var enemy: EnemyCell = EnemyCell(0)
+  var enemy: EnemyCell = EnemyCell(10)
   private var t: GameMode = this
   override def handle(e: UIEvent):GameMode = {
     e match {

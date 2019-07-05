@@ -26,7 +26,7 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
   }
 
   def executeRange(): GameMode = {
-    if( playArena.cell(selectX, selectY).asInstanceOf[EnemyCell].strength > playerBase.getAttackUnit.getStrength)
+    if( playArena.cell(selectX, selectY).asInstanceOf[EnemyCell].strength < playerBase.getAttackUnit.getStrength)
       handle(UIEvent.LoseEndCombat)
     else
       handle(UIEvent.WinEndCombat)
@@ -51,10 +51,12 @@ case class CombatMode(playArena: ArenaInterface, playerBase: PlayerListInterface
   }
 
   def fight(soldir: EnemyCell, d:UIEvent): GameMode = {
-    if( soldir.strength > playerBase.getAttackUnit.getStrength)
-      handle(UIEvent.LoseEndCombat)
-    else
+    if(soldir.strength < playerBase.getAttackUnit.getStrength)
+      this//handle(UIEvent.LoseEndCombat)
+    else {
       handle(UIEvent.WinEndCombat)
+    }
+
   }
 
   def meleeAttack(soldir: EnemyCell): Boolean = {

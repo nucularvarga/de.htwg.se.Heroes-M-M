@@ -3,13 +3,14 @@ package de.htwg.se.heroes.model.fileIoComponent.fileIoXmlImpl
 import com.google.inject.Guice
 import de.htwg.se.heroes.HeroesModule
 import net.codingwell.scalaguice.InjectorExtensions._
-import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl.{EnemyCell, HeroCell, Leer, Stop}
+import de.htwg.se.heroes.model.fieldComponent.fieldBaseImpl._
 import de.htwg.se.heroes.model.fieldComponent.{ArenaInterface, FieldInterface}
 import de.htwg.se.heroes.model.fileIoComponent.FileIOInterface
 import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 import java.io._
+
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
 
 import scala.collection.immutable.ListMap
@@ -41,6 +42,7 @@ class FileIO extends FileIOInterface{
         case " " => Leer()
         case "X" => Stop()
         case "F" => EnemyCell(5)
+        case ")" => GoldCell()
         case _ => HeroCell(value)
       }
       field = field.set(col, row, typ)
