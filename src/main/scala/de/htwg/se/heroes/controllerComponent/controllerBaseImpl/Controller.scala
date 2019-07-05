@@ -33,7 +33,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   var saveMap = mode
   val undoManager = new UndoManager
   var matrix = new Matrix(9)
-  var zoom = Zoom(8,8, new Matrix(20))
+  var zoom = Zoom(4,4, new Matrix(20))
 
 
 
@@ -69,6 +69,17 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
       playField = playField.set(17, 8, EnemyCell(100))
     }
 
+    playField = playField.set(4, 4, Stop())
+    playField = playField.set(5, 4, Stop())
+    playField = playField.set(5, 4, Stop())
+
+    playField = playField.set(9, 4, Stop())
+    playField = playField.set(9, 5, Stop())
+    playField = playField.set(9, 6, Stop())
+
+    playField = playField.set(5, 9, Stop())
+    playField = playField.set(4, 9, Stop())
+    playField = playField.set(6, 9, Stop())
     playField = playField.set(5, 6, EnemyCell(20))
     playField = playField.set(11, 3, EnemyCell(50))
     playField = playField.set(10, 14, EnemyCell(100))

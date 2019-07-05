@@ -1,4 +1,6 @@
-FROM hseeberger/scala-sbt:11.0.2_2.12.8_1.2.8
+FROM hseeberger/scala-sbt
+RUN apt-get update && apt-get install -y --no-install-recommends openjfx && rm -rf /var/lib/apt/lists/*
 WORKDIR /heroes
 ADD . /heroes
+ENV DISPLAY=:0.0
 CMD sbt run

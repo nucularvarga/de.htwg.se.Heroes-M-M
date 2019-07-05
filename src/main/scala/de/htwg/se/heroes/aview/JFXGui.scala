@@ -13,7 +13,7 @@ import scalafx.scene.control.{Cell => _, _}
 import scalafx.application.JFXApp.PrimaryStage
 import scalafx.beans.property.ReadOnlyDoubleProperty
 import scalafx.scene.image.{Image, ImageView}
-import scalafx.scene.layout.{BorderPane, GridPane, Priority, VBox}
+import scalafx.scene.layout._
 import scalafx.scene.paint.Color
 import scalafx.scene.text.Text
 
@@ -36,7 +36,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
   stage = new PrimaryStage {
     outer =>
     title = "Heroes of Might and Magic"
-    scene = new Scene(1020, 800) {
+    scene = new Scene(1020, 600) {
       root = new BorderPane {
         fill = Color.Brown
         add( 1, 0)
@@ -54,7 +54,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
   // creategame window
   def createView(): BorderPane = {
     new BorderPane {
-      center = new SubScene(1020, 800) {
+      center = new SubScene(1020, 600) {
         id = "sub"
         fill = Color.Green
         //this.width.bind(boundWidth.add(0))
@@ -79,8 +79,8 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           }
 
           private val startButton = new Button {
-            maxHeight_=(1020)
-            maxWidth_=(765)
+            maxHeight_=(1024)
+            layoutX_=(765)
             graphic_=( new ImageView(new Image("file:wallpaper.jpg")))
             onAction = handle {
               controller.init(tog.selectedToggle.get.asInstanceOf[javafx.scene.control.ToggleButton].id())
@@ -107,7 +107,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     Platform.runLater {
       //val subScene = getSubScene
       //val basicContent = createBasic3dContent  MODPROG github
-      stage.scene = new Scene(1024, 800) {
+      stage.scene = new Scene(1024, 600) {
         fill = Color.Brown
         root = new VBox {
           children = Seq(
@@ -154,7 +154,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     Platform.runLater {
       //val subScene = getSubScene
       //val basicContent = createBasic3dContent  MODPROG github
-      stage.scene = new Scene(1024, 800) {
+      stage.scene = new Scene(1024, 600) {
         fill = Color.Brown
         private val textinfo = new Text {
           id = "statusText"
@@ -243,7 +243,7 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           }
 
           private val revert = new Button {
-            text = "Undo"
+            text = "Re"
             onAction = handle {
               controller.undo
             }
@@ -257,48 +257,48 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           }
 
           private val lookright = new Button {
-            text = "lookright"
+            graphic_=(new ImageView(new Image("file:rechts.png")))
             onAction = handle {
               controller.show(UIEvent.MoveRight)
             }
           }
 
           private val lookleft = new Button {
-            text = "lookleft"
+            graphic_=(new ImageView(new Image("file:links.png")))
             onAction = handle {
               controller.show(UIEvent.MoveLeft)
             }
           }
 
           private val lookdown = new Button {
-            text = "lookdown"
+            graphic_=(new ImageView(new Image("file:unten.png")))
             onAction = handle {
               controller.show(UIEvent.MoveDown)
             }
           }
 
           private val looup = new Button {
-            text = "looup"
+            graphic_=(new ImageView(new Image("file:hoch.png")))
             onAction = handle {
               controller.show(UIEvent.MoveUp)
             }
           }
-          add(exit, 1, 0)
+          add(exit, 5, 0)
           add(up, 1, 1)
           add(right, 2, 2)
           add(Left, 0, 2)
           add(Down, 1, 2)
-          add(buyfield, 3, 3)
-          add(buybutton, 4, 3)
+          add(buyfield, 1, 3)
           add(buytyp, 2,3)
-          add(info, 5, 3)
-          add(revert, 4, 4)
-          add(save, 2, 4)
-          add(load, 2, 5)
-          add(looup, 2, 7)
-          add(lookdown, 2, 8)
-          add(lookleft, 1, 8)
-          add(lookright, 3, 8)
+          add(buybutton, 3, 3)
+          add(info, 4, 3)
+          add(revert, 0, 0)
+          add(save, 3, 0)
+          add(load, 2, 0)
+          add(looup, 1, 4)
+          add(lookdown, 1, 5)
+          add(lookleft, 0, 5)
+          add(lookright, 2, 5)
         }
 
 
@@ -322,10 +322,11 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
     Platform.runLater {
       //val subScene = getSubScene
       //val basicContent = createBasic3dContent  MODPROG github
-      stage.scene = new Scene(1024, 800) {
+      stage.scene = new Scene(1024, 600) {
         fill = Color.Brown
         private val textinfo = new Text {
           id = "statusText"
+          text = controller.getMessage
         }
         //textinfo.setPrefWidth(250)
         //textinfo.setPrefHeight(50)
@@ -418,14 +419,14 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
           }
 
           private val revert = new Button {
-            text = "Undo"
+            text = "Re"
             onAction = handle {
               controller.undo
             }
           }
 
           private val Down = new Button {
-            graphic_=(new ImageView(new Image("file:unten.png")))
+            text = "Down"
             onAction = handle {
               controller.action(UIEvent.MoveDown)
             }
@@ -499,8 +500,8 @@ class JFXGui(controller: ControllerInterface) extends JFXApp with Reactor {
       case Stop() => new Image("file:berg.jpg")
       case GoldCell() => new Image("file:gold.jpg")
       case f: EnemyCell => new Image("file:drake.jpg")
-      case f: MeleeSoldier => new Image("file:lich.jpg")
-      case f: RangeSoldier => new Image("file:gold.jpg")
+      case f: MeleeSoldier => new Image("file:melee.jpg")
+      case f: RangeSoldier => new Image("file:lich.jpg")
     }
     new ImageView(typ)
   }

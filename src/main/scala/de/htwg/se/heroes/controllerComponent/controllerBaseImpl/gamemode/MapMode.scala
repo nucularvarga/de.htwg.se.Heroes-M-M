@@ -49,7 +49,10 @@ case class MapMode(playField: FieldInterface, var playerBase: PlayerListInterfac
       case GoldCell() => pickupGold(d)
       case Leer() => move(d)
       case Stop() => MapMode(playField, playerBase)
-      case f: EnemyCell => t = t.asInstanceOf[MapMode].move(d); startBattle(f)
+      case f: EnemyCell => {t = t.asInstanceOf[MapMode].move(d)
+                            var r = this
+                           r = r.updateField(r.playField.set(r.playerBase.getPlayer.x + x,r.playerBase.getPlayer.y + y,Leer()))
+                            r.startBattle(f)}
       case _ => MapMode(playField, playerBase)
     }
   }

@@ -14,9 +14,9 @@ class Tui(controller: ControllerInterface) extends Reactor {
 
   def processInputLine(input: String):Unit = {
 
-    val inputsplit = input.split(",")
+   // val inputsplit = input.split(",")
     var typ = UIEvent.BuyMelee
-    var cmd = inputsplit(0)
+    var cmd = "i2"//inputsplit(0)
    /* if(inputsplit.length > 2) {
       typ = inputsplit(2) match {
         case "m" => UIEvent.BuyMelee
@@ -47,8 +47,9 @@ class Tui(controller: ControllerInterface) extends Reactor {
       case "h" => controller.show(UIEvent.MoveDown)
       case "j" => controller.show(UIEvent.MoveRight)
       case "t" => controller.showStats()
-      case "b" => controller.openShop(typ, inputsplit(1).toInt)
-      case _   => controller.selectEnemy(inputsplit(0).toInt, inputsplit(1).toInt)
+      //case "b" => controller.openShop(typ, inputsplit(1).toInt)
+      //case _   => controller.selectEnemy(inputsplit(0).toInt, inputsplit(1).toInt)
+      case _ =>
     }
   }
 

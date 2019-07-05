@@ -21,7 +21,6 @@ class UndoManager {
     }
   }
 
-
   def redoStep = {
     redoStack match {
       case Nil =>

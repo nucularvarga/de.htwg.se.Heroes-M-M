@@ -15,11 +15,13 @@ class Messanger() extends MessangerInterface {
       msgContainer = msgContainer.tail
       a
     }
+    msg
   }
 
   def setMsg(save: String): Unit = {
     msgContainer = msgContainer :+ save
     msgContainer = msgContainer :+ save
+    msg = save
   }
 
 }
