@@ -4,3 +4,5 @@
 
 # de.htwg.se.Heroes-M-M
 SE SS19 Kevin Bauer / Janko Varga
+
+JO SERVUS ICH BINS JANKO UND HEUT WIRD GECHECKT, HAJAAAAAAA WAS GEHT BEI EUCH!!!!
