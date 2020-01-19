@@ -10,7 +10,9 @@ import de.htwg.se.heroes.model.playerComponent.PlayerListInterface
 import de.htwg.se.heroes.model.playerComponent.playerListBaseImpl.Player
 import de.htwg.se.heroes.model.soldier.SoldierInterface
 import java.io._
+
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.Soldier
+import play.api.libs.json.{JsObject, Json}
 
 import scala.collection.immutable.ListMap
 import scala.xml.{Elem, PrettyPrinter}
@@ -18,6 +20,10 @@ import scala.xml.{Elem, PrettyPrinter}
 class FileIO extends FileIOInterface{
 
   //override def load_Arena: ArenaInterface = ???
+
+  def fieldToJson(field: FieldInterface): JsObject = {
+    Json.obj()
+  }
 
   override def load_Field: FieldInterface = {
     val file = scala.xml.XML.loadFile("field.xml")

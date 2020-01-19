@@ -17,6 +17,7 @@ import de.htwg.se.heroes.model.soldier.SoldierInterface
 import de.htwg.se.heroes.model.soldier.soldierBaseImpl.{MeleeSoldier, RangeSoldier, Soldier}
 import de.htwg.se.heroes.model.zoomComponent.zoomBaseImpl.Zoom
 import de.htwg.se.heroes.util.UndoManager
+import play.api.libs.json.JsObject
 
 import scala.collection.immutable.ListMap
 import scala.swing.Publisher
@@ -35,7 +36,9 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
   var matrix = new Matrix(9)
   var zoom = Zoom(8,8, new Matrix(20))
 
-
+  override def getJson: JsObject = {
+    fileIo.fieldToJson(saveMap.asInstanceOf[MapMode].playField)
+  }
 
   def createNewField(size: Int): Unit = {
     playField = injector.instance[FieldInterface]
@@ -79,7 +82,7 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
     publish(new FieldChanged)
   }
 
-  def action(d : UIEvent): Unit = {
+  def action(d : UIEvent): JsObject = {
     d match {
       case MoveUp => handle(UIEvent.MoveUp)
       case MoveDown => handle(UIEvent.MoveDown)
@@ -90,6 +93,8 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
       publish(new Win)
     else
       publish(new FieldChanged)
+
+    fileIo.fieldToJson(saveMap.asInstanceOf[MapMode].playField)
   }
 
   def selectEnemy(x: Int, y:Int): Unit = {
@@ -162,11 +167,14 @@ class Controller @Inject()(var playField:FieldInterface, var playArena:ArenaInte
     matrix.cell(x,y)
   }
 
-  def show(e: UIEvent): Unit = {
+  def show(e: UIEvent): JsObject = {
     zoom = zoom.updateMatrix(mode.asInstanceOf[MapMode].playField.getMatrix)
     zoom = zoom.show(e)
     matrix = zoom.getMatrix
+    val tmpfield = new Field(matrix)
+    printf(tmpfield.toString)
     publish(new ViewChanged)
+    fileIo.fieldToJson(tmpfield)
   }
 
   override def viewToString: String = {

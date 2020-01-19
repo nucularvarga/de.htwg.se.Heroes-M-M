@@ -22,6 +22,8 @@ class FileIO extends FileIOInterface{
 
   //override def load_Arena: ArenaInterface = ???
 
+
+
   override def load_Field: FieldInterface = {
     var field: FieldInterface = null
     val sourceFile = Source.fromFile("field.json")
@@ -132,7 +134,7 @@ class FileIO extends FileIOInterface{
             Json.obj(
               "row" -> row,
               "col" -> col,
-              "cell" -> Json.toJson(field.cell(col,row))
+              "cell" -> field.cell(col,row).toString
             )
           }
         )
